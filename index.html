@@ -452,26 +452,6 @@
   .pat p { margin: 0; font-size: 14.5px; color: #c3cede; }
   .pat p + p { margin-top: 8px; }
 
-  /* ---------- decoder ---------- */
-
-  .table-wrap { overflow-x: auto; }
-  .decoder { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14.5px; }
-  .decoder th {
-    text-align: left;
-    font-family: var(--data);
-    font-size: 10.5px;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    color: var(--ash-dim);
-    border-bottom: 1px solid var(--line);
-    padding: 0 14px 10px 0;
-    font-weight: 400;
-  }
-  .decoder td { padding: 11px 14px 11px 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; color: #c3cede; }
-  .decoder td:first-child { font-family: var(--data); color: var(--ember); white-space: nowrap; }
-  .decoder td:nth-child(2) { color: var(--bone); font-weight: 600; }
-  .decoder .unsure td:nth-child(2) { color: var(--amber); }
-
   /* ---------- footer ---------- */
 
   .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
@@ -554,10 +534,9 @@
 <nav class="nav" aria-label="Sections">
   <div class="shell nav-inner">
     <a class="navlink" href="#prep">Prep</a>
-    <a class="navlink" href="#kills">What kills you</a>
-    <a class="navlink" href="#fight">Fight order</a>
-    <a class="navlink" href="#patterns">Patterns</a>
-    <a class="navlink" href="#decoder">Caption decoder</a>
+    <a class="navlink" href="#one-shots">One shots</a>
+    <a class="navlink" href="#mechs">Mechs</a>
+    <a class="navlink" href="#regular-patterns">Regular patterns</a>
   </div>
 </nav>
 
@@ -706,21 +685,21 @@
   </section>
 
   <!-- =================== KILLS =================== -->
-  <section class="section" id="kills">
+  <section class="section" id="one-shots">
     <div class="section-head">
-      <h2>What kills you</h2>
+      <h2>One shots</h2>
       <p class="section-note">Six things in this raid end a run outright. On Nightmare there is no life count to absorb them.</p>
     </div>
 
     <div class="kills">
       <div class="kill">
         <span class="kill-when">Glass break, final JG</span>
-        <h3 class="kill-what">One-shot kill</h3>
+        <h3 class="kill-what">Failed guard</h3>
         <p>4 million damage on a failed guard. The hardest mech in the raid and it repeats every 3 minutes in Phase 3.</p>
       </div>
       <div class="kill">
         <span class="kill-when">Phase 4 final guard</span>
-        <h3 class="kill-what">No outs</h3>
+        <h3 class="kill-what">No outer ice break</h3>
         <p>Fail it and you die. Time Stop and hyper awakening do not work in this phase, so the JG is the only answer.</p>
       </div>
       <div class="kill">
@@ -747,9 +726,9 @@
   </section>
 
   <!-- =================== FIGHT =================== -->
-  <section class="section" id="fight">
+  <section class="section" id="mechs">
     <div class="section-head">
-      <h2>Fight order</h2>
+      <h2>Mechs</h2>
       <p class="section-note">One continuous HP pool of 420 bars. Chapter references point at the source video's own
         markers.</p>
     </div>
@@ -1196,9 +1175,9 @@
   </section>
 
   <!-- =================== PATTERNS =================== -->
-  <section class="section" id="patterns">
+  <section class="section" id="regular-patterns">
     <div class="section-head">
-      <h2>Patterns</h2>
+      <h2>Regular patterns</h2>
       <p class="section-note">The regular attack rotation, phase by phase. Counter patterns have no internal cooldown
         and every counter feeds sidereal gauge, so take all of them.</p>
     </div>
@@ -1318,42 +1297,6 @@
     </div>
   </section>
 
-  <!-- =================== DECODER =================== -->
-  <section class="section" id="decoder">
-    <div class="section-head">
-      <h2>Caption decoder</h2>
-      <p class="section-note">The source video has auto-generated captions and they mangle names badly. This is what was
-        translated back, so you can check the video against this guide.</p>
-    </div>
-
-    <div class="table-wrap">
-    <table class="decoder">
-      <thead>
-        <tr><th>Caption says</th><th>Actually</th><th>How it was confirmed</th></tr>
-      </thead>
-      <tbody>
-        <tr><td>"Braille"</td><td>Brelshaza</td><td>Video title and subject.</td></tr>
-        <tr><td>"make"</td><td>mech</td><td>Consistent through the whole transcript.</td></tr>
-        <tr><td>"clown", "clowns"</td><td>clone, clones</td><td>Matches the chapter named "Clone".</td></tr>
-        <tr><td>"Cyph"</td><td>scythe</td><td>Matches the chapter named "Scythe guard".</td></tr>
-        <tr><td>"photos"</td><td>puddles</td><td>The opener and Black hole both spawn puddles that apply the debuff.</td></tr>
-        <tr><td>"brand debuff"</td><td>meteor debuff</td><td>Same debuff, local naming. It is what makes her drop a meteor on you.</td></tr>
-        <tr><td>"don't look"</td><td>donut</td><td>The twister pattern ends on a donut AoE.</td></tr>
-        <tr><td>"portal"</td><td>puddle</td><td>Same object in the half gauge mech, different regional term.</td></tr>
-        <tr><td>"a Xena", "Azena"</td><td>Sidereal: Azena</td><td>Chapter "Special Azena", and Azena is an Allied Forces skill in this gate.</td></tr>
-        <tr><td>"a Gustavo", "ghost double"</td><td>Gustaven, and Gustaven's follow-up cast</td><td>The video description says "it's ok to use Gustaven's 2nd cast as well for the scythe guard".</td></tr>
-        <tr><td>"the two side aerial bars"</td><td>two sidereal bars</td><td>Sidereal gauge, same sentence as the special Azena trigger.</td></tr>
-        <tr><td>"find stop"</td><td>Time Stop Potion</td><td>Said clearly as "time stop" later in the same guide.</td></tr>
-        <tr><td>"dark"</td><td>Dark Grenade</td><td>Standard battle item for this raid.</td></tr>
-        <tr><td>"A gear"</td><td>Aegir</td><td>Difficulty comparison in the intro.</td></tr>
-        <tr><td>"seaweed"</td><td>tentacles</td><td>The base fight has a tentacle pattern with a perfect block, and the described effect matches.</td></tr>
-        <tr><td>"lightning corset"</td><td>lightning card set</td><td>Confirmed against the raid group's prep notes.</td></tr>
-        <tr class="unsure"><td>"Lord of the Guard"</td><td>the follow-up guard attack</td><td>Best fit from context: sticking close to her makes it miss.</td></tr>
-      </tbody>
-    </table>
-    </div>
-  </section>
-
   <footer class="foot">
     <p><strong>Source.</strong> "[Lost Ark] Extreme Brel Guide (Act 2)" by Memorizer, published 22 July 2026, 13:18.
       <a href="https://youtu.be/5RJU5K-K8xA" rel="noreferrer">youtu.be/5RJU5K-K8xA</a>.
@@ -1371,28 +1314,41 @@
 
 <script>
   (function () {
-    var links = Array.prototype.slice.call(document.querySelectorAll('.navlink'));
-    var targets = links
-      .map(function (l) { return document.querySelector(l.getAttribute('href')); })
-      .filter(Boolean);
+    var pairs = [];
+    Array.prototype.forEach.call(document.querySelectorAll('.navlink'), function (link) {
+      var section = document.querySelector(link.getAttribute('href'));
+      if (section) pairs.push({ link: link, section: section });
+    });
 
-    if (!('IntersectionObserver' in window) || !targets.length) return;
+    if (!pairs.length) return;
 
-    var visible = new Map();
+    /* Position, not intersectionRatio: ratio is normalized by element height,
+       so a 6000px section can never outscore a 500px one. */
+    var LINE = 100;
+    var queued = false;
 
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) { visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0); });
+    function update() {
+      queued = false;
+      var doc = document.scrollingElement;
+      var atBottom = doc.scrollTop + window.innerHeight >= doc.scrollHeight - 2;
+      var active = atBottom ? pairs.length - 1 : -1;
 
-      var bestId = null, best = 0;
-      visible.forEach(function (ratio, id) { if (ratio > best) { best = ratio; bestId = id; } });
-      if (!bestId) return;
+      if (!atBottom) {
+        for (var i = 0; i < pairs.length; i++) {
+          if (pairs[i].section.getBoundingClientRect().top <= LINE) active = i;
+        }
+      }
 
-      links.forEach(function (l) {
-        l.classList.toggle('is-live', l.getAttribute('href') === '#' + bestId);
-      });
-    }, { rootMargin: '-72px 0px -55% 0px', threshold: [0, 0.15, 0.4, 0.75, 1] });
+      pairs.forEach(function (p, i) { p.link.classList.toggle('is-live', i === active); });
+    }
 
-    targets.forEach(function (t) { io.observe(t); });
+    function queue() {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    }
+
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
   })();
 </script>
 
