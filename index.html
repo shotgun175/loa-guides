@@ -1,0 +1,1400 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extreme Brelshaza (Act 2) - mech and pattern guide</title>
+<style>
+  :root {
+    --void: #070a11;
+    --deep: #0b111b;
+    --panel: #101827;
+    --panel-hi: #141f30;
+    --line: #1d2a3d;
+    --line-soft: #16202f;
+    --bone: #e9eff7;
+    --ash: #8b99ae;
+    --ash-dim: #64718a;
+    --glacier: #79d6ec;
+    --phantom: #ae8cff;
+    --amber: #f3b45c;
+    --ember: #ff5e4e;
+
+    /* call colors */
+    --jg: #ffd24a;
+    --counter: #3d8bff;
+    --coop: #b486ff;
+
+    --display: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Avenir Next Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+    --body: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --data: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+    --rail-x: 118px;
+    --shell: 1180px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 620px at 12% -8%, rgba(121, 214, 236, 0.10), transparent 62%),
+      radial-gradient(760px 560px at 92% 4%, rgba(174, 140, 255, 0.10), transparent 60%),
+      var(--void);
+    color: var(--bone);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--glacier); text-decoration-color: rgba(121, 214, 236, 0.35); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--glacier); }
+  a:focus-visible, .navlink:focus-visible {
+    outline: 2px solid var(--glacier);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .shell { width: min(var(--shell), calc(100% - 48px)); margin-inline: auto; }
+
+  /* ---------- inline call terms ---------- */
+
+  .t-jg { color: var(--jg); font-weight: 600; }
+  .t-counter { color: var(--counter); font-weight: 600; }
+  .t-coop { color: var(--coop); font-weight: 600; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead { padding: 64px 0 40px; border-bottom: 1px solid var(--line); }
+
+  .eyebrow {
+    font-family: var(--data);
+    font-size: 11.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    margin: 0 0 18px;
+  }
+  .eyebrow b { color: var(--glacier); font-weight: 600; }
+
+  .title {
+    font-family: var(--display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    line-height: 0.86;
+    font-size: clamp(52px, 11.5vw, 148px);
+    margin: 0;
+    background: linear-gradient(96deg, var(--bone) 6%, var(--glacier) 48%, var(--phantom) 96%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .title span { display: block; }
+  .title .title-sub {
+    font-size: clamp(15px, 2.1vw, 25px);
+    letter-spacing: 0.32em;
+    line-height: 1;
+    margin-top: 20px;
+    background: none;
+    -webkit-text-fill-color: var(--ash);
+    color: var(--ash);
+    font-weight: 400;
+  }
+
+  .deck {
+    max-width: 62ch;
+    margin: 30px 0 0;
+    font-size: 18px;
+    color: #c3cede;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 1px;
+    margin-top: 40px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+  }
+  .fact { background: var(--deep); padding: 16px 18px; }
+  .fact-k {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .fact-v { font-family: var(--display); font-size: 21px; letter-spacing: 0.01em; color: var(--bone); }
+  .fact-v small { display: block; font-family: var(--body); font-size: 13px; color: var(--ash); letter-spacing: 0; line-height: 1.45; margin-top: 3px; }
+
+  .prereq {
+    margin-top: 26px;
+    border-left: 3px solid var(--amber);
+    background: rgba(243, 180, 92, 0.06);
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+  .prereq strong { font-family: var(--display); letter-spacing: 0.04em; text-transform: uppercase; color: var(--amber); font-size: 14px; }
+
+  /* ---------- sticky nav ---------- */
+
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(7, 10, 17, 0.86);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .navlink {
+    flex: none;
+    padding: 15px 16px;
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .navlink:hover { color: var(--bone); }
+  .navlink.is-live { color: var(--glacier); border-bottom-color: var(--glacier); }
+
+  /* ---------- sections ---------- */
+
+  .section { padding: 76px 0 12px; }
+
+  .section-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 34px; }
+  .section-head h2 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(30px, 4.4vw, 48px);
+    letter-spacing: 0.005em;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+  }
+  .section-note { color: var(--ash); font-size: 14.5px; max-width: 54ch; margin: 0; }
+
+  /* ---------- legend ---------- */
+
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-bottom: 26px; }
+  .legend-item { background: var(--deep); padding: 15px 18px; }
+  .legend-term { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: 15px; display: block; margin-bottom: 4px; }
+  .legend-item p { margin: 0; font-size: 14px; color: var(--ash); }
+  .legend-item p b { color: #c3cede; font-weight: 600; }
+
+  /* ---------- prep ---------- */
+
+  .kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
+  .kit-card { background: var(--panel); border: 1px solid var(--line); padding: 22px 24px; }
+  .kit-card h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 15px;
+    margin: 0 0 14px;
+    color: var(--glacier);
+    font-weight: 600;
+  }
+  .kit-list { list-style: none; margin: 0; padding: 0; }
+  .kit-list li { padding: 8px 0; border-top: 1px solid var(--line-soft); font-size: 15px; }
+  .kit-list li:first-child { border-top: 0; padding-top: 0; }
+  .kit-list b { font-weight: 600; color: var(--bone); }
+  .kit-list span { color: var(--ash); }
+
+  /* ---------- sidereal plan ---------- */
+
+  .plan { margin-top: 30px; }
+  .plan-row { border: 1px solid var(--line); background: var(--panel); padding: 20px 22px 22px; margin-bottom: 14px; }
+  .plan-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .plan-head h3 { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.09em; font-size: 16px; margin: 0; color: var(--bone); font-weight: 600; }
+  .plan-head span { font-size: 13.5px; color: var(--ash); }
+  .plan-track { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .plan-step { border-top: 2px solid var(--line); padding-top: 10px; }
+  .plan-step.has-cast { border-top-color: var(--glacier); }
+  .plan-when { font-family: var(--data); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash-dim); display: block; margin-bottom: 4px; }
+  .plan-cast { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 16px; color: var(--glacier); }
+  .plan-cast small { display: block; font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 12.5px; color: var(--ash); }
+  .plan-note { margin: 8px 0 0; font-size: 13.5px; color: var(--ash); }
+
+  /* ---------- lethal list ---------- */
+
+  .kills { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .kill { background: var(--deep); padding: 20px 22px; border-top: 2px solid var(--ember); }
+  .kill-when { font-family: var(--data); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 7px; }
+  .kill-what { font-family: var(--display); font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 8px; }
+  .kill p { margin: 0; color: #c0cbdb; font-size: 14.5px; }
+
+  /* ---------- fight timeline ---------- */
+
+  .timeline { position: relative; margin-top: 8px; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: var(--rail-x);
+    top: 6px;
+    bottom: 40px;
+    width: 3px;
+    background: linear-gradient(180deg, var(--glacier) 0%, #6fb6e8 26%, var(--phantom) 60%, var(--ember) 100%);
+    opacity: 0.55;
+  }
+
+  .phase-break { position: relative; display: flex; align-items: center; gap: 16px; margin: 46px 0 26px; }
+  .phase-break:first-child { margin-top: 0; }
+  .phase-tag {
+    position: relative;
+    z-index: 2;
+    background: var(--void);
+    padding-right: 14px;
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 14px;
+    color: var(--bone);
+    width: calc(var(--rail-x) + 220px);
+  }
+  .phase-tag em { font-style: normal; color: var(--ash-dim); letter-spacing: 0.1em; }
+  .phase-rule { flex: 1; height: 1px; background: var(--line); }
+
+  .beat { position: relative; display: grid; grid-template-columns: var(--rail-x) 1fr; gap: 0 30px; margin-bottom: 26px; }
+
+  .beat-mark { position: relative; }
+  .beat-node {
+    position: absolute;
+    left: calc(var(--rail-x) - 11.5px);
+    top: 20px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--void);
+    border: 3px solid var(--glacier);
+    display: grid;
+    place-items: center;
+  }
+  .beat-node::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--glacier); }
+  .beat-trigger {
+    position: absolute;
+    top: 18px;
+    right: 28px;
+    width: 90px;
+    text-align: right;
+    font-family: var(--data);
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--glacier);
+    line-height: 1.3;
+  }
+  .beat-trigger small { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash-dim); }
+
+  .beat[data-tone="phantom"] .beat-node { border-color: var(--phantom); }
+  .beat[data-tone="phantom"] .beat-node::after { background: var(--phantom); }
+  .beat[data-tone="phantom"] .beat-trigger { color: var(--phantom); }
+  .beat[data-tone="ember"] .beat-node { border-color: var(--ember); }
+  .beat[data-tone="ember"] .beat-node::after { background: var(--ember); }
+  .beat[data-tone="ember"] .beat-trigger { color: var(--ember); }
+
+  .beat-body {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--glacier);
+    padding: 24px 28px 26px;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .beat[data-tone="phantom"] .beat-body { border-left-color: var(--phantom); }
+  .beat[data-tone="ember"] .beat-body { border-left-color: var(--ember); }
+  .beat-body:hover { background: var(--panel-hi); }
+
+  .beat-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .beat-head h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(21px, 2.6vw, 27px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.05;
+  }
+  .chapter {
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    white-space: nowrap;
+  }
+  .flag-new {
+    font-family: var(--data);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--void);
+    background: var(--glacier);
+    padding: 3px 8px;
+  }
+
+  .calls { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; margin: 0 0 16px; padding: 0; }
+  .call {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid currentColor;
+    color: var(--ash);
+  }
+  .call.is-jg { color: var(--jg); }
+  .call.is-counter { color: var(--counter); }
+  .call.is-coop { color: var(--coop); }
+  .call.is-stagger { color: var(--bone); }
+  .call.is-lethal { color: var(--ember); }
+
+  .beat-body p { margin: 0 0 12px; color: #c9d3e2; }
+  .beat-body p:last-child { margin-bottom: 0; }
+  .beat-body strong { color: var(--bone); font-weight: 600; }
+
+  .steps { counter-reset: step; list-style: none; margin: 0 0 14px; padding: 0; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 7px 0 7px 38px;
+    border-top: 1px solid var(--line-soft);
+    color: #c9d3e2;
+  }
+  .steps li:first-child { border-top: 0; }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 7px;
+    font-family: var(--data);
+    font-size: 11px;
+    color: var(--ash-dim);
+    border: 1px solid var(--line);
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+  }
+
+  .fail {
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    font-size: 14.5px;
+    color: #cdb3ae;
+  }
+  .fail b {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-right: 10px;
+  }
+
+  .tip {
+    margin-top: 14px;
+    background: rgba(121, 214, 236, 0.06);
+    border-left: 2px solid var(--glacier);
+    padding: 12px 16px;
+    font-size: 14.5px;
+    color: #bfd6de;
+  }
+  .tip b {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--glacier);
+    margin-right: 10px;
+  }
+
+  .colors { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 4px 0 16px; }
+  .color-card { border: 1px solid var(--line); padding: 13px 15px; background: var(--deep); }
+  .color-name { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.12em; font-size: 14px; display: block; margin-bottom: 5px; }
+  .color-card p { font-size: 14px; margin: 0; color: var(--ash); }
+  .c-blue .color-name { color: #6fb6e8; }
+  .c-yellow .color-name { color: #f2d06b; }
+  .c-purple .color-name { color: var(--phantom); }
+  .c-white .color-name { color: #e6eef8; }
+
+  /* ---------- patterns ---------- */
+
+  .pat-group { margin-bottom: 44px; }
+  .pat-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .pat-head h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 16px;
+    margin: 0;
+    color: var(--bone);
+    font-weight: 600;
+  }
+
+  .pat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+  .pat {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+  .pat-title { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 17px; margin: 0 0 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .pat p { margin: 0; font-size: 14.5px; color: #c3cede; }
+  .pat p + p { margin-top: 8px; }
+
+  /* ---------- decoder ---------- */
+
+  .table-wrap { overflow-x: auto; }
+  .decoder { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14.5px; }
+  .decoder th {
+    text-align: left;
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    border-bottom: 1px solid var(--line);
+    padding: 0 14px 10px 0;
+    font-weight: 400;
+  }
+  .decoder td { padding: 11px 14px 11px 0; border-bottom: 1px solid var(--line-soft); vertical-align: top; color: #c3cede; }
+  .decoder td:first-child { font-family: var(--data); color: var(--ember); white-space: nowrap; }
+  .decoder td:nth-child(2) { color: var(--bone); font-weight: 600; }
+  .decoder .unsure td:nth-child(2) { color: var(--amber); }
+
+  /* ---------- footer ---------- */
+
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  .foot p { margin: 0 0 8px; max-width: 76ch; }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 860px) {
+    .shell { width: calc(100% - 32px); }
+    .timeline::before { display: none; }
+    .beat { grid-template-columns: 1fr; gap: 0; }
+    .beat-mark { padding: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+    .beat-node { position: static; width: 12px; height: 12px; border-width: 2px; }
+    .beat-node::after { width: 0; height: 0; }
+    .beat-trigger { position: static; width: auto; text-align: left; padding: 0; }
+    .beat-trigger small { display: inline; margin-left: 8px; }
+    .phase-tag { width: auto; }
+    .chapter { white-space: normal; }
+    .beat-body { padding: 20px 18px 22px; }
+    .plan-track { grid-template-columns: 1fr 1fr; }
+    .masthead { padding-top: 44px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="shell">
+    <p class="eyebrow">Lost Ark <b>/</b> Kazeros Raid Act 2 <b>/</b> Extreme</p>
+    <h1 class="title">
+      <span>Extreme</span>
+      <span>Brelshaza</span>
+      <span class="title-sub">Mech and pattern deltas</span>
+    </h1>
+
+    <p class="deck">
+      Everything below is what <em>changes</em> from the Act 2 Brelshaza you already run. The base fight is unchanged
+      in shape: same phases, same colors, same team meter. Extreme adds a new mech at x400, bolts extra attacks onto
+      patterns you already know, and turns several of them into instant deaths.
+    </p>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="fact-k">Event window</span>
+        <span class="fact-v">Aug 12 to Sep 16<small>2026. Limited-time raid, it leaves after that.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Difficulties</span>
+        <span class="fact-v">3<small>Normal, Hard, Nightmare. Guide is filmed on Nightmare.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Life counts</span>
+        <span class="fact-v">0<small>Nightmare has none. Normal and Hard get one extra.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">HP and phases</span>
+        <span class="fact-v">420 bars<small>P1 to x335, P2 to x145, P3 to 0, then the berserk phase.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Boss</span>
+        <span class="fact-v">Demon<small>Run the lightning setup.</small></span>
+      </div>
+    </div>
+
+    <p class="prereq">
+      <strong>Read this first.</strong>
+      This is a difference guide, not a full walkthrough. It assumes you can already clear Act 2 Brelshaza and know the
+      colors, the team meter, the clone stagger and the orbs. The guide author rates it well above Aegir. If you have
+      never run the original, watch the
+      <a href="https://www.youtube.com/watch?v=3mzjxIy7-3o" rel="noreferrer">original Act 2 guide</a> before this one.
+    </p>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <div class="shell nav-inner">
+    <a class="navlink" href="#prep">Prep</a>
+    <a class="navlink" href="#kills">What kills you</a>
+    <a class="navlink" href="#fight">Fight order</a>
+    <a class="navlink" href="#patterns">Patterns</a>
+    <a class="navlink" href="#decoder">Caption decoder</a>
+  </div>
+</nav>
+
+<main class="shell">
+
+  <!-- =================== PREP =================== -->
+  <section class="section" id="prep">
+    <div class="section-head">
+      <h2>Prep</h2>
+      <p class="section-note">Shorthand used throughout, then what to bring and when to spend sidereal.</p>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-term t-jg">Just Guard</span>
+        <p>Written <b class="t-jg">JG</b>, always in yellow here. The perfect-timing block.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term t-counter">Counter</span>
+        <p>Blue. Counters have no internal cooldown and each one feeds sidereal gauge, so take every single one.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term t-coop">Co-op counter</span>
+        <p>Purple. Needs two players on it together.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">3x and 3x+1</span>
+        <p>Clock positions. <b>3x</b> is 12, 3, 6, 9. <b>3x+1</b> is 1, 4, 7, 10.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">+3 and +3+1</span>
+        <p>Sidereal cost. A cast spends <b>3 of your 5 bars</b>. The <b>+1</b> is the follow-up cast, which does
+          something different, for 1 more bar.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Puddle</span>
+        <p>The ground marker you drop off. Called a portal in the Korean guide, same object.</p>
+      </div>
+    </div>
+
+    <div class="kit">
+      <div class="kit-card">
+        <h3>Battle items</h3>
+        <ul class="kit-list">
+          <li><b>HP potions</b> <span>. Your choice.</span></li>
+          <li><b>Time Stop Potion</b> <span>. The clean answer to the crossing lines during Glass break. Track its cooldown, that mech repeats every 3 minutes.</span></li>
+          <li><b>Dark Grenade</b> <span>. Damage buff for 20 seconds, or 25 seconds on the Splendid version.</span></li>
+          <li><b>Splendid Sacred Charm or Bomb</b> <span>. Either one. Same job, different delivery: the charm works on close proximity, the bomb can be thrown. Shield for the clone imprison at x400 and again in the Phase 1 clone pattern.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Engravings and cards</h3>
+        <ul class="kit-list">
+          <li><b>Artist, Bard</b> <span>. Awakening, Magick Stream, Drops of Ether, Expert, Heavy Armor.</span></li>
+          <li><b>Paladin, Valkyrie</b> <span>. Awakening, Magick Stream, Drops of Ether, Expert, then one of VPH (Vital Point Hit), CE (Crisis Evasion) or EE (Explosive Expert).</span></li>
+          <li><b>Cards</b> <span>. Lightning set, she is Demon type and weak to Lightning.</span></li>
+          <li><b>Of those three</b> <span>. The Korean guide calls out Crisis Evasion for supports specifically.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Support awakenings</h3>
+        <ul class="kit-list">
+          <li><b>Phase 1</b> <span>. The x400 stagger mech, and the Black hole mech.</span></li>
+          <li><b>Phase 2</b> <span>. Every half gauge mech.</span></li>
+          <li><b>Phase 3</b> <span>. Hyper awakening at the Scythe mech. Awakening at every Double JG in center.</span></li>
+          <li><b>Phase 4</b> <span>. Every full gauge mech.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Support jobs</h3>
+        <ul class="kit-list">
+          <li><b>Eat the opening puddle</b> <span>. Stand in it with push immunity so a support carries the meteor debuff.</span></li>
+          <li><b>Watch the stragglers</b> <span>. During the twister pattern, keep eyes on whoever is late to the safe zone.</span></li>
+          <li><b>Tank the Scythe beam</b> <span>. After hyper awakening, stand outside the safe spot and eat it with push immunity so the safe spot stays roomy.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Positions</h3>
+        <ul class="kit-list">
+          <li><b>x335 colors</b> <span>. 3x+1 positions, same as the original.</span></li>
+          <li><b>x145 freeze</b> <span>. 3x and 3x+1 positions.</span></li>
+          <li><b>Scythe guard</b> <span>. P1 goes top and left, P2 goes bottom and right. Same as the original raid.</span></li>
+          <li><b>Double JG</b> <span>. Drop puddles at the bottom, then JG from the top.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-row">
+        <div class="plan-head">
+          <h3>Sidereal, normal party DPS</h3>
+          <span>Azena every phase, special Azena at the end.</span>
+        </div>
+        <div class="plan-track">
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 1, 420 to 335</span>
+            <span class="plan-cast">Azena +3+1</span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 2, 335 to 145</span>
+            <span class="plan-cast">Azena +3+1</span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 3, 145 to 0</span>
+            <span class="plan-cast">Azena +3+1</span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 4, berserk</span>
+            <span class="plan-cast">Special Azena</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="plan-row">
+        <div class="plan-head">
+          <h3>Sidereal, strong party DPS</h3>
+          <span>Gustaven gets spent on the two mechs you can muscle through.</span>
+        </div>
+        <div class="plan-track">
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 1, 420 to 335</span>
+            <span class="plan-cast">Azena +3+1</span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 2, at x145</span>
+            <span class="plan-cast">Gustaven +3<small>Opening the freeze mech</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 3</span>
+            <span class="plan-cast">Gustaven +3<small>Scythe guard</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Phase 4, berserk</span>
+            <span class="plan-cast">Special Azena</span>
+          </div>
+        </div>
+      </div>
+      <p class="plan-note">Carry <strong>at least 2 bars into Phase 4</strong> or you cannot trigger special Azena at all.
+        Unlike the original, do not save Nineveh for the crystals: in extreme you break them with your own skills and
+        spend Azena repeatedly to push the phase.</p>
+    </div>
+  </section>
+
+  <!-- =================== KILLS =================== -->
+  <section class="section" id="kills">
+    <div class="section-head">
+      <h2>What kills you</h2>
+      <p class="section-note">Six things in this raid end a run outright. On Nightmare there is no life count to absorb them.</p>
+    </div>
+
+    <div class="kills">
+      <div class="kill">
+        <span class="kill-when">Glass break, final JG</span>
+        <h3 class="kill-what">One-shot kill</h3>
+        <p>4 million damage on a failed guard. The hardest mech in the raid and it repeats every 3 minutes in Phase 3.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Phase 4 final guard</span>
+        <h3 class="kill-what">No outs</h3>
+        <p>Fail it and you die. Time Stop and hyper awakening do not work in this phase, so the JG is the only answer.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">x145</span>
+        <h3 class="kill-what">Five frozen, raid wipe</h3>
+        <p>More than four frozen players wipes the raid. One party freezes on purpose, the other hides.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Scythe guard</span>
+        <h3 class="kill-what">Freeze outside the safe spot</h3>
+        <p>Freezing inside is survivable, outside is fatal. If the designated guard player freezes, the scythe can kill the whole raid.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Double JG in center</span>
+        <h3 class="kill-what">Fall death</h3>
+        <p>Fail the guard while standing away from her and you get knocked off the platform. Stick to her body.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Phase 3 whirlwind swings</span>
+        <h3 class="kill-what">JG, then JG or counter</h3>
+        <p>Guard after the first swing, then a JG or co-op counter after the third. Failing either one kills.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== FIGHT =================== -->
+  <section class="section" id="fight">
+    <div class="section-head">
+      <h2>Fight order</h2>
+      <p class="section-note">One continuous HP pool of 420 bars. Chapter references point at the source video's own
+        markers.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="phase-break">
+        <span class="phase-tag">Phase 1 <em>/ 420 to x335</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Pull<small>opener</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Opening puddles</h3>
+            <span class="chapter">Chapter "Opener" / 0:40</span>
+          </div>
+          <ul class="calls"><li class="call">Assign</li></ul>
+          <p>Puddles spawn at the pull and apply the <strong>meteor debuff</strong> to whoever is standing in one.</p>
+          <p><strong>Give it to a support on purpose.</strong> A support stands in the puddle with push immunity and
+            takes the debuff. Later in the fight she drops a meteor on the debuffed player, and parking that meteor on
+            a support hands the party a free DPS window.</p>
+          <div class="tip"><b>Naming</b> The Korean guide calls this the brand debuff. It is the same thing as the
+            meteor debuff purple hands out at x335.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x400<small>new mech</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Clone imprison</h3>
+            <span class="flag-new">New in Extreme</span>
+            <span class="chapter">Chapter "400" / 0:57</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Splendid Charm</li>
+            <li class="call is-stagger">Stagger</li>
+            <li class="call is-counter">Counter</li>
+            <li class="call is-coop">Co-op counter</li>
+          </ul>
+          <p>Supports use <strong>awakening</strong> here. The clones imprison the party and hit for a huge chunk.</p>
+          <ol class="steps">
+            <li>Splendid Sacred Charm, <strong>in front of the boss</strong>, and tank the imprison behind the shield.</li>
+            <li>Stagger her fast.</li>
+            <li><span class="t-counter">Counter</span> straight out of the stagger.</li>
+            <li><span class="t-coop">Co-op counter</span> on the clone at the cardinal. That ends the mech.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">+50s<small>after x400</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Clone landing</h3>
+            <span class="chapter">Chapter "Clone" / 1:25</span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG</li>
+            <li class="call is-coop">Co-op counter</li>
+            <li class="call">Azena</li>
+          </ul>
+          <p>Roughly 50 seconds after x400 she isolates the party. <span class="t-jg">JG</span> the clone as it is about
+            to land, then take the <span class="t-coop">co-op counter</span>.</p>
+          <div class="tip"><b>Damage</b> This is the Phase 1 Azena window. Full cast including the follow-up, Azena +3+1.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Low DPS<small>conditional</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Black hole</h3>
+            <span class="chapter">Chapter "Black hole" / 1:40</span>
+          </div>
+          <ul class="calls"><li class="call">Spread puddles</li></ul>
+          <p>You only see this if party damage is on the slow side. It plays out like the original with one addition:
+            <strong>puddles appear during the pattern and apply the meteor debuff</strong>. Keep them off anyone who
+            cannot afford to carry it.</p>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x335<small>colors</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Colors</h3>
+            <span class="chapter">Chapter "335" / 1:55</span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG</li>
+            <li class="call is-counter">Counter</li>
+            <li class="call is-stagger">Stagger</li>
+            <li class="call is-lethal">Center telegraph kills</li>
+          </ul>
+          <p>Same 3x+1 memory color game as the original. What is new is that <strong>every color now fires an extra
+            attack</strong> when it resolves, so the color caller is no longer the only one with a job.</p>
+
+          <div class="colors">
+            <div class="color-card c-blue">
+              <span class="color-name">Blue</span>
+              <p>Clones in the middle. <span class="t-counter">Counter</span> them.</p>
+            </div>
+            <div class="color-card c-yellow">
+              <span class="color-name">Yellow</span>
+              <p>A clone spawns. <span class="t-jg">JG</span> it.</p>
+            </div>
+            <div class="color-card c-purple">
+              <span class="color-name">Purple</span>
+              <p>Two players get the meteor debuff. Those two move out.</p>
+            </div>
+            <div class="color-card c-white">
+              <span class="color-name">White</span>
+              <p>Scythes spawn on everyone. Dodge them.</p>
+            </div>
+          </div>
+
+          <p>Finish on the <strong>center stagger</strong> and the mech ends. Phase 2 starts here.</p>
+          <p class="fail"><b>Fails</b> The red telegraph in the center can kill you outright, and a missed blue counter
+            does heavy raid damage.</p>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Phase 2 <em>/ x335 to x145</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Half<small>gauge</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Half gauge mech</h3>
+            <span class="chapter">Chapter "Brain check" / 2:40</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Drop puddles out</li>
+            <li class="call">Follow the order</li>
+            <li class="call is-lethal">Wrong order hurts</li>
+          </ul>
+          <p>Supports use <strong>awakening</strong>. Players get puddles: <strong>drop them outside</strong>, they
+            silence anyone who touches them.</p>
+          <p>The arena is four quadrants. A white icon lights up in <strong>three</strong> of them, in sequence. Move
+            through the quadrants <strong>in the order they lit up</strong>.</p>
+          <div class="tip"><b>Routing</b> The last hop, second to third, is allowed to go diagonal.</div>
+          <p class="fail"><b>Fails</b> Entering the quadrants out of order takes big damage.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Full<small>meter</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Crystals</h3>
+            <span class="chapter">Chapter "Team meter (Phase 2)" / 3:03</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Stack opposite</li>
+            <li class="call is-stagger">Break crystals</li>
+          </ul>
+          <p>New opening beat: <strong>she fires a cone in one direction</strong> as the mech starts. Run to the
+            opposite side and drop your crystals there.</p>
+          <div class="tip"><b>Changed from the original</b> Do not save Nineveh for this. In extreme you break the
+            crystals with your own skills and spend Azena repeatedly to speed through the phase.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">~35s<small>periodic</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Twister</h3>
+            <span class="flag-new">New in Extreme</span>
+            <span class="chapter">Chapter "Regular patterns" / 3:25</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Spread then stack</li>
+            <li class="call is-lethal">Massive damage</li>
+          </ul>
+          <p>Comes around roughly <strong>every 35 seconds</strong> on top of the usual find-the-real-one pattern.</p>
+          <ol class="steps">
+            <li>Dodge the tornado attack, <strong>three times</strong>.</li>
+            <li>Players with the <strong>snowflake circle</strong> gather in front of the boss. That generates the safe zone.</li>
+            <li>Everyone else drops their puddle outside, then stacks into the safe zone.</li>
+            <li>Dodge the final <strong>donut</strong> and the pattern ends.</li>
+          </ol>
+          <div class="tip"><b>Supports</b> Every attack in this pattern hits massively. Watch whoever is late getting
+            into the safe zone, they are the one who dies.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x145<small>freeze</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Freeze split</h3>
+            <span class="chapter">Chapter "145" / 4:12</span>
+          </div>
+          <ul class="calls">
+            <li class="call">3x and 3x+1</li>
+            <li class="call is-jg">JG</li>
+            <li class="call is-lethal">Wipe check</li>
+          </ul>
+          <p>Take your 3x and 3x+1 positions. <strong>More than four frozen players wipes the raid</strong>, so the
+            solve is deliberate: one party freezes, the other party hides. Decide which party is which before the pull.</p>
+          <p>A scythe spawns partway through the pattern. <span class="t-jg">JG</span> it.</p>
+          <div class="tip"><b>Alternative</b> Strong parties open with Gustaven +3 and muscle through it.</div>
+          <p>Phase 3 starts once this mech resolves.</p>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Phase 3 <em>/ below x145</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">3 min<small>repeats</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Glass break</h3>
+            <span class="flag-new">Hardest mech</span>
+            <span class="chapter">Chapter "Glass break" / 5:06</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Time Stop</li>
+            <li class="call is-jg">Slow JG</li>
+            <li class="call is-lethal">One-shot kill</li>
+          </ul>
+          <p>First one lands <strong>after the first pattern of Phase 3</strong>, then repeats <strong>every 3
+            minutes</strong>. This is the mech that decides your prog.</p>
+          <ol class="steps">
+            <li>Dodge the glass.</li>
+            <li>Time Stop the crossing lines. They imprison for 3 seconds and clutter your view.</li>
+            <li>Dodge the remaining lines on the field. These do massive damage.</li>
+            <li>Slow <span class="t-jg">JG</span> at the end. The cue is <strong>when the pattern at the edge
+              disappears</strong>.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> The final guard is a one-shot kill, 4 million damage. You can hyper awaken into
+            her to ignore it instead, but the guard itself is easy once you know the cue.</p>
+          <div class="tip"><b>No Time Stop</b> If it is on cooldown, get caught by the crossing line <strong>early</strong>
+            on purpose. You get freed before the bottom lines arrive. Getting caught late is what kills you.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">+few s<small>after glass</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Scythe guard</h3>
+            <span class="chapter">Chapter "Scythe guard" / 6:22</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Hyper awakening</li>
+            <li class="call is-jg">JG</li>
+            <li class="call is-lethal">Freeze chain</li>
+          </ul>
+          <p>Comes a few seconds after Glass break, so treat the pair as one long mech. <strong>Supports hyper awaken
+            the moment it starts.</strong></p>
+          <ol class="steps">
+            <li>Take your side. P1 goes top and left, P2 goes bottom and right, same as the original.</li>
+            <li>Ice puddles freeze anyone they touch, so <strong>do not stack until you are in the safe spot</strong>.</li>
+            <li>The designated guard player takes the edge. Everyone else gives them room.</li>
+            <li>A beam crosses the safe spot at the end. Dodge it.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> Freezing inside the safe spot is fine. Freezing outside it kills. If the guard
+            player freezes, the scythe can kill everyone.</p>
+          <div class="tip"><b>Support tech</b> After hyper awakening, supports can stand outside the safe spot and tank
+            the beam with push-immune skills. That leaves the safe spot wide open and cuts accidental freezes.</div>
+          <div class="tip"><b>Damage check</b> Strong parties spend Gustaven +3 here.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Double<small>JG</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Double JG in center</h3>
+            <span class="chapter">Chapter "Twin guard" / 7:18</span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG twice</li>
+            <li class="call is-lethal">Fall death</li>
+          </ul>
+          <p>Puddles land on players, then the guards come. <strong>Fail one while standing away from her and you get
+            knocked off and die</strong>, so stay stuck to her.</p>
+          <p>Extreme changes the timing: <strong>the bottom Brelshaza is random, the top one is fixed</strong>. Do not
+            gamble at the bottom.</p>
+          <ol class="steps">
+            <li>Drop your puddle at the bottom.</li>
+            <li>Move to the top and stick close.</li>
+            <li><span class="t-jg">JG</span> on the fixed timing.</li>
+          </ol>
+          <div class="tip"><b>Safe ground</b> The telegraph does not reach the side edge, so that is a valid place to
+            stand.</div>
+          <div class="tip"><b>Supports</b> This one comes back around in Phase 3. Awaken on every single one.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Full<small>meter</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Clone stagger</h3>
+            <span class="chapter">Chapter "Team meter (Phase 3)" / 7:46</span>
+          </div>
+          <ul class="calls">
+            <li class="call">Ctrl + click</li>
+            <li class="call">Minigame</li>
+            <li class="call is-stagger">Stagger all four</li>
+          </ul>
+          <ol class="steps">
+            <li><strong>Ctrl + left-click her</strong> right before she disappears. The real Brelshaza then carries a
+              target mark above her head that everyone can see.</li>
+            <li>Go to the outer side and complete the minigame.</li>
+            <li>Stagger the three fake clones, then the real one. Staggering the real one alone does nothing.</li>
+          </ol>
+          <p>Anyone who lands on the real one should <strong>split off and help the other groups</strong> break their
+            clones first.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">4 min<small>into P3</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Spacebar mini game</h3>
+            <span class="chapter">Chapter "Space bar mini game" / 8:11</span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG twice</li>
+            <li class="call">Dash</li>
+          </ul>
+          <p>Fires <strong>4 minutes into Phase 3</strong>. The whole mech is three inputs:</p>
+          <ol class="steps">
+            <li><span class="t-jg">JG</span>.</li>
+            <li>Spacebar behind her.</li>
+            <li><span class="t-jg">JG</span> again.</li>
+          </ol>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Phase 4 <em>/ 0 bars, berserk</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">0 bar<small>meter locks</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Special Azena</h3>
+            <span class="chapter">Chapter "Special Azena" / 8:32</span>
+          </div>
+          <ul class="calls">
+            <li class="call">2 bars banked</li>
+            <li class="call is-lethal">Stop DPS</li>
+          </ul>
+          <p><strong>Enter Phase 4 with at least 2 bars of sidereal</strong> or special Azena cannot trigger at all.</p>
+          <ol class="steps">
+            <li>The team meter locks and the waffle pattern starts.</li>
+            <li>Stop DPS and sit in the safe spot. This pattern kills.</li>
+            <li>When she backsteps, use Azena.</li>
+          </ol>
+          <div class="tip"><b>Second chance</b> The pattern comes back with roughly 20 seconds of berserk left, but
+            special Azena only triggers once. Miss the first window and you take it on the second.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Berserk<small>final guard</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Final guard</h3>
+            <span class="chapter">Chapter "Team meter (After 0 bar)" / 8:59</span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG, no outs</li>
+            <li class="call">Shields</li>
+            <li class="call is-lethal">Fail equals death</li>
+          </ul>
+          <p>Supports use awakening here. <strong>Fail this guard and you die.</strong> Time Stop and hyper awakening do
+            not work in this phase.</p>
+          <p><strong>Timing: <span class="t-jg">JG</span> when the circle reaches the edge.</strong></p>
+          <div class="tip"><b>Easier than the original</b> The original had a debuff that stopped you guarding twice in
+            a row, which forced the guard plus hyper awakening dance. Extreme drops it. Since hyper awakening and Time
+            Stop do nothing here anyway, you simply <span class="t-jg">JG</span> every time the pattern comes up.</div>
+          <p class="fail"><b>Also</b> A player gets chosen and explodes several times during this. That is the other
+            reason supports awaken here. Without a shield up, the explosions alone can kill.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =================== PATTERNS =================== -->
+  <section class="section" id="patterns">
+    <div class="section-head">
+      <h2>Patterns</h2>
+      <p class="section-note">The regular attack rotation, phase by phase. Counter patterns have no internal cooldown
+        and every counter feeds sidereal gauge, so take all of them.</p>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Phase 1</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Clones <span class="call">Splendid Charm</span></h4>
+          <p>They imprison you. Pop the charm when they appear.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Lines</h4>
+          <p>Move out when the lines appear. The red telegraph that shows up alongside them is a bluff, it does no damage.</p>
+          <p>Meteors then land on whoever is carrying the meteor debuff.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Line hit debuff <span class="call is-lethal">Cleanse</span></h4>
+          <p>Getting clipped by a line gives an <strong>uncleansable</strong> debuff. After you cast five skills it
+            converts into a silence, and that version <em>can</em> be cleansed. Call for it.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Puddles <span class="call is-lethal">Never touch</span></h4>
+          <p>Touching one gives the meteor debuff and triggers a large donut AoE for heavy damage. Stop DPS and dodge it out.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Tentacles</h4>
+          <p>She strikes the spot where there is no tentacle. It binds you and hits hard.</p>
+          <p>Stand right on top of her and the follow-up guard attack misses you entirely. Stay close, keep DPSing, and
+            push-immune the attack coming from the floor.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Front charge <span class="call is-counter">Counter</span></h4>
+          <p>She charges forward and leaves puddles behind. A clone turns to face Brelshaza, that is your
+            <span class="t-counter">counter</span>.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Push <span class="call is-counter">Counter</span></h4>
+          <p>After the push, the clone wants the counter taken <strong>from her backside</strong>.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Pizza <span class="call is-counter">Counter</span></h4>
+          <p>Darkness puddles drop and the pizza goes out. The clone counter is on the <strong>second</strong> pizza.
+            Take a shield from your support and burn damage through it.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Left front <span class="call is-counter">Counter</span></h4>
+          <p>The clone wants this counter from her left front. It knocks down, so have push immunity ready.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Phase 2</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Dark orbs</h4>
+          <p>The orbs suck you in. The puddles they leave silence you, so drop them away from the group.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Inner slam</h4>
+          <p>After the second guard she hits the inner side and it hurts. Move out, or push-immune it with a support shield.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Turn attack <span class="call is-counter">Counter</span></h4>
+          <p>After the first attack, the next one is counterable. <strong>She can turn</strong>, so if you end up on that
+            side be ready to take it.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Guard swap <span class="call is-jg">JG</span></h4>
+          <p>After the attack she wants a <span class="t-jg">JG</span> instead of a
+            <span class="t-counter">counter</span>. This one catches people running the original's muscle memory.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Two guards, not three <span class="call is-jg">JG</span></h4>
+          <p>The sequence is shortened to two guards. Dodge to the side while guarding and stay in.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Phase 3</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Whirlwind swings <span class="call is-lethal">Lethal</span></h4>
+          <p>After the first swing, <span class="t-jg">JG</span>. After the third swing, it is either a
+            <span class="t-jg">JG</span> or a <span class="t-coop">co-op counter</span>. Fail either one and it kills.</p>
+          <p><strong>Everyone, aggro holder included, moves with her and stays in front.</strong></p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Ice twisters <span class="call">New</span></h4>
+          <p>She draws lines that freeze into ice, then the ice becomes twisters that chase players. Move all the way
+            out immediately, then dodge the twister.</p>
+          <p>Not the same thing as the Phase 2 twister pattern.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Hand tell</h4>
+          <p>After the orbs are destroyed, read the hand. <strong>Right hand raised, she hits the inner side. Left hand,
+            she hits the outer side.</strong></p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Crescent <span class="call is-jg">JG</span></h4>
+          <p>She attacks twice, then fires a crescent. If she turns back and shoots, another attack follows that needs a
+            <span class="t-jg">JG</span>. It does massive damage and can knock you off to your death.</p>
+          <p><strong>Easiest answer: go behind her and ignore the whole thing.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== DECODER =================== -->
+  <section class="section" id="decoder">
+    <div class="section-head">
+      <h2>Caption decoder</h2>
+      <p class="section-note">The source video has auto-generated captions and they mangle names badly. This is what was
+        translated back, so you can check the video against this guide.</p>
+    </div>
+
+    <div class="table-wrap">
+    <table class="decoder">
+      <thead>
+        <tr><th>Caption says</th><th>Actually</th><th>How it was confirmed</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>"Braille"</td><td>Brelshaza</td><td>Video title and subject.</td></tr>
+        <tr><td>"make"</td><td>mech</td><td>Consistent through the whole transcript.</td></tr>
+        <tr><td>"clown", "clowns"</td><td>clone, clones</td><td>Matches the chapter named "Clone".</td></tr>
+        <tr><td>"Cyph"</td><td>scythe</td><td>Matches the chapter named "Scythe guard".</td></tr>
+        <tr><td>"photos"</td><td>puddles</td><td>The opener and Black hole both spawn puddles that apply the debuff.</td></tr>
+        <tr><td>"brand debuff"</td><td>meteor debuff</td><td>Same debuff, local naming. It is what makes her drop a meteor on you.</td></tr>
+        <tr><td>"don't look"</td><td>donut</td><td>The twister pattern ends on a donut AoE.</td></tr>
+        <tr><td>"portal"</td><td>puddle</td><td>Same object in the half gauge mech, different regional term.</td></tr>
+        <tr><td>"a Xena", "Azena"</td><td>Sidereal: Azena</td><td>Chapter "Special Azena", and Azena is an Allied Forces skill in this gate.</td></tr>
+        <tr><td>"a Gustavo", "ghost double"</td><td>Gustaven, and Gustaven's follow-up cast</td><td>The video description says "it's ok to use Gustaven's 2nd cast as well for the scythe guard".</td></tr>
+        <tr><td>"the two side aerial bars"</td><td>two sidereal bars</td><td>Sidereal gauge, same sentence as the special Azena trigger.</td></tr>
+        <tr><td>"find stop"</td><td>Time Stop Potion</td><td>Said clearly as "time stop" later in the same guide.</td></tr>
+        <tr><td>"dark"</td><td>Dark Grenade</td><td>Standard battle item for this raid.</td></tr>
+        <tr><td>"A gear"</td><td>Aegir</td><td>Difficulty comparison in the intro.</td></tr>
+        <tr><td>"seaweed"</td><td>tentacles</td><td>The base fight has a tentacle pattern with a perfect block, and the described effect matches.</td></tr>
+        <tr><td>"lightning corset"</td><td>lightning card set</td><td>Confirmed against the raid group's prep notes.</td></tr>
+        <tr class="unsure"><td>"Lord of the Guard"</td><td>the follow-up guard attack</td><td>Best fit from context: sticking close to her makes it miss.</td></tr>
+      </tbody>
+    </table>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><strong>Source.</strong> "[Lost Ark] Extreme Brel Guide (Act 2)" by Memorizer, published 22 July 2026, 13:18.
+      <a href="https://youtu.be/5RJU5K-K8xA" rel="noreferrer">youtu.be/5RJU5K-K8xA</a>.
+      Companion links from the description: <a href="https://www.youtube.com/watch?v=3mzjxIy7-3o" rel="noreferrer">original Act 2 guide</a>
+      and a <a href="https://youtu.be/QRTwf_o-z-o?t=8710" rel="noreferrer">clear run with rewards</a>.</p>
+    <p><strong>Scope.</strong> Built from that video's narration, chapter markers, description and closing sidereal
+      slide, then corrected against the raid group's own run notes. Mech order and terminology follow the run notes
+      where the two disagreed. The video covers the Brelshaza encounter only and states it is a difference guide against
+      the original Act 2 fight, filmed on Nightmare.</p>
+    <p><strong>Numbers.</strong> The 420, 335, 145 and 0 phase boundaries come from the video's own sidereal slide.
+      Timings (50 seconds, 35 seconds, 3 minutes, 4 minutes, 20 seconds) are quoted as spoken and are approximate.</p>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    var links = Array.prototype.slice.call(document.querySelectorAll('.navlink'));
+    var targets = links
+      .map(function (l) { return document.querySelector(l.getAttribute('href')); })
+      .filter(Boolean);
+
+    if (!('IntersectionObserver' in window) || !targets.length) return;
+
+    var visible = new Map();
+
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible.set(e.target.id, e.isIntersecting ? e.intersectionRatio : 0); });
+
+      var bestId = null, best = 0;
+      visible.forEach(function (ratio, id) { if (ratio > best) { best = ratio; bestId = id; } });
+      if (!bestId) return;
+
+      links.forEach(function (l) {
+        l.classList.toggle('is-live', l.getAttribute('href') === '#' + bestId);
+      });
+    }, { rootMargin: '-72px 0px -55% 0px', threshold: [0, 0.15, 0.4, 0.75, 1] });
+
+    targets.forEach(function (t) { io.observe(t); });
+  })();
+</script>
+
+</body>
+</html>
