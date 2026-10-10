@@ -1961,6 +1961,8 @@
        so a 6000px section can never outscore a 500px one. */
     var LINE = 100;
     var queued = false;
+    var inner = document.querySelector('.nav-inner');
+    var shown = -1;
 
     function update() {
       queued = false;
@@ -1975,6 +1977,13 @@
       }
 
       pairs.forEach(function (p, i) { p.link.classList.toggle('is-live', i === active); });
+
+      /* Seven tabs overflow a phone: keep the live one centered in the strip. */
+      if (active !== shown && active >= 0) {
+        var link = pairs[active].link;
+        inner.scrollTo({ left: link.offsetLeft - inner.offsetLeft - (inner.clientWidth - link.offsetWidth) / 2 });
+      }
+      shown = active;
     }
 
     function queue() {
