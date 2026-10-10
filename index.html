@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Extreme Brelshaza (Act 2) - mech and pattern guide</title>
+<title>Belgardin - mech and pattern guide</title>
 <style>
   :root {
     --void: #070a11;
@@ -40,8 +40,8 @@
   body {
     margin: 0;
     background:
-      radial-gradient(900px 620px at 12% -8%, rgba(121, 214, 236, 0.10), transparent 62%),
-      radial-gradient(760px 560px at 92% 4%, rgba(174, 140, 255, 0.10), transparent 60%),
+      radial-gradient(900px 620px at 12% -8%, rgba(174, 140, 255, 0.11), transparent 62%),
+      radial-gradient(760px 560px at 92% 4%, rgba(243, 180, 92, 0.08), transparent 60%),
       var(--void);
     color: var(--bone);
     font-family: var(--body);
@@ -60,9 +60,47 @@
 
   .shell { width: min(var(--shell), calc(100% - 48px)); margin-inline: auto; }
 
+  /* ---------- raid tabs ---------- */
+
+  .raids { border-bottom: 1px solid var(--line); background: rgba(7, 10, 17, 0.6); }
+  .raids-inner { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .raids-inner::-webkit-scrollbar { display: none; }
+  .raids-label {
+    flex: none;
+    align-self: center;
+    padding-right: 14px;
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+  }
+  .raid-tab {
+    flex: none;
+    padding: 11px 14px 10px;
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .raid-tab:hover { color: var(--bone); }
+  .raid-tab:focus-visible { outline: 2px solid var(--glacier); outline-offset: -2px; }
+  .raid-tab[aria-current="page"] { color: var(--bone); border-bottom-color: var(--amber); }
+  .raid-tab small {
+    margin-left: 6px;
+    font-family: var(--data);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--ash-dim);
+  }
+
   /* ---------- inline call terms ---------- */
 
   .t-jg { color: var(--jg); font-weight: 600; }
+  .t-hold { color: var(--jg); font-weight: 600; text-decoration: underline dashed; text-underline-offset: 4px; }
   .t-counter { color: var(--counter); font-weight: 600; }
   .t-coop { color: var(--coop); font-weight: 600; }
 
@@ -78,7 +116,7 @@
     color: var(--ash-dim);
     margin: 0 0 18px;
   }
-  .eyebrow b { color: var(--glacier); font-weight: 600; }
+  .eyebrow b { color: var(--phantom); font-weight: 600; }
 
   .title {
     font-family: var(--display);
@@ -88,7 +126,7 @@
     line-height: 0.86;
     font-size: clamp(52px, 11.5vw, 148px);
     margin: 0;
-    background: linear-gradient(96deg, var(--bone) 6%, var(--glacier) 48%, var(--phantom) 96%);
+    background: linear-gradient(96deg, var(--bone) 6%, var(--phantom) 52%, var(--amber) 98%);
     -webkit-background-clip: text;
     background-clip: text;
     color: transparent;
@@ -112,11 +150,18 @@
     color: #c3cede;
   }
 
+  .facts-label {
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--phantom);
+    margin: 36px 0 10px;
+  }
   .facts {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
     gap: 1px;
-    margin-top: 40px;
     background: var(--line-soft);
     border: 1px solid var(--line-soft);
   }
@@ -183,11 +228,11 @@
     margin: 0;
     line-height: 1;
   }
-  .section-note { color: var(--ash); font-size: 14.5px; max-width: 54ch; margin: 0; }
+  .section-note { color: var(--ash); font-size: 14.5px; max-width: 58ch; margin: 0; }
 
   /* ---------- legend ---------- */
 
-  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-bottom: 26px; }
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-bottom: 26px; }
   .legend-item { background: var(--deep); padding: 15px 18px; }
   .legend-term { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: 15px; display: block; margin-bottom: 4px; }
   .legend-item p { margin: 0; font-size: 14px; color: var(--ash); }
@@ -195,7 +240,7 @@
 
   /* ---------- prep ---------- */
 
-  .kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 18px; }
+  .kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
   .kit-card { background: var(--panel); border: 1px solid var(--line); padding: 22px 24px; }
   .kit-card h3 {
     font-family: var(--display);
@@ -212,7 +257,7 @@
   .kit-list b { font-weight: 600; color: var(--bone); }
   .kit-list span { color: var(--ash); }
 
-  /* ---------- sidereal plan ---------- */
+  /* ---------- time plan ---------- */
 
   .plan { margin-top: 30px; }
   .plan-row { border: 1px solid var(--line); background: var(--panel); padding: 20px 22px 22px; margin-bottom: 14px; }
@@ -229,9 +274,10 @@
 
   /* ---------- lethal list ---------- */
 
-  .kills { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .kills { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
   .kill { background: var(--deep); padding: 20px 22px; border-top: 2px solid var(--ember); }
   .kill-when { font-family: var(--data); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 7px; }
+  .kill-when .gate { color: var(--bone); margin-right: 8px; }
   .kill-what { font-family: var(--display); font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 8px; }
   .kill p { margin: 0; color: #c0cbdb; font-size: 14.5px; }
 
@@ -302,16 +348,21 @@
   .beat[data-tone="ember"] .beat-node { border-color: var(--ember); }
   .beat[data-tone="ember"] .beat-node::after { background: var(--ember); }
   .beat[data-tone="ember"] .beat-trigger { color: var(--ember); }
+  .beat[data-tone="amber"] .beat-node { border-color: var(--amber); }
+  .beat[data-tone="amber"] .beat-node::after { background: var(--amber); }
+  .beat[data-tone="amber"] .beat-trigger { color: var(--amber); }
 
   .beat-body {
     background: var(--panel);
     border: 1px solid var(--line);
     border-left: 2px solid var(--glacier);
     padding: 24px 28px 26px;
+    min-width: 0;
     transition: background 0.18s ease, border-color 0.18s ease;
   }
   .beat[data-tone="phantom"] .beat-body { border-left-color: var(--phantom); }
   .beat[data-tone="ember"] .beat-body { border-left-color: var(--ember); }
+  .beat[data-tone="amber"] .beat-body { border-left-color: var(--amber); }
   .beat-body:hover { background: var(--panel-hi); }
 
   .beat-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
@@ -330,8 +381,9 @@
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ash-dim);
-    white-space: nowrap;
   }
+  .chapter a { color: var(--ash); text-decoration-color: rgba(139, 153, 174, 0.4); }
+  .chapter a:hover { color: var(--glacier); }
   .flag-new {
     font-family: var(--data);
     font-size: 10px;
@@ -341,6 +393,7 @@
     background: var(--glacier);
     padding: 3px 8px;
   }
+  .flag-new.is-lethal { background: var(--ember); }
 
   .calls { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; margin: 0 0 16px; padding: 0; }
   .call {
@@ -353,6 +406,7 @@
     color: var(--ash);
   }
   .call.is-jg { color: var(--jg); }
+  .call.is-hold { color: var(--jg); border-style: dashed; }
   .call.is-counter { color: var(--counter); }
   .call.is-coop { color: var(--coop); }
   .call.is-stagger { color: var(--bone); }
@@ -402,7 +456,7 @@
     margin-right: 10px;
   }
 
-  .tip {
+  .tip, .differ {
     margin-top: 14px;
     background: rgba(121, 214, 236, 0.06);
     border-left: 2px solid var(--glacier);
@@ -410,7 +464,7 @@
     font-size: 14.5px;
     color: #bfd6de;
   }
-  .tip b {
+  .tip b, .differ b {
     font-family: var(--data);
     font-size: 10.5px;
     letter-spacing: 0.18em;
@@ -418,15 +472,13 @@
     color: var(--glacier);
     margin-right: 10px;
   }
+  .differ { background: rgba(243, 180, 92, 0.06); border-left-color: var(--amber); color: #ddd0bb; }
+  .differ b { color: var(--amber); }
 
   .colors { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 4px 0 16px; }
   .color-card { border: 1px solid var(--line); padding: 13px 15px; background: var(--deep); }
-  .color-name { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.12em; font-size: 14px; display: block; margin-bottom: 5px; }
+  .color-name { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.12em; font-size: 14px; display: block; margin-bottom: 5px; color: var(--bone); }
   .color-card p { font-size: 14px; margin: 0; color: var(--ash); }
-  .c-blue .color-name { color: #6fb6e8; }
-  .c-yellow .color-name { color: #f2d06b; }
-  .c-purple .color-name { color: var(--phantom); }
-  .c-white .color-name { color: #e6eef8; }
 
   /* ---------- patterns ---------- */
 
@@ -441,8 +493,9 @@
     color: var(--bone);
     font-weight: 600;
   }
+  .pat-lede { margin: -6px 0 18px; font-size: 14.5px; color: var(--ash); max-width: 72ch; }
 
-  .pat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+  .pat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
   .pat {
     background: var(--panel);
     border: 1px solid var(--line);
@@ -451,11 +504,13 @@
   .pat-title { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 17px; margin: 0 0 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
   .pat p { margin: 0; font-size: 14.5px; color: #c3cede; }
   .pat p + p { margin-top: 8px; }
+  .pat .late { color: var(--amber); }
 
   /* ---------- footer ---------- */
 
   .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
   .foot p { margin: 0 0 8px; max-width: 76ch; }
+  .foot ul { margin: 0 0 12px; padding-left: 18px; max-width: 76ch; }
 
   /* ---------- responsive ---------- */
 
@@ -469,10 +524,14 @@
     .beat-trigger { position: static; width: auto; text-align: left; padding: 0; }
     .beat-trigger small { display: inline; margin-left: 8px; }
     .phase-tag { width: auto; }
-    .chapter { white-space: normal; }
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
     .masthead { padding-top: 44px; }
+  }
+
+  @media (max-width: 520px) {
+    .raids-label { display: none; }
+    .raid-tab { padding-inline: 10px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -483,50 +542,90 @@
 </head>
 <body>
 
+<nav class="raids" aria-label="Raids">
+  <div class="shell raids-inner">
+    <span class="raids-label">LOA guides</span>
+    <a class="raid-tab" href="./" aria-current="page">Belgardin</a>
+    <a class="raid-tab" href="extreme-brelshaza.html">Ext. Brelshaza<small>retired</small></a>
+  </div>
+</nav>
+
 <header class="masthead">
   <div class="shell">
-    <p class="eyebrow">Lost Ark <b>/</b> Kazeros Raid Act 2 <b>/</b> Extreme</p>
+    <p class="eyebrow">Lost Ark <b>/</b> Belgardin <b>/</b> Gates 1 and 2</p>
     <h1 class="title">
-      <span>Extreme</span>
-      <span>Brelshaza</span>
-      <span class="title-sub">Mech and pattern deltas</span>
+      <span>Belgardin</span>
+      <span class="title-sub">Mech and pattern guide</span>
     </h1>
 
     <p class="deck">
-      Everything below is what <em>changes</em> from the Act 2 Brelshaza you already run. The base fight is unchanged
-      in shape: same phases, same colors, same team meter. Extreme adds a new mech at x400, bolts extra attacks onto
-      patterns you already know, and turns several of them into instant deaths.
+      A full walkthrough of both gates, built from Korean Nightmare footage ahead of the NA release. Gate 1 is a
+      stack-management fight on a 10 minute timer. Gate 2 is a JG-heavy fight on a crumbling floor, where most deaths
+      are falls. Both gates have a <strong>Rumble</strong> (Battle Phase), a burst phase with its own 3-step bar.
     </p>
 
+    <p class="facts-label">Both gates</p>
     <div class="facts">
       <div class="fact">
-        <span class="fact-k">Event window</span>
-        <span class="fact-v">Aug 12 to Sep 16<small>2026. Limited-time raid, it leaves after that.</small></span>
-      </div>
-      <div class="fact">
         <span class="fact-k">Difficulties</span>
-        <span class="fact-v">3<small>Normal, Hard, Nightmare. Guide is filmed on Nightmare.</small></span>
+        <span class="fact-v">3<small>Normal 1750 (solo and matchmaking), Hard 1770, Nightmare 1780. Filmed on Nightmare.</small></span>
       </div>
       <div class="fact">
-        <span class="fact-k">Life counts</span>
-        <span class="fact-v">0<small>Nightmare has none. Normal and Hard get one extra.</small></span>
+        <span class="fact-k">Cards</span>
+        <span class="fact-v">Light of Salvation<small>Both bosses are weak to Light (Holy).</small></span>
       </div>
       <div class="fact">
-        <span class="fact-k">HP and phases</span>
-        <span class="fact-v">420 bars<small>P1 to x335, P2 to x145, P3 to 0, then the berserk phase.</small></span>
+        <span class="fact-k">New input</span>
+        <span class="fact-v">Holding guard<small>Hold G facing the boss until it fills. Not a tap.</small></span>
       </div>
+    </div>
+
+    <p class="facts-label">Gate 1</p>
+    <div class="facts">
       <div class="fact">
         <span class="fact-k">Boss</span>
-        <span class="fact-v">Demon<small>Run the lightning setup.</small></span>
+        <span class="fact-v">Human<small>Light weakness.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">HP</span>
+        <span class="fact-v">300 bars<small>Nightmare. Mechs at x240, x195, x140, x75.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Enrage</span>
+        <span class="fact-v">10:00<small>Tight. Keep the Dark Grenade relay going all fight.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Permanent debuff</span>
+        <span class="fact-v">6 stacks kills<small>On Nightmare. 10 stacks on Hard and Normal. Never falls off.</small></span>
+      </div>
+    </div>
+
+    <p class="facts-label">Gate 2</p>
+    <div class="facts">
+      <div class="fact">
+        <span class="fact-k">Boss</span>
+        <span class="fact-v">Ancient<small>Light weakness.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">HP</span>
+        <span class="fact-v">400 bars<small>Nightmare. Mechs at x360, x320, x280, x240, x200, x160, x100.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Berserk</span>
+        <span class="fact-v">13:00<small>Saving time on mechs is how you get a second Rumble.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Main killer</span>
+        <span class="fact-v">Falling<small>Grab throws, broken floor and holes.</small></span>
       </div>
     </div>
 
     <p class="prereq">
       <strong>Read this first.</strong>
-      This is a difference guide, not a full walkthrough. It assumes you can already clear Act 2 Brelshaza and know the
-      colors, the team meter, the clone stagger and the orbs. The guide author rates it well above Aegir. If you have
-      never run the original, watch the
-      <a href="https://www.youtube.com/watch?v=3mzjxIy7-3o" rel="noreferrer">original Act 2 guide</a> before this one.
+      Built from two Korean-server guide creators before the NA release, which is expected around
+      <strong>Oct 21</strong> but not yet confirmed. Item and mech names are our translations and may not match the
+      NA client. Where the two sources disagree, the guide says so in an amber <b>Sources differ</b> box instead of
+      guessing. Nightmare draws attack ranges and safe zones on the floor, so if you can, learn it on Nightmare first.
     </p>
   </div>
 </header>
@@ -535,8 +634,11 @@
   <div class="shell nav-inner">
     <a class="navlink" href="#prep">Prep</a>
     <a class="navlink" href="#one-shots">One shots</a>
-    <a class="navlink" href="#mechs">Mechs</a>
-    <a class="navlink" href="#regular-patterns">Regular patterns</a>
+    <a class="navlink" href="#gate-1">Gate 1</a>
+    <a class="navlink" href="#g1-patterns">G1 patterns</a>
+    <a class="navlink" href="#gate-2">Gate 2</a>
+    <a class="navlink" href="#g2-patterns">G2 patterns</a>
+    <a class="navlink" href="#rumble-2x">Rumble 2x</a>
   </div>
 </nav>
 
@@ -546,34 +648,43 @@
   <section class="section" id="prep">
     <div class="section-head">
       <h2>Prep</h2>
-      <p class="section-note">Shorthand used throughout, then what to bring and when to spend sidereal.</p>
+      <p class="section-note">Shorthand used throughout, then what to bring and the systems that run under every mech.</p>
     </div>
 
     <div class="legend">
       <div class="legend-item">
         <span class="legend-term t-jg">Just Guard</span>
-        <p>Written <b class="t-jg">JG</b>, always in yellow here. The perfect-timing block.</p>
+        <p>Written <b class="t-jg">JG</b>, always in yellow. A tap of G on the cue.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term t-hold">Holding guard</span>
+        <p>New in this raid. Dashed yellow. <b>Hold G</b> facing the boss until it fills. Usually leads into a
+          counter or a second guard.</p>
       </div>
       <div class="legend-item">
         <span class="legend-term t-counter">Counter</span>
-        <p>Blue. Counters have no internal cooldown and each one feeds sidereal gauge, so take every single one.</p>
+        <p>Blue. A normal one-player counter.</p>
       </div>
       <div class="legend-item">
         <span class="legend-term t-coop">Co-op counter</span>
-        <p>Purple. Needs two players on it together.</p>
+        <p>Purple. Needs 2, 3 or 4 players together; the number is always given.</p>
       </div>
       <div class="legend-item">
-        <span class="legend-term">3x and 3x+1</span>
-        <p>Clock positions. <b>3x</b> is 12, 3, 6, 9. <b>3x+1</b> is 1, 4, 7, 10.</p>
+        <span class="legend-term">x240</span>
+        <p>HP bar line. The mech is due when the boss bar reaches that multiplier. Mechs can fire late if the line
+          passes during another phase.</p>
       </div>
       <div class="legend-item">
-        <span class="legend-term">+3 and +3+1</span>
-        <p>Sidereal cost. A cast spends <b>3 of your 5 bars</b>. The <b>+1</b> is the follow-up cast, which does
-          something different, for 1 more bar.</p>
+        <span class="legend-term">Rumble</span>
+        <p>The Battle Phase (KR 대난투). A burst phase with a 3-step bar and its own guards. Not tied to an HP line.</p>
       </div>
       <div class="legend-item">
-        <span class="legend-term">Puddle</span>
-        <p>The ground marker you drop off. Called a portal in the Korean guide, same object.</p>
+        <span class="legend-term">Pizza</span>
+        <p>A pie-slice AoE. Clock positions name the slice: <b>5</b> means the 5 o'clock slice.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Spacebar check</span>
+        <p>Dodge on the cue. Success shows Insight (통찰). Missing it inverts your mouse for the follow-up.</p>
       </div>
     </div>
 
@@ -581,106 +692,50 @@
       <div class="kit-card">
         <h3>Battle items</h3>
         <ul class="kit-list">
-          <li><b>HP potions</b> <span>. Your choice.</span></li>
-          <li><b>Time Stop Potion</b> <span>. The clean answer to the crossing lines during Glass break. Track its cooldown, that mech repeats every 3 minutes.</span></li>
-          <li><b>Dark Grenade</b> <span>. Damage buff for 20 seconds, or 25 seconds on the Splendid version.</span></li>
-          <li><b>Splendid Sacred Charm or Bomb</b> <span>. Either one. Same job, different delivery: the charm works on close proximity, the bomb can be thrown. Shield for the clone imprison at x400 and again in the Phase 1 clone pattern.</span></li>
+          <li><b>Splendid Dark Grenade</b> <span>. Everyone carries them for the relay below.</span></li>
+          <li><b>Atropine Potion</b> <span>. Gate 1: pop it at the start of the x195 bar. Gate 2: long groggy windows and the Rumble.</span></li>
+          <li><b>Time Stop</b> <span>. Gate 1 alternative to Atropine. Dodges the ghost-coffin floor attack.</span></li>
+          <li><b>Sacred Charm</b> <span>. On Agam's Gate 1 list.</span></li>
+          <li><b>Last slot: Serca item</b> <span>. Swap to the Belgardin item once unlocked (next card).</span></li>
         </ul>
       </div>
 
       <div class="kit-card">
-        <h3>Engravings and cards</h3>
+        <h3>Belgardin battle item</h3>
         <ul class="kit-list">
-          <li><b>Artist, Bard</b> <span>. Awakening, Magick Stream, Drops of Ether, Expert, Heavy Armor.</span></li>
-          <li><b>Paladin, Valkyrie</b> <span>. Awakening, Magick Stream, Drops of Ether, Expert, then one of VPH (Vital Point Hit), CE (Crisis Evasion) or EE (Explosive Expert).</span></li>
-          <li><b>Cards</b> <span>. Lightning set, she is Demon type and weak to Lightning.</span></li>
-          <li><b>Of those three</b> <span>. The Korean guide calls out Crisis Evasion for supports specifically.</span></li>
+          <li><b>Unlock</b> <span>. Succeed at the Gate 2 x320 add mech once. That grants the achievement and the recipe.</span></li>
+          <li><b>What it is</b> <span>. A stronger flame grenade: the Serca recipe with a flame grenade in place of the whirlwind grenade.</span></li>
+          <li><b>Where to throw it</b> <span>. G1 x75 into the center (hits all three clones). G1 and G2 Rumble. G2 x320 small adds and the x200 stagger.</span></li>
         </ul>
       </div>
 
       <div class="kit-card">
-        <h3>Support awakenings</h3>
+        <h3>Party setup</h3>
         <ul class="kit-list">
-          <li><b>Phase 1</b> <span>. The x400 stagger mech, and the Black hole mech.</span></li>
-          <li><b>Phase 2</b> <span>. Every half gauge mech.</span></li>
-          <li><b>Phase 3</b> <span>. Hyper awakening at the Scythe mech. Awakening at every Double JG in center.</span></li>
-          <li><b>Phase 4</b> <span>. Every full gauge mech.</span></li>
+          <li><b>Dark Grenade relay</b> <span>. Set a throw order. The next player throws as the previous 25 second debuff ends and calls it. Full uptime for the whole fight.</span></li>
+          <li><b>Broken Bone + Domination</b> <span>. Gate 2 only. About 2 players on the Broken Bone relic book plus the Domination stat. The boss is JG'd, countered and staggered constantly, so it rarely falls off.</span></li>
+          <li><b>Push immunity</b> <span>. Gate 1: worth a lot, almost every hit knocks down. Gate 2: JG attacks ignore it, so guard instead of tanking.</span></li>
         </ul>
       </div>
 
       <div class="kit-card">
-        <h3>Support jobs</h3>
+        <h3>Gate 1 systems</h3>
         <ul class="kit-list">
-          <li><b>Eat the opening puddle</b> <span>. Stand in it with push immunity so a support carries the meteor debuff.</span></li>
-          <li><b>Watch the stragglers</b> <span>. During the twister pattern, keep eyes on whoever is late to the safe zone.</span></li>
-          <li><b>Tank the Scythe beam</b> <span>. After hyper awakening, stand outside the safe spot and eat it with push immunity so the safe spot stays roomy.</span></li>
+          <li><b>Permanent debuff</b> <span>. Certain hits add a stack that never expires. <strong>6 kills on Nightmare</strong>, 10 on Hard and Normal. Each pattern below says if it stacks.</span></li>
+          <li><b>x195 attack debuff</b> <span>. Separate stack during that mech only: -10% attack per hit, 7 stacks and you are stuck until the mech ends.</span></li>
+          <li><b>Red-glow attacks</b> <span>. Lethal unless a support shield or damage reduction covers you.</span></li>
+          <li><b>Fog</b> <span>. From x240 the arena edge is fog. Getting knocked in deals damage and cuts your sight.</span></li>
         </ul>
       </div>
 
       <div class="kit-card">
-        <h3>Positions</h3>
+        <h3>Gate 2 systems</h3>
         <ul class="kit-list">
-          <li><b>x335 colors</b> <span>. 3x+1 positions, same as the original.</span></li>
-          <li><b>x145 freeze</b> <span>. 3x and 3x+1 positions.</span></li>
-          <li><b>Scythe guard</b> <span>. P1 goes top and left, P2 goes bottom and right. Same as the original raid.</span></li>
-          <li><b>Double JG</b> <span>. Drop puddles at the bottom, then JG from the top.</span></li>
+          <li><b>Timed guards and grabs</b> <span>. JG and grab patterns run on a timer, not HP. After a long mech or a Rumble the boss can fire several back to back.</span></li>
+          <li><b>Late mechs</b> <span>. A mech whose line passes during the Rumble fires afterwards at lower HP. Do not read the HP bar right after a Rumble.</span></li>
+          <li><b>Late reinforcement</b> <span>. Late in the fight several patterns gain extra hits or flip their guard timing. Marked in amber in G2 patterns.</span></li>
         </ul>
       </div>
-    </div>
-
-    <div class="plan">
-      <div class="plan-row">
-        <div class="plan-head">
-          <h3>Sidereal, normal party DPS</h3>
-          <span>Azena every phase, special Azena at the end.</span>
-        </div>
-        <div class="plan-track">
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 1, 420 to 335</span>
-            <span class="plan-cast">Azena +3+1</span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 2, 335 to 145</span>
-            <span class="plan-cast">Azena +3+1</span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 3, 145 to 0</span>
-            <span class="plan-cast">Azena +3+1</span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 4, berserk</span>
-            <span class="plan-cast">Special Azena</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="plan-row">
-        <div class="plan-head">
-          <h3>Sidereal, strong party DPS</h3>
-          <span>Gustaven gets spent on the two mechs you can muscle through.</span>
-        </div>
-        <div class="plan-track">
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 1, 420 to 335</span>
-            <span class="plan-cast">Azena +3+1</span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 2, at x145</span>
-            <span class="plan-cast">Gustaven +3<small>Opening the freeze mech</small></span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 3</span>
-            <span class="plan-cast">Gustaven +3<small>Scythe guard</small></span>
-          </div>
-          <div class="plan-step has-cast">
-            <span class="plan-when">Phase 4, berserk</span>
-            <span class="plan-cast">Special Azena</span>
-          </div>
-        </div>
-      </div>
-      <p class="plan-note">Carry <strong>at least 2 bars into Phase 4</strong> or you cannot trigger special Azena at all.
-        Unlike the original, do not save Nineveh for the crystals: in extreme you break them with your own skills and
-        spend Azena repeatedly to push the phase.</p>
     </div>
   </section>
 
@@ -688,626 +743,1206 @@
   <section class="section" id="one-shots">
     <div class="section-head">
       <h2>One shots</h2>
-      <p class="section-note">Six things in this raid end a run outright. On Nightmare there is no life count to absorb them.</p>
+      <p class="section-note">Everything that ends a run or kills outright, across both gates.</p>
     </div>
 
     <div class="kills">
       <div class="kill">
-        <span class="kill-when">Glass break, final JG</span>
-        <h3 class="kill-what">Failed guard</h3>
-        <p>4 million damage on a failed guard. The hardest mech in the raid and it repeats every 3 minutes in Phase 3.</p>
+        <span class="kill-when"><span class="gate">G1</span>All fight</span>
+        <h3 class="kill-what">Sixth debuff stack</h3>
+        <p>The permanent debuff kills at 6 stacks on Nightmare. Guards, pizzas and the ghost explosions are the usual sources.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">Phase 4 final guard</span>
-        <h3 class="kill-what">No outer ice break</h3>
-        <p>Fail it and you die. Time Stop and hyper awakening do not work in this phase, so the JG is the only answer.</p>
+        <span class="kill-when"><span class="gate">G1</span>x195</span>
+        <h3 class="kill-what">Yellow bar timer</h3>
+        <p>Fail to burn the damage bar before its timer ends and it is a raid wipe.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">x145</span>
-        <h3 class="kill-what">Five frozen, raid wipe</h3>
-        <p>More than four frozen players wipes the raid. One party freezes on purpose, the other hides.</p>
+        <span class="kill-when"><span class="gate">G1</span>x140</span>
+        <h3 class="kill-what">Off the coffin</h3>
+        <p>The explosion kills unless you hug the back of a coffin. Even slightly away still gets hit.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">Scythe guard</span>
-        <h3 class="kill-what">Freeze outside the safe spot</h3>
-        <p>Freezing inside is survivable, outside is fatal. If the designated guard player freezes, the scythe can kill the whole raid.</p>
+        <span class="kill-when"><span class="gate">G1</span>x75</span>
+        <h3 class="kill-what">Clones out of sync</h3>
+        <p>All three clones must break within a few seconds of each other, inside the timer. Otherwise the stagger resets and it is effectively a wipe.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">Double JG in center</span>
-        <h3 class="kill-what">Fall death</h3>
-        <p>Fail the guard while standing away from her and you get knocked off the platform. Stick to her body.</p>
+        <span class="kill-when"><span class="gate">G1</span>Regular</span>
+        <h3 class="kill-what">Red pizza, third hit</h3>
+        <p>He glows red and swings twice. The third is a one-shot pizza. Stand in the slice it reveals as safe.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">Phase 3 whirlwind swings</span>
-        <h3 class="kill-what">JG, then JG or counter</h3>
-        <p>Guard after the first swing, then a JG or co-op counter after the third. Failing either one kills.</p>
+        <span class="kill-when"><span class="gate">G1</span>Regular</span>
+        <h3 class="kill-what">Teleport grab follow-up</h3>
+        <p>After the <span class="t-jg">JG</span> at his head, the follow-up one-shots anyone not at his back.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when"><span class="gate">G1</span>Regular</span>
+        <h3 class="kill-what">Coffin beam</h3>
+        <p>Two coffins fire beams that one-shot. Read whether they fell together or one after the other.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when"><span class="gate">G2</span>x280</span>
+        <h3 class="kill-what">Counter beam</h3>
+        <p>Any counter fires a 5 second beam over the red that is left. Raid wipe unless you are in a cleared spot or under support hyper awakening.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when"><span class="gate">G2</span>x240 and x160</span>
+        <h3 class="kill-what">Grab throw, broken ring</h3>
+        <p>A grabbed player is thrown off the platform. The outer ring breaks on the second grab, so be off it.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when"><span class="gate">G2</span>Regular</span>
+        <h3 class="kill-what">Holes in the floor</h3>
+        <p>The four orbs drop and the rain debuff both open holes. A failed guard next to one knocks you in.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when"><span class="gate">G2</span>After x160</span>
+        <h3 class="kill-what">Edge knockback</h3>
+        <p>Flame field shots and any boss parked at the edge can knock you off. Keep him in the middle.</p>
       </div>
     </div>
   </section>
 
-  <!-- =================== FIGHT =================== -->
-  <section class="section" id="mechs">
+  <!-- =================== GATE 1 =================== -->
+  <section class="section" id="gate-1">
     <div class="section-head">
-      <h2>Mechs</h2>
-      <p class="section-note">One continuous HP pool of 420 bars. Chapter references point at the source video's own
-        markers.</p>
+      <h2>Gate 1</h2>
+      <p class="section-note">300 bars, 10 minute enrage, permanent debuff stacks. Links jump to the source video at
+        that moment. Footage HP is often lower than the stated line because mechs can fire late.</p>
     </div>
 
     <div class="timeline">
 
       <div class="phase-break">
-        <span class="phase-tag">Phase 1 <em>/ 420 to x335</em></span>
+        <span class="phase-tag">Opening <em>/ x300 to x195</em></span>
         <span class="phase-rule"></span>
       </div>
 
       <article class="beat">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">Pull<small>opener</small></span>
+          <span class="beat-trigger">Pull<small>fixed</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Opening puddles</h3>
-            <span class="chapter">Chapter "Opener" / 0:40</span>
+            <h3>Opening line</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=532" rel="noreferrer">Memorizer 8:52</a></span>
           </div>
-          <ul class="calls"><li class="call">Assign</li></ul>
-          <p>Puddles spawn at the pull and apply the <strong>meteor debuff</strong> to whoever is standing in one.</p>
-          <p><strong>Give it to a support on purpose.</strong> A support stands in the puddle with push immunity and
-            takes the debuff. Later in the fight she drops a meteor on the debuffed player, and parking that meteor on
-            a support hands the party a free DPS window.</p>
-          <div class="tip"><b>Naming</b> The Korean guide calls this the brand debuff. It is the same thing as the
-            meteor debuff purple hands out at x335.</div>
+          <ul class="calls"><li class="call">Burst</li><li class="call">Dark Grenade 1</li></ul>
+          <p>Every pull opens with the same pattern: he draws a line toward the bottom side. It is a good damage window.
+            DPS from his back while dodging the puddles. He also uses this pattern now and then later in the fight.</p>
         </div>
       </article>
 
       <article class="beat">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">x400<small>new mech</small></span>
+          <span class="beat-trigger">~x270<small>periodic</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Clone imprison</h3>
-            <span class="flag-new">New in Extreme</span>
-            <span class="chapter">Chapter "400" / 0:57</span>
+            <h3>Coffin stagger</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=38" rel="noreferrer">Memorizer 0:38</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=52" rel="noreferrer">Agam 0:52</a></span>
           </div>
           <ul class="calls">
-            <li class="call">Splendid Charm</li>
             <li class="call is-stagger">Stagger</li>
-            <li class="call is-counter">Counter</li>
-            <li class="call is-coop">Co-op counter</li>
+            <li class="call">Purify</li>
           </ul>
-          <p>Supports use <strong>awakening</strong> here. The clones imprison the party and hit for a huge chunk.</p>
+          <p>Three or four patterns after the opener, roughly 40 to 60 seconds in. Floor attacks come down and coffins
+            appear, one on each side.</p>
           <ol class="steps">
-            <li>Splendid Sacred Charm, <strong>in front of the boss</strong>, and tank the imprison behind the shield.</li>
-            <li>Stagger her fast.</li>
-            <li><span class="t-counter">Counter</span> straight out of the stagger.</li>
-            <li><span class="t-coop">Co-op counter</span> on the clone at the cardinal. That ends the mech.</li>
+            <li>Avoid the floor attacks.</li>
+            <li>Get behind a coffin and stagger it.</li>
+            <li>The staggered coffin gives a safe zone. Stand in it.</li>
+            <li>If you get crowd controlled, purify it.</li>
           </ol>
+          <p class="fail"><b>Fails</b> A failed stagger, or not being behind a coffin, stuns you.</p>
+          <div class="tip"><b>Comes back</b> About 5 minutes in, this returns as the ghost version further down.</div>
         </div>
       </article>
 
       <article class="beat">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">+50s<small>after x400</small></span>
+          <span class="beat-trigger">x240<small>cutscene</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Clone landing</h3>
-            <span class="chapter">Chapter "Clone" / 1:25</span>
-          </div>
-          <ul class="calls">
-            <li class="call is-jg">JG</li>
-            <li class="call is-coop">Co-op counter</li>
-            <li class="call">Azena</li>
-          </ul>
-          <p>Roughly 50 seconds after x400 she isolates the party. <span class="t-jg">JG</span> the clone as it is about
-            to land, then take the <span class="t-coop">co-op counter</span>.</p>
-          <div class="tip"><b>Damage</b> This is the Phase 1 Azena window. Full cast including the follow-up, Azena +3+1.</div>
-        </div>
-      </article>
-
-      <article class="beat">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">Low DPS<small>conditional</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Black hole</h3>
-            <span class="chapter">Chapter "Black hole" / 1:40</span>
-          </div>
-          <ul class="calls"><li class="call">Spread puddles</li></ul>
-          <p>You only see this if party damage is on the slow side. It plays out like the original with one addition:
-            <strong>puddles appear during the pattern and apply the meteor debuff</strong>. Keep them off anyone who
-            cannot afford to carry it.</p>
-        </div>
-      </article>
-
-      <article class="beat">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">x335<small>colors</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Colors</h3>
-            <span class="chapter">Chapter "335" / 1:55</span>
+            <h3>Coffin pizza and guards</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=88" rel="noreferrer">Memorizer 1:28</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=69" rel="noreferrer">Agam 1:09</a> / <a href="https://youtu.be/P5TokfH4CWk?t=0" rel="noreferrer">Agam tips 0:00</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG</li>
             <li class="call is-counter">Counter</li>
-            <li class="call is-stagger">Stagger</li>
-            <li class="call is-lethal">Center telegraph kills</li>
+            <li class="call is-lethal">Ignores push immunity</li>
           </ul>
-          <p>Same 3x+1 memory color game as the original. What is new is that <strong>every color now fires an extra
-            attack</strong> when it resolves, so the color caller is no longer the only one with a job.</p>
+          <p>Cutscene, then puddles fall (supports watch the party here). From now on the arena edge is fog. The first
+            pizza set is purple lines that <strong>go through push immunity</strong> and add a debuff stack.</p>
+          <ol class="steps">
+            <li>After the cutscene, avoid the puddles and stand at 7 or 1 o'clock, near 5.</li>
+            <li><span class="t-jg">JG</span> toward the boss. Cue: about 2 seconds after the flash, as his wings gather. Then DPS.</li>
+            <li>The 5 o'clock pizza always goes first. Once it explodes, move into 5 and keep hitting while 7, 11 and 1 fire in random order.</li>
+            <li>Second set: coffins fall on the diagonals in random directions, but the call order is fixed:
+              <span class="t-counter">counter</span>, <span class="t-counter">counter</span>, boss <span class="t-jg">JG</span>,
+              coffin <span class="t-jg">JG</span>, <span class="t-counter">counter</span>.</li>
+            <li>The last counter ends the mech. Lines keep repeating throughout, so keep dodging.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> A failed guard or a pizza hit is +1 permanent stack. A failed coffin counter only
+            deals damage, no stack.</p>
+          <div class="tip"><b>Damage route</b> Since the coffin counters only cost damage, Agam skips the first two:
+            dodge the floor, keep DPSing under support cover, and only guard the boss and the guard coffin. Surviving is
+            what counts here.</div>
+        </div>
+      </article>
 
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x195<small>time attack</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Yellow bar time attack</h3>
+            <span class="flag-new is-lethal">Wipe on fail</span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=144" rel="noreferrer">Memorizer 2:24</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=111" rel="noreferrer">Agam 1:51</a> / <a href="https://youtu.be/P5TokfH4CWk?t=300" rel="noreferrer">Agam tips 5:00</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call">Atropine</li>
+            <li class="call is-jg">JG</li>
+            <li class="call is-counter">Counter</li>
+            <li class="call is-lethal">Raid wipe</li>
+          </ul>
+          <p>He vanishes, his HP locks, and coffins ring the arena. Then a yellow damage bar with a timer (about 1:08)
+            appears under his HP. <strong>Burn the bar before the timer ends or the raid wipes.</strong> A cleared bar
+            is worth about 35 HP bars.</p>
+          <p>A second debuff runs only here: every hit is <strong>-10% attack</strong>, and at <strong>7 stacks you are
+            stuck</strong> until the mech ends. Getting pushed into the wall adds a stack and pins you for a few
+            seconds. Stacks are what make this mech fail, so dodge everything.</p>
+          <ol class="steps">
+            <li><strong>Before x195</strong>, bank identity and hyper skill.</li>
+            <li>Do not hit him the moment he reappears. Wait for the bar.</li>
+            <li>Full combo plus Atropine at the bar start, while you have zero stacks.</li>
+            <li>Play the cycle below until the bar is gone.</li>
+          </ol>
+
+          <p>The patterns come in a fixed order, A then B then C, repeating. Within each letter the pattern is random.</p>
           <div class="colors">
-            <div class="color-card c-blue">
-              <span class="color-name">Blue</span>
-              <p>Clones in the middle. <span class="t-counter">Counter</span> them.</p>
+            <div class="color-card">
+              <span class="color-name">A / Lasers</span>
+              <p>Waffle (twice), Cross, or One-way (twice). Move only after the beam right next to you fires. Lasers also
+                paralyze, avoid them 100%. As they end, run to a corner (3, 6, 9 or 12).</p>
             </div>
-            <div class="color-card c-yellow">
-              <span class="color-name">Yellow</span>
-              <p>A clone spawns. <span class="t-jg">JG</span> it.</p>
+            <div class="color-card">
+              <span class="color-name">B / Guard</span>
+              <p>He looks up <strong>with</strong> a yellow flash. Go to him and keep hitting.
+                <span class="t-jg">JG</span> right before the white circle reaches the edge, as the yellow floor fills.</p>
             </div>
-            <div class="color-card c-purple">
-              <span class="color-name">Purple</span>
-              <p>Two players get the meteor debuff. Those two move out.</p>
+            <div class="color-card">
+              <span class="color-name">B / Corner</span>
+              <p>He looks up <strong>without</strong> a flash. The push hits everything but the 3, 6, 9 and 12 corners.
+                Stand in a corner early, then leave it the instant the push ends, before the grab lands there.</p>
             </div>
-            <div class="color-card c-white">
-              <span class="color-name">White</span>
-              <p>Scythes spawn on everyone. Dodge them.</p>
+            <div class="color-card">
+              <span class="color-name">C / Swing</span>
+              <p>Lines cross and he points with a white flash where the swing starts. It sweeps one whole side. Stand
+                where his body faces, then step into the safe zone.</p>
             </div>
           </div>
-
-          <p>Finish on the <strong>center stagger</strong> and the mech ends. Phase 2 starts here.</p>
-          <p class="fail"><b>Fails</b> The red telegraph in the center can kill you outright, and a missed blue counter
-            does heavy raid damage.</p>
+          <p>There is also a <strong>counter coffin</strong> variant: the attack covers the whole area, but countering
+            the coffin makes a safe spot. A successful <span class="t-counter">counter</span> also removes one of your
+            stacks.</p>
+          <p class="fail"><b>Fails</b> Timer runs out: raid wipe. 7 stacks: stuck until it ends. Caught by the corner grab:
+            no stack, but lost damage time.</p>
+          <div class="tip"><b>Shortcuts</b> Hyper awakening can carry you through a B pattern. Push-immune classes can
+            stand in the C safe zone with a push-immune skill and accept the single stack rather than lose uptime.</div>
+          <div class="differ"><b>Sources differ</b> Memorizer's card says x190, Agam says x195. The boss locks at x194
+            in Agam's pull, so the line is treated as x195. Memorizer lists the counter coffin with the A lasers;
+            Agam files it as a swing type.</div>
         </div>
       </article>
 
       <div class="phase-break">
-        <span class="phase-tag">Phase 2 <em>/ x335 to x145</em></span>
+        <span class="phase-tag">Midfight <em>/ x195 to x75</em></span>
         <span class="phase-rule"></span>
       </div>
 
       <article class="beat" data-tone="phantom">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">Half<small>gauge</small></span>
+          <span class="beat-trigger">~5 min<small>periodic</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Half gauge mech</h3>
-            <span class="chapter">Chapter "Brain check" / 2:40</span>
+            <h3>Ghost coffins</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=54" rel="noreferrer">Memorizer 0:54</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=188" rel="noreferrer">Agam 3:08</a></span>
           </div>
           <ul class="calls">
-            <li class="call">Drop puddles out</li>
-            <li class="call">Follow the order</li>
-            <li class="call is-lethal">Wrong order hurts</li>
-          </ul>
-          <p>Supports use <strong>awakening</strong>. Players get puddles: <strong>drop them outside</strong>, they
-            silence anyone who touches them.</p>
-          <p>The arena is four quadrants. A white icon lights up in <strong>three</strong> of them, in sequence. Move
-            through the quadrants <strong>in the order they lit up</strong>.</p>
-          <div class="tip"><b>Routing</b> The last hop, second to third, is allowed to go diagonal.</div>
-          <p class="fail"><b>Fails</b> Entering the quadrants out of order takes big damage.</p>
-        </div>
-      </article>
-
-      <article class="beat" data-tone="phantom">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">Full<small>meter</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Crystals</h3>
-            <span class="chapter">Chapter "Team meter (Phase 2)" / 3:03</span>
-          </div>
-          <ul class="calls">
-            <li class="call">Stack opposite</li>
-            <li class="call is-stagger">Break crystals</li>
-          </ul>
-          <p>New opening beat: <strong>she fires a cone in one direction</strong> as the mech starts. Run to the
-            opposite side and drop your crystals there.</p>
-          <div class="tip"><b>Changed from the original</b> Do not save Nineveh for this. In extreme you break the
-            crystals with your own skills and spend Azena repeatedly to speed through the phase.</div>
-        </div>
-      </article>
-
-      <article class="beat" data-tone="phantom">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">~35s<small>periodic</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Twister</h3>
-            <span class="flag-new">New in Extreme</span>
-            <span class="chapter">Chapter "Regular patterns" / 3:25</span>
-          </div>
-          <ul class="calls">
-            <li class="call">Spread then stack</li>
-            <li class="call is-lethal">Massive damage</li>
-          </ul>
-          <p>Comes around roughly <strong>every 35 seconds</strong> on top of the usual find-the-real-one pattern.</p>
-          <ol class="steps">
-            <li>Dodge the tornado attack, <strong>three times</strong>.</li>
-            <li>Players with the <strong>snowflake circle</strong> gather in front of the boss. That generates the safe zone.</li>
-            <li>Everyone else drops their puddle outside, then stacks into the safe zone.</li>
-            <li>Dodge the final <strong>donut</strong> and the pattern ends.</li>
-          </ol>
-          <div class="tip"><b>Supports</b> Every attack in this pattern hits massively. Watch whoever is late getting
-            into the safe zone, they are the one who dies.</div>
-        </div>
-      </article>
-
-      <article class="beat" data-tone="phantom">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">x145<small>freeze</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Freeze split</h3>
-            <span class="chapter">Chapter "145" / 4:12</span>
-          </div>
-          <ul class="calls">
-            <li class="call">3x and 3x+1</li>
-            <li class="call is-jg">JG</li>
-            <li class="call is-lethal">Wipe check</li>
-          </ul>
-          <p>Take your 3x and 3x+1 positions. <strong>More than four frozen players wipes the raid</strong>, so the
-            solve is deliberate: one party freezes, the other party hides. Decide which party is which before the pull.</p>
-          <p>A scythe spawns partway through the pattern. <span class="t-jg">JG</span> it.</p>
-          <div class="tip"><b>Alternative</b> Strong parties open with Gustaven +3 and muscle through it.</div>
-          <p>Phase 3 starts once this mech resolves.</p>
-        </div>
-      </article>
-
-      <div class="phase-break">
-        <span class="phase-tag">Phase 3 <em>/ below x145</em></span>
-        <span class="phase-rule"></span>
-      </div>
-
-      <article class="beat" data-tone="ember">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">3 min<small>repeats</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Glass break</h3>
-            <span class="flag-new">Hardest mech</span>
-            <span class="chapter">Chapter "Glass break" / 5:06</span>
-          </div>
-          <ul class="calls">
+            <li class="call is-stagger">Stagger</li>
+            <li class="call">Kill adds</li>
             <li class="call">Time Stop</li>
-            <li class="call is-jg">Slow JG</li>
-            <li class="call is-lethal">One-shot kill</li>
           </ul>
-          <p>First one lands <strong>after the first pattern of Phase 3</strong>, then repeats <strong>every 3
-            minutes</strong>. This is the mech that decides your prog.</p>
+          <p>The coffin stagger comes back reinforced, about 4:30 to 5:20 into the fight. Ghosts spawn from every
+            direction and race to the center.</p>
           <ol class="steps">
-            <li>Dodge the glass.</li>
-            <li>Time Stop the crossing lines. They imprison for 3 seconds and clutter your view.</li>
-            <li>Dodge the remaining lines on the field. These do massive damage.</li>
-            <li>Slow <span class="t-jg">JG</span> at the end. The cue is <strong>when the pattern at the edge
-              disappears</strong>.</li>
+            <li>Split two players per coffin and stagger fast.</li>
+            <li>Kill the ghosts before they reach the center. The red line kills them, and you get two chances.</li>
+            <li>Dodge the floor attack that follows: Time Stop it, or go outside.</li>
           </ol>
-          <p class="fail"><b>Fails</b> The final guard is a one-shot kill, 4 million damage. You can hyper awaken into
-            her to ignore it instead, but the guard itself is easy once you know the cue.</p>
-          <div class="tip"><b>No Time Stop</b> If it is on cooldown, get caught by the crossing line <strong>early</strong>
-            on purpose. You get freed before the bottom lines arrive. Getting caught late is what kills you.</div>
+          <p class="fail"><b>Fails</b> Each ghost that arrives <strong>heals the boss about 3 bars</strong> and explodes
+            for heavy damage plus a permanent stack. The floor hit is another stack.</p>
+          <div class="differ"><b>Sources differ</b> Memorizer staggers each coffin with two players. Agam's note
+            suggests the coffin cannot be staggered and explodes once to summon the ghosts. Killing the ghosts is the
+            part both agree on.</div>
         </div>
       </article>
 
-      <article class="beat" data-tone="ember">
+      <article class="beat" data-tone="phantom">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">+few s<small>after glass</small></span>
+          <span class="beat-trigger">x140<small>reinforced x240</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Scythe guard</h3>
-            <span class="chapter">Chapter "Scythe guard" / 6:22</span>
+            <h3>Coffin hide</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=336" rel="noreferrer">Memorizer 5:36</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=214" rel="noreferrer">Agam 3:34</a> / <a href="https://youtu.be/P5TokfH4CWk?t=708" rel="noreferrer">Agam tips 11:48</a></span>
           </div>
           <ul class="calls">
-            <li class="call">Hyper awakening</li>
             <li class="call is-jg">JG</li>
-            <li class="call is-lethal">Freeze chain</li>
+            <li class="call">Hide</li>
+            <li class="call is-lethal">Explosion kills</li>
           </ul>
-          <p>Comes a few seconds after Glass break, so treat the pair as one long mech. <strong>Supports hyper awaken
-            the moment it starts.</strong></p>
+          <p>A stronger x240. He moves to the center and does the purple-line pizza again.</p>
           <ol class="steps">
-            <li>Take your side. P1 goes top and left, P2 goes bottom and right, same as the original.</li>
-            <li>Ice puddles freeze anyone they touch, so <strong>do not stack until you are in the safe spot</strong>.</li>
-            <li>The designated guard player takes the edge. Everyone else gives them room.</li>
-            <li>A beam crosses the safe spot at the end. Dodge it.</li>
+            <li>Dodge the pizza and lines. The first pizza always starts at 9 o'clock.</li>
+            <li><span class="t-jg">JG</span> the coffin attack.</li>
+            <li><strong>Hug the back of one of the three coffins</strong> for the explosion.</li>
+            <li>Dodge the lines again.</li>
+            <li>Coffin <span class="t-jg">JG</span>, then boss <span class="t-jg">JG</span> (about 1 second after the flash) ends it.</li>
           </ol>
-          <p class="fail"><b>Fails</b> Freezing inside the safe spot is fine. Freezing outside it kills. If the guard
-            player freezes, the scythe can kill everyone.</p>
-          <div class="tip"><b>Support tech</b> After hyper awakening, supports can stand outside the safe spot and tank
-            the beam with push-immune skills. That leaves the safe spot wide open and cuts accidental freezes.</div>
-          <div class="tip"><b>Damage check</b> Strong parties spend Gustaven +3 here.</div>
+          <p class="fail"><b>Fails</b> The explosion can kill and still hits you if you are even slightly off the coffin.</p>
+          <div class="tip"><b>Alternatives</b> Hyper awakening instead of hiding works. You can build identity gauge on
+            the coffins.</div>
+          <div class="differ"><b>Sources differ</b> Stated trigger: x140 (Agam tips), x120 to x140 (Agam guide), x115
+            (Memorizer). Both creators' footage shows it far lower, at x94 and x76, so expect it late.</div>
         </div>
       </article>
 
-      <article class="beat" data-tone="ember">
+      <article class="beat" data-tone="phantom">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">Double<small>JG</small></span>
+          <span class="beat-trigger">x75<small>clones</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Double JG in center</h3>
-            <span class="chapter">Chapter "Twin guard" / 7:18</span>
+            <h3>Three clones</h3>
+            <span class="flag-new is-lethal">Wipe on fail</span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=371" rel="noreferrer">Memorizer 6:11</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=247" rel="noreferrer">Agam 4:07</a> / <a href="https://youtu.be/P5TokfH4CWk?t=717" rel="noreferrer">Agam tips 11:57</a></span>
           </div>
           <ul class="calls">
-            <li class="call is-jg">JG twice</li>
-            <li class="call is-lethal">Fall death</li>
+            <li class="call is-stagger">Synced stagger</li>
+            <li class="call is-coop">2-man co-op</li>
+            <li class="call is-jg">Orb JG</li>
+            <li class="call">Battle item</li>
           </ul>
-          <p>Puddles land on players, then the guards come. <strong>Fail one while standing away from her and you get
-            knocked off and die</strong>, so stay stuck to her.</p>
-          <p>Extreme changes the timing: <strong>the bottom Brelshaza is random, the top one is fixed</strong>. Do not
-            gamble at the bottom.</p>
+          <p>Cutscene: Clorian warns the clones are resonating and must all be cut at once. Three clones stand at 1, 6
+            and 11 o'clock in an upside-down triangle; the real boss is the one at 6.</p>
           <ol class="steps">
-            <li>Drop your puddle at the bottom.</li>
-            <li>Move to the top and stick close.</li>
-            <li><span class="t-jg">JG</span> on the fixed timing.</li>
+            <li>Split the raid into three groups. The two strongest staggerers take one clone, three players take each of the others.</li>
+            <li>When the stagger bars appear, <strong>everyone throws the Serca or Belgardin item into the center</strong>. It hits all three clones.</li>
+            <li>An alternating pizza runs the whole mech. It knocks down and slows stagger. Step into the slice that just fired.</li>
+            <li>Stagger your clone at the same pace as the other groups.</li>
+            <li>Take the real <span class="t-coop">2-man co-op counter</span>. Some are fake, wait for the real one.
+              A second co-op comes right after a red counter.</li>
+            <li>Orbs fly toward the center twice. <span class="t-jg">JG</span> the first as it closes in, move clockwise,
+              <span class="t-jg">JG</span> the second.</li>
           </ol>
-          <div class="tip"><b>Safe ground</b> The telegraph does not reach the side edge, so that is a valid place to
-            stand.</div>
-          <div class="tip"><b>Supports</b> This one comes back around in Phase 3. Awaken on every single one.</div>
-        </div>
-      </article>
-
-      <article class="beat" data-tone="ember">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">Full<small>meter</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Clone stagger</h3>
-            <span class="chapter">Chapter "Team meter (Phase 3)" / 7:46</span>
-          </div>
-          <ul class="calls">
-            <li class="call">Ctrl + click</li>
-            <li class="call">Minigame</li>
-            <li class="call is-stagger">Stagger all four</li>
-          </ul>
-          <ol class="steps">
-            <li><strong>Ctrl + left-click her</strong> right before she disappears. The real Brelshaza then carries a
-              target mark above her head that everyone can see.</li>
-            <li>Go to the outer side and complete the minigame.</li>
-            <li>Stagger the three fake clones, then the real one. Staggering the real one alone does nothing.</li>
-          </ol>
-          <p>Anyone who lands on the real one should <strong>split off and help the other groups</strong> break their
-            clones first.</p>
-        </div>
-      </article>
-
-      <article class="beat" data-tone="ember">
-        <div class="beat-mark">
-          <span class="beat-node"></span>
-          <span class="beat-trigger">4 min<small>into P3</small></span>
-        </div>
-        <div class="beat-body">
-          <div class="beat-head">
-            <h3>Spacebar mini game</h3>
-            <span class="chapter">Chapter "Space bar mini game" / 8:11</span>
-          </div>
-          <ul class="calls">
-            <li class="call is-jg">JG twice</li>
-            <li class="call">Dash</li>
-          </ul>
-          <p>Fires <strong>4 minutes into Phase 3</strong>. The whole mech is three inputs:</p>
-          <ol class="steps">
-            <li><span class="t-jg">JG</span>.</li>
-            <li>Spacebar behind her.</li>
-            <li><span class="t-jg">JG</span> again.</li>
-          </ol>
+          <p class="fail"><b>Fails</b> Timer runs out: raid wipe. Clones broken more than a few seconds apart: the stagger
+            resets, effectively a wipe. A failed co-op counter resets stagger. An orb reaching the middle is raid-wipe
+            damage; a missed orb can be body-blocked, but that player is imprisoned and needs freeing.</p>
+          <div class="tip"><b>Priorities</b> Agam rates the counters and orb guards above the stagger itself. None of
+            them line up with the pizza timing.</div>
+          <div class="differ"><b>Sources differ</b> Sync window: within 5 seconds (Memorizer) or 8 seconds (Agam). Aim
+            for 5. Memorizer puts the 2-player group on the bottom (6) clone; Agam's footage puts it at 1 o'clock.
+            Pick one before the pull.</div>
         </div>
       </article>
 
       <div class="phase-break">
-        <span class="phase-tag">Phase 4 <em>/ 0 bars, berserk</em></span>
+        <span class="phase-tag">Endgame <em>/ below x75</em></span>
         <span class="phase-rule"></span>
       </div>
 
       <article class="beat" data-tone="ember">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">0 bar<small>meter locks</small></span>
+          <span class="beat-trigger">After x75<small>periodic</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Special Azena</h3>
-            <span class="chapter">Chapter "Special Azena" / 8:32</span>
+            <h3>Center stagger</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=519" rel="noreferrer">Memorizer 8:39</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=290" rel="noreferrer">Agam 4:50</a></span>
           </div>
           <ul class="calls">
-            <li class="call">2 bars banked</li>
-            <li class="call is-lethal">Stop DPS</li>
+            <li class="call is-stagger">Stagger</li>
+            <li class="call is-lethal">Wipe-level damage</li>
           </ul>
-          <p><strong>Enter Phase 4 with at least 2 bars of sidereal</strong> or special Azena cannot trigger at all.</p>
-          <ol class="steps">
-            <li>The team meter locks and the waffle pattern starts.</li>
-            <li>Stop DPS and sit in the safe spot. This pattern kills.</li>
-            <li>When she backsteps, use Azena.</li>
-          </ol>
-          <div class="tip"><b>Second chance</b> The pattern comes back with roughly 20 seconds of berserk left, but
-            special Azena only triggers once. Miss the first window and you take it on the second.</div>
+          <p>He teleports to the center; puddles and a beam follow. Dodge them and stagger him. Failing the stagger is
+            raid-wipe-level damage. Between these, this is your main damage time to the kill.</p>
         </div>
       </article>
 
-      <article class="beat" data-tone="ember">
+      <div class="phase-break">
+        <span class="phase-tag">Floating <em>/ no fixed HP</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="amber">
         <div class="beat-mark">
           <span class="beat-node"></span>
-          <span class="beat-trigger">Berserk<small>final guard</small></span>
+          <span class="beat-trigger">Rumble<small>battle phase</small></span>
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Final guard</h3>
-            <span class="chapter">Chapter "Team meter (After 0 bar)" / 8:59</span>
+            <h3>Gate 1 Rumble</h3>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=478" rel="noreferrer">Memorizer 7:58</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=307" rel="noreferrer">Agam 5:07</a> / <a href="https://youtu.be/P5TokfH4CWk?t=221" rel="noreferrer">Agam tips 3:41</a></span>
           </div>
           <ul class="calls">
-            <li class="call is-jg">JG, no outs</li>
-            <li class="call">Shields</li>
-            <li class="call is-lethal">Fail equals death</li>
+            <li class="call is-hold">Holding guard</li>
+            <li class="call is-coop">4-man co-op</li>
+            <li class="call is-jg">Sword JG</li>
+            <li class="call">Every battle item</li>
           </ul>
-          <p>Supports use awakening here. <strong>Fail this guard and you die.</strong> Time Stop and hyper awakening do
-            not work in this phase.</p>
-          <p><strong>Timing: <span class="t-jg">JG</span> when the circle reaches the edge.</strong></p>
-          <div class="tip"><b>Easier than the original</b> The original had a debuff that stopped you guarding twice in
-            a row, which forced the guard plus hyper awakening dance. Extreme drops it. Since hyper awakening and Time
-            Stop do nothing here anyway, you simply <span class="t-jg">JG</span> every time the pattern comes up.</div>
-          <p class="fail"><b>Also</b> A player gets chosen and explodes several times during this. That is the other
-            reason supports awaken here. Without a shield up, the explosions alone can kill.</p>
+          <p>A corridor damage race with a 3-segment bar and a countdown per segment. Damage carries into the boss HP.
+            It showed up at x256 in one pull and x140 in another, so it is not tied to an HP line.</p>
+          <ol class="steps">
+            <li>Segment 1 locks until the guard. When the yellow snipe effect appears, <strong>immediately hold G facing
+              him</strong> until it fills.</li>
+            <li>Right after, the <span class="t-coop">4-man co-op counter</span>. Success shows Perfect.</li>
+            <li>Segment 2: throw everything, Serca or Belgardin item included.</li>
+            <li>Segment 2 locks again until he holds a glowing sword. Tap <span class="t-jg">JG</span> (not held) about 1 to 2 seconds after the glow.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> A failed hold knocks you down and you miss the counter. A failed 4-man counter shows
+            Miss and ends the Rumble.</p>
+          <div class="tip"><b>Wait for x195</b> If the Rumble comes <strong>before</strong> x195, Agam resets: you spend
+            the burst that x195 needs. If it keeps happening, stagger less or push more damage so x195 comes first.</div>
+          <div class="tip"><b>Week one</b> Low-gear parties will struggle to reach the third segment. That is expected.</div>
         </div>
       </article>
 
     </div>
   </section>
 
-  <!-- =================== PATTERNS =================== -->
-  <section class="section" id="regular-patterns">
+  <!-- =================== G1 PATTERNS =================== -->
+  <section class="section" id="g1-patterns">
     <div class="section-head">
-      <h2>Regular patterns</h2>
-      <p class="section-note">The regular attack rotation, phase by phase. Counter patterns have no internal cooldown
-        and every counter feeds sidereal gauge, so take all of them.</p>
+      <h2>G1 patterns</h2>
+      <p class="section-note">The regular rotation, grouped by what it asks of you. Pattern names are Memorizer's
+        on-screen labels. Most hits knock down; red-glow hits kill without support cover.</p>
     </div>
 
     <div class="pat-group">
       <div class="pat-head">
-        <h3>Phase 1</h3>
+        <h3>Lethal</h3>
         <span class="phase-rule"></span>
       </div>
       <div class="pat-grid">
         <div class="pat">
-          <h4 class="pat-title">Clones <span class="call">Splendid Charm</span></h4>
-          <p>They imprison you. Pop the charm when they appear.</p>
+          <h4 class="pat-title">Red pizza <span class="call is-lethal">One shot</span></h4>
+          <p>Glows red, attacks twice. The third is a one-shot pizza that reveals the safe slice. Be in it.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Lines</h4>
-          <p>Move out when the lines appear. The red telegraph that shows up alongside them is a bluff, it does no damage.</p>
-          <p>Meteors then land on whoever is carrying the meteor debuff.</p>
+          <h4 class="pat-title">Teleport grab <span class="call is-jg">JG</span></h4>
+          <p>He vanishes and teleports to grab. While he catches someone he keeps grabbing. When nobody is caught,
+            <span class="t-jg">JG</span> at his head, then get to his back: the follow-up one-shots.</p>
+          <p>If nobody lands the guard, Agam resets. Survivable with support cover.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Line hit debuff <span class="call is-lethal">Cleanse</span></h4>
-          <p>Getting clipped by a line gives an <strong>uncleansable</strong> debuff. After you cast five skills it
-            converts into a silence, and that version <em>can</em> be cleansed. Call for it.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Puddles <span class="call is-lethal">Never touch</span></h4>
-          <p>Touching one gives the meteor debuff and triggers a large donut AoE for heavy damage. Stop DPS and dodge it out.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Tentacles</h4>
-          <p>She strikes the spot where there is no tentacle. It binds you and hits hard.</p>
-          <p>Stand right on top of her and the follow-up guard attack misses you entirely. Stay close, keep DPSing, and
-            push-immune the attack coming from the floor.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Front charge <span class="call is-counter">Counter</span></h4>
-          <p>She charges forward and leaves puddles behind. A clone turns to face Brelshaza, that is your
-            <span class="t-counter">counter</span>.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Push <span class="call is-counter">Counter</span></h4>
-          <p>After the push, the clone wants the counter taken <strong>from her backside</strong>.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Pizza <span class="call is-counter">Counter</span></h4>
-          <p>Darkness puddles drop and the pizza goes out. The clone counter is on the <strong>second</strong> pizza.
-            Take a shield from your support and burn damage through it.</p>
-        </div>
-        <div class="pat">
-          <h4 class="pat-title">Left front <span class="call is-counter">Counter</span></h4>
-          <p>The clone wants this counter from her left front. It knocks down, so have push immunity ready.</p>
+          <h4 class="pat-title">Coffin beam <span class="call is-lethal">One shot</span></h4>
+          <p><strong>Fall together:</strong> stand between the two coffins and DPS. <strong>Fall one at a time:</strong>
+            the first one fires first. Stand at the second coffin, then cross to the first one's spot after its beam,
+            or leave entirely.</p>
         </div>
       </div>
     </div>
 
     <div class="pat-group">
       <div class="pat-head">
-        <h3>Phase 2</h3>
+        <h3>Guards and counters</h3>
         <span class="phase-rule"></span>
       </div>
       <div class="pat-grid">
         <div class="pat">
-          <h4 class="pat-title">Dark orbs</h4>
-          <p>The orbs suck you in. The puddles they leave silence you, so drop them away from the group.</p>
+          <h4 class="pat-title">Holding guard <span class="call is-hold">Hold G</span></h4>
+          <p>He turns to aggro and flashes with a yellow ring. <span class="t-hold">Hold G</span> right away, then one
+            more <span class="t-jg">JG</span> that staggers him.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Inner slam</h4>
-          <p>After the second guard she hits the inner side and it hurts. Move out, or push-immune it with a support shield.</p>
+          <h4 class="pat-title">Guard and DPS <span class="call is-jg">JG</span></h4>
+          <p>He dances and flashes yellow, <span class="t-jg">JG</span> immediately. Only players who landed the guard can
+            shrink the red floor with damage. DPS open a safe spot and move in. The red floor is a permanent stack.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Turn attack <span class="call is-counter">Counter</span></h4>
-          <p>After the first attack, the next one is counterable. <strong>She can turn</strong>, so if you end up on that
-            side be ready to take it.</p>
+          <h4 class="pat-title">Run and counter <span class="call is-coop">2-man</span></h4>
+          <p>Big attack, then he runs across the arena. Close in avoiding the puddles (a stone hit catches you), then
+            the <span class="t-coop">2-man co-op counter</span>. Failing it is big damage plus a permanent stack.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Guard swap <span class="call is-jg">JG</span></h4>
-          <p>After the attack she wants a <span class="t-jg">JG</span> instead of a
-            <span class="t-counter">counter</span>. This one catches people running the original's muscle memory.</p>
+          <h4 class="pat-title">Back step co-op <span class="call is-coop">2-man</span></h4>
+          <p>He suddenly steps back with a <span class="t-coop">2-man co-op counter</span>. Hard to react to, so be ready.
+            On a fail he dashes 2 to 3 times in a large range; the side hit is very dangerous.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Two guards, not three <span class="call is-jg">JG</span></h4>
-          <p>The sequence is shortened to two guards. Dodge to the side while guarding and stay in.</p>
+          <h4 class="pat-title">Space and 3-man counter <span class="call is-coop">3-man</span></h4>
+          <p>Static effect. Spacebar as his cape rises and wings gather. Then a <span class="t-coop">3-man co-op
+            counter</span>. Miss the spacebar and you take damage, your mouse inverts, and you cannot counter.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Space and holding guard <span class="call is-hold">Hold G</span></h4>
+          <p>Static effect. Spacebar on his sword swing. Success shows the guard direction; hold G toward it as he
+            moves. If you missed the spacebar the telegraph is hidden from you, so players who succeeded ping the
+            direction. The guard direction itself is not inverted.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Imprison and grab <span class="call is-jg">JG</span></h4>
+          <p>Two pizzas that imprison, then a grab you <span class="t-jg">JG</span> about 1 second after the windup.
+            Whether he moves sideways first decides which ring the grab hits.</p>
+          <p class="late">Sources give opposite rings for each case. Watch the telegraph rather than trusting a rule.</p>
         </div>
       </div>
     </div>
 
     <div class="pat-group">
       <div class="pat-head">
-        <h3>Phase 3</h3>
+        <h3>Positioning and dodges</h3>
         <span class="phase-rule"></span>
       </div>
       <div class="pat-grid">
         <div class="pat">
-          <h4 class="pat-title">Whirlwind swings <span class="call is-lethal">Lethal</span></h4>
-          <p>After the first swing, <span class="t-jg">JG</span>. After the third swing, it is either a
-            <span class="t-jg">JG</span> or a <span class="t-coop">co-op counter</span>. Fail either one and it kills.</p>
-          <p><strong>Everyone, aggro holder included, moves with her and stays in front.</strong></p>
+          <h4 class="pat-title">Triangle safe spot</h4>
+          <p>Rotate through the triangle's safe spots in order. A laser hits the last corner. If he turns to the third
+            spot early, the beam comes first: wait, then go in.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Ice twisters <span class="call">New</span></h4>
-          <p>She draws lines that freeze into ice, then the ice becomes twisters that chase players. Move all the way
-            out immediately, then dodge the twister.</p>
-          <p>Not the same thing as the Phase 2 twister pattern.</p>
+          <h4 class="pat-title">Triangle corner</h4>
+          <p>Three side-attack lines come from outside. Stay inside first, then stand on the outer side of a corner.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Hand tell</h4>
-          <p>After the orbs are destroyed, read the hand. <strong>Right hand raised, she hits the inner side. Left hand,
-            she hits the outer side.</strong></p>
+          <h4 class="pat-title">Coffin swing</h4>
+          <p>Coffins fall; he swings one three times in a wide range. His back is safe, but the third swing hits you if
+            you hug him. A pizza follows.</p>
         </div>
         <div class="pat">
-          <h4 class="pat-title">Crescent <span class="call is-jg">JG</span></h4>
-          <p>She attacks twice, then fires a crescent. If she turns back and shoots, another attack follows that needs a
-            <span class="t-jg">JG</span>. It does massive damage and can knock you off to your death.</p>
-          <p><strong>Easiest answer: go behind her and ignore the whole thing.</strong></p>
+          <h4 class="pat-title">Butterfly</h4>
+          <p>Hits one side, then again. If anyone was hit by the first, he turns to them and hits everywhere except his
+            back. Go to his back.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Side slash</h4>
+          <p>Hits one entire side and the blade spreads. Stand exactly on the opposite side.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Velganus pizza</h4>
+          <p>Uppercut, then a pizza at the aggro target for very high damage. His back is safe at the end.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Back and head</h4>
+          <p>He turns to aggro, sucking in anyone at his back, hits his front, then a donut.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">AoE barrage</h4>
+          <p>A string of floor AoEs, about five (Agam sees four plus two that chase). Keep moving.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Boomerang</h4>
+          <p>Throws blades in three directions, then teleports to aggro with a pizza. Stay off his head.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Back step pizza</h4>
+          <p>Steps back for two pizzas, then sprinkles attacks on the aggro target.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">X</h4>
+          <p>Two front swipes, then he teleports and attacks in an X.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Sky drop</h4>
+          <p>Goes up and lands on the aggro target. Aggro holder, take it away from the party.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Space</h4>
+          <p>Coffins fall, he jumps, and a pulse goes out after he lands. Spacebar through it.</p>
         </div>
       </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Gaze checks</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Medusa <span class="call">Look away</span></h4>
+          <p>Dark smoke under him: face away. A fail stuns, purify clears it.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Space and medusa <span class="call">Look at / away</span></h4>
+          <p>Coffins appear and vanish while he moves with a puddle. Hits leave crowd-control circles, spacebar or purify
+            out. A pulse comes out, spacebar it. At the end a ring on his back: <strong>shrinking, look at him.
+            Growing, look away.</strong></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== GATE 2 =================== -->
+  <section class="section" id="gate-2">
+    <div class="section-head">
+      <h2>Gate 2</h2>
+      <p class="section-note">400 bars, 13 minute berserk. Every JG attack ignores push immunity and almost every hit
+        knocks down. Links jump to the source video at that moment.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="phase-break">
+        <span class="phase-tag">Opening <em>/ x400 to x280</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Pull<small>free hits</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Opening window</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=34" rel="noreferrer">Agam 0:34</a></span>
+          </div>
+          <p>A few seconds of free damage right after you engage. Burst immediately.</p>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x360<small>~1:15 timer</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Orb destruction</h3>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=34" rel="noreferrer">Memorizer 0:34</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=41" rel="noreferrer">Agam 0:41</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-counter">Counter</li>
+            <li class="call is-jg">JG twice</li>
+            <li class="call">Aim</li>
+          </ul>
+          <p>Cutscene, boss HP locks, about 1:15 on the clock. Four orbs with orange HP sit at 12, 3, 6 and 9. Destroy all
+            four. Two tools do most of the work.</p>
+          <div class="colors">
+            <div class="color-card">
+              <span class="color-name t-counter">Counter adds</span>
+              <p>Blue-diamond adds appear in pairs on the diagonals: 1 and 7, then 11 and 5, then 1 and 7. After a
+                successful <span class="t-counter">counter</span>, a fan-shaped floor attack follows the counterer.
+                Aim it over as many orbs as you can.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name t-jg">JG orbs</span>
+              <p>Appear at 12 and 6, then 3 and 9, then 12 and 6. <span class="t-jg">JG</span> once toward the inner
+                side on the flash, then <span class="t-jg">JG</span> again aimed at the nearest orb.</p>
+            </div>
+          </div>
+          <ol class="steps">
+            <li>Split the parties. Memorizer: party 1 left, party 2 right. Agam: party 1 at 12 then 9, party 2 at 6 then 3.</li>
+            <li>One player per party takes each counter (Agam uses supports).</li>
+            <li>Wave 1 aim (Memorizer): party 1 aims between 3 and 6; party 2 aims between the boss and 12 so its fans hit 6, 9 and 12.</li>
+            <li>Wave 2 aim: party 1 aims down between 6 and 9; party 2 aims left of 3 to hit 9, 12 and 3.</li>
+            <li>Dodge puddles, add only light DPS, and do not dump skills into nearly dead orbs.</li>
+          </ol>
+          <p>With good aim and every guard landed, the orbs die in two waves. A long groggy follows: a very good damage
+            window. If orbs still have a lot of HP after wave 2, hold skills, finish on wave 3, then burst the boss.</p>
+          <p class="fail"><b>Fails</b> A failed counter or failed JG hits everyone hard. Each extra wave costs berserk time.</p>
+          <div class="tip"><b>Time</b> Two waves instead of three saves about 20 seconds. The exact aim order is flexible as
+            long as the fans land on orbs.</div>
+          <div class="differ"><b>Sources differ</b> Damage per hit: counter fan 20 to 25%, orb JG 30 to 33%, depending on
+            the source. The fans from 1 and 5 reach up to three orbs; from 11 and 7 only two, so expect a little DPS.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x320<small>~1:08 timer</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Damage-reduction adds</h3>
+            <span class="flag-new">Unlocks Belgardin item</span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=199" rel="noreferrer">Memorizer 3:19</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=98" rel="noreferrer">Agam 1:38</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-stagger">Stagger twice</li>
+            <li class="call">Purify</li>
+            <li class="call">Battle items</li>
+          </ul>
+          <p>Four big adds, many small adds, and a damage-reduction chain: small adds protect their big add, and each big
+            add gives the boss about 25% reduction. Burn the boss's orange HP chunk before the timer ends.</p>
+          <ol class="steps">
+            <li>He spawns with a stagger check. Stagger fast. The floor silences, so purify or Bard-shield it.</li>
+            <li>Party 1 to 11 o'clock, party 2 to 1 o'clock.</li>
+            <li>Delete the small adds with battle items (flame grenade or Belgardin item); they die in about a second.
+              They cannot be hit until the boss is staggered.</li>
+            <li>Kill your big add before his second stagger. <strong>Only kill the two at 11 and 1.</strong> All four takes too long.</li>
+            <li>If a big add tethers you with a line, get out of its range before it expires.</li>
+            <li>Stagger him again and burn the chunk through the remaining 50% reduction.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> No chunk kill in time means no achievement and no Belgardin item. Staying in a
+            tether locks you in place for 3 to 5 seconds.</p>
+          <div class="tip"><b>Positions</b> He moves during the mech but only appears at 9, 12 or 3, never 6. Most DPS
+            can reach both big adds.</div>
+          <div class="differ"><b>Sources differ</b> Agam skips Atropine here because of the damage reduction. Memorizer
+            calls it good during the chunk burn.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x280<small>red field</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Red field</h3>
+            <span class="flag-new is-lethal">Wipe beam</span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=355" rel="noreferrer">Memorizer 5:55</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=168" rel="noreferrer">Agam 2:48</a> / <a href="https://youtu.be/eUJoayb_-zQ?t=377" rel="noreferrer">Agam tips 6:17</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG</li>
+            <li class="call is-counter">Counter</li>
+            <li class="call">Support hyper</li>
+            <li class="call is-lethal">Raid wipe</li>
+          </ul>
+          <p>At x300 he moves to the middle for a short cutscene. At x280 the arena turns red and he repeats
+            <span class="t-jg">JG</span> then <span class="t-counter">counter</span>, three times. He has no head or back
+            during this, and his stagger bar stays locked until someone counters.</p>
+          <ol class="steps">
+            <li><span class="t-jg">JG</span> about 0.5 seconds after each flash.</li>
+            <li>DPS between guards. Damage shrinks the red field.</li>
+            <li><strong>Any counter fires a 5 second beam over all the red that is left.</strong> Only counter when your tactic says so.</li>
+          </ol>
+          <div class="colors">
+            <div class="color-card">
+              <span class="color-name">1 / Edge</span>
+              <p>Skip counters 1 and 2. DPS and drag him to an edge so a safe spot opens. Counter the third there and step
+                in. Risky: he ends at the edge and the next patterns can knock you off.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name">2 / Middle, late</span>
+              <p>Keep him in the middle. Supports hyper awaken; someone counters the third. Everyone stacks, supports keep
+                healing through the beam.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name">3 / Middle, early</span>
+              <p>Supports hyper awaken on the <strong>first</strong> guard; counter the first one in the middle. Unlocks
+                stagger early and saves about 20 seconds. Most used in Korea, and the route to two Rumbles.</p>
+            </div>
+          </div>
+          <p class="fail"><b>Fails</b> Anyone in leftover red without hyper awakening cover dies to the beam.</p>
+          <div class="tip"><b>Potion timing</b> Under support hyper awakening, drink only after about 4 seconds of the
+            beam. The protection can run out early and you can still die.</div>
+          <div class="tip"><b>Picking a tactic</b> Use 1 or 2 if your support has no hyper awakening or the party is
+            overgeared. Use 3 for low-gear parties (around 6.5k) and Broken Bone parties.</div>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Middle <em>/ x240 to x160</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x240<small>floor breaks</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Ground destruction</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=207" rel="noreferrer">Agam 3:27</a> / <a href="https://youtu.be/8tSIChVEYwg?t=471" rel="noreferrer">Memorizer 7:51</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call">Read the grab</li>
+            <li class="call is-lethal">Fall death</li>
+          </ul>
+          <p>The camera zooms out and he grabs three times in random order. Wind from the outer ring slows you down.</p>
+          <div class="colors">
+            <div class="color-card">
+              <span class="color-name">One-side grab</span>
+              <p>He reaches for the left or right 270 degrees. Stand exactly on the opposite side.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name">Inner grab</span>
+              <p>Both hands, small circle around himself. Get out fast.</p>
+            </div>
+          </div>
+          <ol class="steps">
+            <li>Wait a little away from his head or back, where you can reach either safe side.</li>
+            <li>Read each grab and move against the wind.</li>
+            <li><strong>Before the second grab, get off the outer ring.</strong> It breaks away.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> Grabbed players are thrown far away, which is a fall death. Standing on the outer ring
+            at the second grab is a fall death.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x200<small>stagger</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Moving stagger</h3>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=559" rel="noreferrer">Memorizer 9:19</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=232" rel="noreferrer">Agam 3:52</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-stagger">Stagger</li>
+            <li class="call">Battle item</li>
+          </ul>
+          <p>The view changes and you stagger him in time while he moves. Throw your second Belgardin item here.</p>
+          <div class="colors">
+            <div class="color-card">
+              <span class="color-name">Glowing hand</span>
+              <p>A grab on one side. His hand glows toward it. Move away or pass behind him.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name">Teal lasers</span>
+              <p>Knock down and block healing for about 30 seconds.</p>
+            </div>
+            <div class="color-card">
+              <span class="color-name">Purple beam</span>
+              <p>From the background. <strong>Always dodge it</strong>: it paralyzes and stacks a debuff that guts your stagger.</p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x160<small>last break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Last ground destruction</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=277" rel="noreferrer">Agam 4:37</a></span>
+          </div>
+          <ul class="calls"><li class="call is-lethal">Fall death</li></ul>
+          <p>A repeat of x240: three grabs, outer ring breaks. Agam says many deaths happen here. After this, the flame
+            periodic below starts.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="phantom">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">After x160<small>periodic</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Flame field</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=301" rel="noreferrer">Agam 5:01</a> / <a href="https://youtu.be/8tSIChVEYwg?t=540" rel="noreferrer">Memorizer 9:00</a></span>
+          </div>
+          <p>Flames cover part of the field with massive damage over time that support shields and heals
+            cannot cover. He then fires a cone at a player three times, which can knock you toward the edge.
+            <strong>Everyone goes to the side without flames</strong> and takes the three shots there.</p>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Late <em>/ x100 to kill</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x100<small>slingshot</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Angry Bird</h3>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=618" rel="noreferrer">Memorizer 10:18</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=323" rel="noreferrer">Agam 5:23</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-stagger">Stagger</li>
+            <li class="call">Hold, aim, release</li>
+          </ul>
+          <p>He teleports to one side and drops green puddles. Dodge them and wait in the middle. Launch circles appear;
+            you slingshot yourself into him to stagger.</p>
+          <ol class="steps">
+            <li>Step into a launch circle.</li>
+            <li>First ring ("keep holding"): <strong>press and hold left mouse when it turns red</strong>.</li>
+            <li>Second ring ("aim, then release"): drag the aim so the landing circle covers the boss (pull to the side
+              opposite him), then <strong>release when it turns red</strong>.</li>
+            <li>He teleports once. Purple beams imprison anyone they hit.</li>
+            <li>If he is not staggered, a second and final round of circles comes after the purple beam ends.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> Releasing early, or getting hit by purple, imprisons you.</p>
+          <div class="tip"><b>Red and red</b> Act on the red both times. One jump each is enough to stagger, even with
+            7 players and no Gunlancer. Finishing on round 1 saves about 20 seconds; taking round 2 is fine while
+            progging. About 5 seconds of free damage follow.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Late<small>reinforced</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Reinforced patterns</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=277" rel="noreferrer">Agam 4:37</a> / <a href="https://youtu.be/8tSIChVEYwg?t=785" rel="noreferrer">Memorizer 13:05</a></span>
+          </div>
+          <p>Late in the fight several regular patterns change. The floor is smaller, so falls become the main risk.</p>
+          <ul class="calls">
+            <li class="call">Grabs twice</li>
+            <li class="call is-jg">Butterfly: slow, then fast</li>
+            <li class="call">3 charges</li>
+            <li class="call">3 slams</li>
+          </ul>
+          <p>Clockwise and purple grabs happen twice. The butterfly double guard flips to slow then fast. Bulldoze charges
+            three times. Squid slams three times. Each is marked in amber in G2 patterns.</p>
+          <div class="differ"><b>Sources differ</b> Agam says this starts after the last ground break (x160).
+            Memorizer and Agam's Rumble 2x video say after Angry Bird (x100). Expect it from x160 to be safe.</div>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Floating <em>/ no fixed HP</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="amber">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Rumble<small>battle phase</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Gate 2 Rumble</h3>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=372" rel="noreferrer">Agam 6:12</a> / <a href="https://youtu.be/8tSIChVEYwg?t=713" rel="noreferrer">Memorizer 11:53</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG where he lands</li>
+            <li class="call">Every battle item</li>
+          </ul>
+          <p>A horizontal 3-step gauge replaces the boss bar, 10 seconds per step. All damage carries into the main bar,
+            and reaching step 3 is worth about 70 to 80 bars. Agam's run hit it at x220.</p>
+          <ol class="steps">
+            <li>Burst step 1. Agam's raid pops Atropine together here.</li>
+            <li>Between steps he signals left or right and a long or short jump. Run to where he lands and
+              <span class="t-jg">JG</span> as he arrives.</li>
+            <li>Step 2: use every battle item, Serca or Belgardin included.</li>
+            <li>Chase and <span class="t-jg">JG</span> again, push into step 3.</li>
+          </ol>
+          <div class="tip"><b>Broken Bone</b> Staggered-target bonuses apply at full uptime during the Rumble. If you
+            cannot reach step 3, put a couple of players on Broken Bone plus Domination.</div>
+          <div class="tip"><b>Second Rumble</b> With enough time saved, a second one comes about 10 to 15 bars after Angry
+            Bird. Reaching step 3 there usually kills him. That is the whole <a href="#rumble-2x">Rumble 2x</a> plan.</div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =================== G2 PATTERNS =================== -->
+  <section class="section" id="g2-patterns">
+    <div class="section-head">
+      <h2>G2 patterns</h2>
+      <p class="section-note">The regular rotation. Almost every hit is a push. <span class="late">Amber lines</span>
+        are the late reinforced versions.</p>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Grabs</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <p class="pat-lede">Only the rush grab is in the normal rotation; the others run on a timer and can stack up after a
+        long mech.</p>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Rush grab <span class="call is-coop">2-man</span></h4>
+          <p>Pulls back, shoots, charges forward (a plain push you can tank with push immunity), then sweeps a wide 270
+            degree grab. His back is safe. A <span class="t-coop">2-man co-op counter</span> always follows, on the side
+            where the sweep started.</p>
+          <p>Best: a push-immune move at his head as he strikes the ground. Otherwise slide behind him.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Front grab <span class="call is-jg">JG</span></h4>
+          <p>Two tentacles down, then he spins. If he hits someone he grabs them toward aggro, then asks for a guard.
+            <span class="t-jg">JG</span> right away to free them, and call it: a catch adds a follow-up attack.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Back hit and walk</h4>
+          <p>Tentacles on his back; he hits his back, then grabs the area near him. If someone is caught he walks
+            around and anyone the tentacles touch is grabbed too. If nobody is caught, two line attacks.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Clockwise grab <span class="call is-jg">JG</span></h4>
+          <p>A long white and a purple tentacle stretch across the arena. The area near him is not safe. Go clockwise of
+            the purple tentacle, keeping some distance. A <span class="t-jg">JG</span> follows about 0.5 seconds after the
+            flash.</p>
+          <p class="late">Late: he grabs twice. Go to the other side for the second.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Purple grab</h4>
+          <p>Two big white hands, then a grab along the line of two purple tentacles. Stay away from the purple. Nobody
+            caught: he hits twice. Someone caught: he blows away everyone near him.</p>
+          <p class="late">Late: done twice.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Guards and counters</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Hold into co-op <span class="call is-hold">Hold G</span></h4>
+          <p>He suddenly asks for a holding guard. <span class="t-hold">Hold G</span> right away, then a
+            <span class="t-coop">2-man co-op counter</span>.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Hold into guard <span class="call is-hold">Hold G</span></h4>
+          <p>He steps back. <span class="t-hold">Hold G</span> after the flash, then tap <span class="t-jg">JG</span> again
+            immediately. Only players who landed the hold can take the second guard.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Green spot <span class="call is-hold">Hold G</span></h4>
+          <p>A green spot appears and he moves to it. Everyone <span class="t-hold">holds G</span> as he slams it. The raid
+            gets one grade by how many succeeded:</p>
+          <p><strong>4 or more:</strong> Perfect, then a single <span class="t-counter">counter</span>.
+            <strong>1 to 3:</strong> Good or Great, then a <span class="t-coop">2-man co-op</span> while he spins.
+            <strong>Nobody:</strong> a wide-range hit.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Back hit, co-op, counter <span class="call is-coop">2-man</span></h4>
+          <p>Hits his back and steps back for a <span class="t-coop">2-man co-op counter</span>. Then a 120 degree
+            right-hand swing, then another <span class="t-counter">counter</span>.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Butterfly double guard <span class="call is-jg">JG x2</span></h4>
+          <p>Butterfly shape and puddles. Two <span class="t-jg">JGs</span>: the first fast (guard toward him right away),
+            the second slow (about 1.5 seconds after the flash). A failed guard can kill.</p>
+          <p class="late">Late: slow first, then fast. Puddles or a red orb can catch you, which costs a big hit but skips
+            the guard. At high HP that is an acceptable out.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Rain holes <span class="call is-jg">JG x2</span></h4>
+          <p>Rain covers the field and everyone gets a debuff that deletes the ground under them after a few seconds.
+            Spread so your hole does not land under others, stand on solid ground, then <span class="t-jg">JG</span>
+            twice right away, or stand at his back. A failed guard can knock you into a hole.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Positioning and dodges</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Four orbs <span class="call is-lethal">Hole</span></h4>
+          <p>Four orbs, then two 120 degree hits to his front. He drops the orb on the aggro side: a pulse, and the ground
+            there breaks for a few seconds. Get off it. Aggro holder, do not pull the drop onto the group.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Bulldoze</h4>
+          <p>Charges twice, then attacks. <strong>Purple:</strong> 270 degree hit, back safe. <strong>White:</strong> hits
+            to his sides.</p>
+          <p class="late">Late: three charges.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Squid</h4>
+          <p>Long-hair shape, slams toward aggro twice with waves out the sides. Stay on his back.</p>
+          <p class="late">Late: three slams.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Teleport</h4>
+          <p>Drains energy in one direction, vanishes, reappears and attacks that way. Three variants: cross hit, back
+            safe, front safe. Remember the first direction.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Wall</h4>
+          <p>Summons a wall, hits toward aggro in a 150 degree cone, then hits his back. Either hit touching the wall
+            explodes it. Aggro holder keeps him at 90 degrees to the wall.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Stone henge</h4>
+          <p>Hand strikes raise stones. Two donut steps, then a beam out his sides while facing aggro. A beam touching a
+            stone explodes over a big area. Stand at the stones; aggro holder faces him toward the henge.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Jump charge</h4>
+          <p>Jumps and slams the aggro target; the area around the landing slowly turns to bombs. Go to his front or
+            stick to his back, clear of the bombs.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Puddle shots</h4>
+          <p>Shoots puddles at aggro twice, then slams front and back. His sides are safe.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Back tumble</h4>
+          <p>Tumbles backward twice, then slams. Stay away, go back in after the slam.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Crab</h4>
+          <p>Folds his arms, moves sideways, hits his front. Twice.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Front and back</h4>
+          <p>Hits his front twice, then front and back slowly. Stick close, off both.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Swipes</h4>
+          <p>Two front swipes, an outer-ring swipe, then a front slam. Stay close for the ring, leave his front for the slam.</p>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Paralysis chain</h4>
+          <p>First hit paralyzes, second knocks down, then a hit close around him and one on the outer area.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Stagger</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Portal stagger <span class="call is-stagger">Stop at 70%</span></h4>
+          <p>He disappears into portals and a stagger bar appears. <strong>Staggering too early sets off a bomb.</strong>
+            Stagger to about 70% and stop. Stand on a portal that has turned black (its beam silences anyone
+            outside). When the green effect plays or his head lights up, finish the stagger.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== RUMBLE 2X =================== -->
+  <section class="section" id="rumble-2x">
+    <div class="section-head">
+      <h2>Rumble 2x</h2>
+      <p class="section-note">Agam's Korean plan for low-gear Gate 2 parties: save enough time on mechs that the boss
+        reaches a second Rumble before berserk. A step-3 finish there usually kills him and skips most of the late
+        reinforced patterns.</p>
+    </div>
+
+    <div class="kit">
+      <div class="kit-card">
+        <h3>Who it is for</h3>
+        <ul class="kit-list">
+          <li><b>Party combat power</b> <span>. About 6.5k to 7k, or 7k to 7.5k with weaker classes.</span></li>
+          <li><b>Build</b> <span>. About 2 players on Broken Bone plus Domination. It procs on every JG, every counter,
+            the long groggy after x360, x320, x280, x240 and x100, and both Rumbles.</span></li>
+          <li><b>Everyone guards</b> <span>. Every player does every JG and counter, not only the assigned ones, to cover misses.</span></li>
+        </ul>
+      </div>
+      <div class="kit-card">
+        <h3>The payoff</h3>
+        <ul class="kit-list">
+          <li><b>Time saved</b> <span>. 1:00 to 1:30 of berserk across four mechs.</span></li>
+          <li><b>Rumble 2</b> <span>. Comes about 10 to 15 bars after Angry Bird with about 70 to 80 bars left.</span></li>
+          <li><b>Two step-3 Rumbles</b> <span>. About 150 of the 400 bars. Expect berserk during the second one anyway.</span></li>
+          <li><b>Korea's default now</b> <span>. Agam says KR parties use these solves even when not going for two Rumbles.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-row">
+        <div class="plan-head">
+          <h3>Where the time comes from</h3>
+          <span>Each fast solve versus the safe version.</span>
+        </div>
+        <div class="plan-track">
+          <div class="plan-step has-cast">
+            <span class="plan-when">x360 orbs</span>
+            <span class="plan-cast">~20 s<small>Two waves, not three. Counter fans and orb JGs, minimal DPS on orbs.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">x320 adds</span>
+            <span class="plan-cast">20 to 30 s<small>Fast stagger, battle-item the smalls, kill only 11 and 1 before stagger 2.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">x280 red field</span>
+            <span class="plan-cast">~20 s<small>Tactic 3: support hyper awakening, counter the first guard in the middle.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">x100 Angry Bird</span>
+            <span class="plan-cast">~20 s<small>One jump each, stagger on round 1.</small></span>
+          </div>
+        </div>
+      </div>
+      <div class="plan-row">
+        <div class="plan-head">
+          <h3>Safe progression instead</h3>
+          <span>For first clears or overgeared groups that only need one Rumble.</span>
+        </div>
+        <div class="plan-track">
+          <div class="plan-step">
+            <span class="plan-when">x360 orbs</span>
+            <span class="plan-cast">3rd wave ok<small>Hold skills for the groggy.</small></span>
+          </div>
+          <div class="plan-step">
+            <span class="plan-when">x320 adds</span>
+            <span class="plan-cast">Still 2 adds<small>11 and 1. All four is too slow either way.</small></span>
+          </div>
+          <div class="plan-step">
+            <span class="plan-when">x280 red field</span>
+            <span class="plan-cast">Tactic 1 or 2<small>Counter the third guard.</small></span>
+          </div>
+          <div class="plan-step">
+            <span class="plan-when">x100 Angry Bird</span>
+            <span class="plan-cast">Round 2 ok<small>Take the second set of circles if needed.</small></span>
+          </div>
+        </div>
+      </div>
+      <p class="plan-note">The Rumble trigger itself is not confirmed. It is not an HP line, and both sources hint it is
+        tied to stagger or time, which is why saving time and stagger early (tactic 3 at x280) brings it around twice.</p>
     </div>
   </section>
 
   <footer class="foot">
-    <p><strong>Source.</strong> "[Lost Ark] Extreme Brel Guide (Act 2)" by Memorizer, published 22 July 2026, 13:18.
-      <a href="https://youtu.be/5RJU5K-K8xA" rel="noreferrer">youtu.be/5RJU5K-K8xA</a>.
-      Companion links from the description: <a href="https://www.youtube.com/watch?v=3mzjxIy7-3o" rel="noreferrer">original Act 2 guide</a>
-      and a <a href="https://youtu.be/QRTwf_o-z-o?t=8710" rel="noreferrer">clear run with rewards</a>.</p>
-    <p><strong>Scope.</strong> Built from that video's narration, chapter markers, description and closing sidereal
-      slide, then corrected against the raid group's own run notes. Mech order and terminology follow the run notes
-      where the two disagreed. The video covers the Brelshaza encounter only and states it is a difference guide against
-      the original Act 2 fight, filmed on Nightmare.</p>
-    <p><strong>Numbers.</strong> The 420, 335, 145 and 0 phase boundaries come from the video's own sidereal slide.
-      Timings (50 seconds, 35 seconds, 3 minutes, 4 minutes, 20 seconds) are quoted as spoken and are approximate.</p>
+    <p><strong>Sources.</strong> Memorizer:
+      <a href="https://youtu.be/wyY55AEN63E" rel="noreferrer">Gate 1 guide</a> (Sep 29, 2026) and
+      <a href="https://youtu.be/8tSIChVEYwg" rel="noreferrer">Gate 2 guide</a> (Oct 5, 2026), English narration.
+      Agam, Korean server with his own English subtitles:
+      <a href="https://youtu.be/1Ecsm9zbDos" rel="noreferrer">Gate 1 guide</a>,
+      <a href="https://youtu.be/P5TokfH4CWk" rel="noreferrer">Gate 1 tips</a>,
+      <a href="https://youtu.be/X6FFdTuCnDk" rel="noreferrer">Gate 2 guide</a>,
+      <a href="https://youtu.be/eUJoayb_-zQ" rel="noreferrer">Gate 2 tips</a> and the
+      <a href="https://youtu.be/4j0ZM7N-z_M" rel="noreferrer">two Battle Phase tactic</a> (Sep 25 to Oct 9, 2026).</p>
+    <p><strong>Method.</strong> Built from the narration, Agam's on-screen subtitles read frame by frame, and the HP
+      readouts in the footage, then checked claim by claim against the videos. All footage is Korean Nightmare.</p>
+    <p><strong>Still open.</strong></p>
+    <ul>
+      <li>What triggers the Rumble in either gate. It is not an HP line.</li>
+      <li>Normal and Hard: only the Gate 1 stack limit (10) is known. Gate 2 stack limits and the berserk effect are not shown.</li>
+      <li>Several HP lines (G1 x140, G2 late mechs) fire well below the stated value in footage.</li>
+      <li>Every item, mech and pattern name here is a translation until the NA client is out.</li>
+    </ul>
   </footer>
 
 </main>
@@ -1326,6 +1961,8 @@
        so a 6000px section can never outscore a 500px one. */
     var LINE = 100;
     var queued = false;
+    var inner = document.querySelector('.nav-inner');
+    var shown = -1;
 
     function update() {
       queued = false;
@@ -1340,6 +1977,13 @@
       }
 
       pairs.forEach(function (p, i) { p.link.classList.toggle('is-live', i === active); });
+
+      /* Seven tabs overflow a phone: keep the live one centered in the strip. */
+      if (active !== shown && active >= 0) {
+        var link = pairs[active].link;
+        inner.scrollTo({ left: link.offsetLeft - inner.offsetLeft - (inner.clientWidth - link.offsetWidth) / 2 });
+      }
+      shown = active;
     }
 
     function queue() {

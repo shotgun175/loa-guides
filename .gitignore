@@ -1,0 +1,17 @@
+# Session infra
+.claude/
+
+# Docs
+docs/
+
+# Browser verification snapshots (Playwright MCP)
+.playwright-mcp/
+
+# Python tooling
+__pycache__/
+
+# OS and editor
+Thumbs.db
+desktop.ini
+.DS_Store
+.vscode/
