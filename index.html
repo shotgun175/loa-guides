@@ -394,14 +394,15 @@
     line-height: 1.05;
   }
   .chapter {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
     font-family: var(--data);
     font-size: 11px;
     letter-spacing: 0.12em;
     text-transform: uppercase;
     color: var(--ash-dim);
   }
-  .chapter a { color: var(--ash); text-decoration-color: rgba(139, 153, 174, 0.4); }
-  .chapter a:hover { color: var(--glacier); }
   .flag-new {
     font-family: var(--data);
     font-size: 10px;
@@ -523,6 +524,80 @@
   .pat p { margin: 0; font-size: 14.5px; color: #c3cede; }
   .pat p + p { margin-top: 8px; }
   .pat .late { color: var(--amber); }
+  .pat .chapter { display: flex; margin-top: 12px; }
+
+  /* ---------- video player ---------- */
+
+  /* Source links on the cards and the source tabs in the player share one play-button look. */
+  .chapter a, .clip-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px 5px 9px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ash);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .chapter a::before, .clip-tab::before {
+    content: "";
+    border-style: solid;
+    border-width: 4.5px 0 4.5px 7px;
+    border-color: transparent transparent transparent currentColor;
+  }
+  .chapter a:hover, .clip-tab:hover, .clip-tab[aria-pressed="true"] {
+    color: var(--glacier);
+    border-color: rgba(121, 214, 236, 0.55);
+  }
+
+  /* The gutter stays when the scrollbar goes, so the page behind does not shift sideways. */
+  html.clip-open { overflow: hidden; scrollbar-gutter: stable; }
+  .clip-pop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    padding: 16px;
+    overflow-y: auto;
+    background: rgba(3, 6, 11, 0.84);
+    overscroll-behavior: contain;
+  }
+  .clip-pop[hidden] { display: none; }
+  /* Auto margins center the box, and it scrolls instead of clipping when the screen is too short. */
+  .clip-box {
+    margin: auto;
+    width: min(960px, 100%, calc((100vh - 170px) * 16 / 9));
+    width: min(960px, 100%, calc((100dvh - 170px) * 16 / 9));
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .clip-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px 10px; }
+  .clip-head h4 { flex: 1; margin: 0; font-family: var(--display); font-size: 18px; letter-spacing: 0.06em; line-height: 1.15; color: var(--bone); }
+  .clip-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 12px; }
+  .clip-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+  .clip-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .clip-bar { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 4px 14px; }
+  .clip-close, .clip-bar button, .clip-bar a {
+    background: none;
+    color: var(--ash);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .clip-close { border: 1px solid var(--line); padding: 8px 12px; }
+  .clip-bar button, .clip-bar a { border: 0; padding: 8px 0; }
+  .clip-close:hover, .clip-bar button:hover, .clip-bar a:hover { color: var(--glacier); }
 
   /* ---------- footer ---------- */
 
@@ -546,6 +621,24 @@
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
     .masthead { padding-top: 44px; }
+    .chapter a, .clip-tab { padding: 8px 12px 8px 11px; }
+    .clip-pop { padding: 10px; }
+    .clip-close { padding: 10px 14px; }
+    .clip-bar button, .clip-bar a { padding: 11px 0; }
+  }
+
+  /* Phones held sideways: the box keeps the full width so the source tabs fit on one row, and the
+     player takes the height that is left (YouTube letterboxes the video inside it). */
+  @media (max-height: 500px) {
+    .clip-pop { padding: 8px; }
+    .clip-box { width: min(960px, 100%); }
+    .clip-frame { aspect-ratio: auto; height: calc(100vh - 136px); height: calc(100dvh - 136px); }
+    .clip-head { padding: 6px 12px 4px; }
+    .clip-head h4 { font-size: 15px; }
+    .clip-close { padding: 6px 10px; }
+    .clip-tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+    .clip-tabs .clip-tab { flex: none; padding-block: 5px; }
+    .clip-bar button, .clip-bar a { padding: 6px 0; }
   }
 
   @media (max-width: 520px) {
@@ -839,8 +932,8 @@
   <section class="section" id="gate-1">
     <div class="section-head">
       <h2>Gate 1</h2>
-      <p class="section-note">300 bars, 10 minute enrage, permanent debuff stacks. Links jump to the source video at
-        that moment. Footage HP is often lower than the stated line because mechs can fire late.</p>
+      <p class="section-note">300 bars, 10 minute enrage, permanent debuff stacks. Source buttons play the video
+        from that moment. Footage HP is often lower than the stated line because mechs can fire late.</p>
     </div>
 
     <div class="timeline">
@@ -858,7 +951,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Opening line</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=532" rel="noreferrer">Memorizer 8:52</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=532" data-end="544" rel="noreferrer">Memorizer 8:52</a></span>
           </div>
           <ul class="calls"><li class="call">Burst</li><li class="call">Dark Grenade 1</li></ul>
           <p>Every pull opens with the same pattern: he draws a line toward the bottom side. It is a good damage window.
@@ -874,7 +967,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Coffin stagger</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=38" rel="noreferrer">Memorizer 0:38</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=52" rel="noreferrer">Agam 0:52</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=38" data-end="52" rel="noreferrer">Memorizer 0:38</a><a href="https://youtu.be/1Ecsm9zbDos?t=52" data-end="69" rel="noreferrer">Agam 0:52</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger</li>
@@ -901,7 +994,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Coffin pizza and guards</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=88" rel="noreferrer">Memorizer 1:28</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=69" rel="noreferrer">Agam 1:09</a> / <a href="https://youtu.be/P5TokfH4CWk?t=0" rel="noreferrer">Agam tips 0:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=85" data-end="142" rel="noreferrer">Memorizer 1:25</a><a href="https://youtu.be/1Ecsm9zbDos?t=69" data-end="111" rel="noreferrer">Agam 1:09</a><a href="https://youtu.be/P5TokfH4CWk?t=42" data-end="221" rel="noreferrer">Agam tips 0:42</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG</li>
@@ -937,7 +1030,7 @@
           <div class="beat-head">
             <h3>Yellow bar time attack</h3>
             <span class="flag-new is-lethal">Wipe on fail</span>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=144" rel="noreferrer">Memorizer 2:24</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=111" rel="noreferrer">Agam 1:51</a> / <a href="https://youtu.be/P5TokfH4CWk?t=300" rel="noreferrer">Agam tips 5:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=142" data-end="334" rel="noreferrer">Memorizer 2:22</a><a href="https://youtu.be/1Ecsm9zbDos?t=111" data-end="188" rel="noreferrer">Agam 1:51</a><a href="https://youtu.be/P5TokfH4CWk?t=221" data-end="708" rel="noreferrer">Agam tips 3:41</a></span>
           </div>
           <ul class="calls">
             <li class="call">Atropine</li>
@@ -1009,7 +1102,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Ghost coffins</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=54" rel="noreferrer">Memorizer 0:54</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=188" rel="noreferrer">Agam 3:08</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=52" data-end="85" rel="noreferrer">Memorizer 0:52</a><a href="https://youtu.be/1Ecsm9zbDos?t=188" data-end="214" rel="noreferrer">Agam 3:08</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger</li>
@@ -1043,7 +1136,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Coffin hide</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=336" rel="noreferrer">Memorizer 5:36</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=214" rel="noreferrer">Agam 3:34</a> / <a href="https://youtu.be/P5TokfH4CWk?t=708" rel="noreferrer">Agam tips 11:48</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=334" data-end="368" rel="noreferrer">Memorizer 5:34</a><a href="https://youtu.be/1Ecsm9zbDos?t=214" data-end="247" rel="noreferrer">Agam 3:34</a><a href="https://youtu.be/P5TokfH4CWk?t=708" data-end="717" rel="noreferrer">Agam tips 11:48</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG</li>
@@ -1077,7 +1170,7 @@
           <div class="beat-head">
             <h3>Three clones</h3>
             <span class="flag-new is-lethal">Wipe on fail</span>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=371" rel="noreferrer">Memorizer 6:11</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=247" rel="noreferrer">Agam 4:07</a> / <a href="https://youtu.be/P5TokfH4CWk?t=717" rel="noreferrer">Agam tips 11:57</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=368" data-end="476" rel="noreferrer">Memorizer 6:08</a><a href="https://youtu.be/1Ecsm9zbDos?t=247" data-end="290" rel="noreferrer">Agam 4:07</a><a href="https://youtu.be/P5TokfH4CWk?t=717" rel="noreferrer">Agam tips 11:57</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Synced stagger</li>
@@ -1123,7 +1216,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Center stagger</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=519" rel="noreferrer">Memorizer 8:39</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=290" rel="noreferrer">Agam 4:50</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=519" data-end="532" rel="noreferrer">Memorizer 8:39</a><a href="https://youtu.be/1Ecsm9zbDos?t=290" data-end="307" rel="noreferrer">Agam 4:50</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger</li>
@@ -1147,7 +1240,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Gate 1 Rumble</h3>
-            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=478" rel="noreferrer">Memorizer 7:58</a> / <a href="https://youtu.be/1Ecsm9zbDos?t=307" rel="noreferrer">Agam 5:07</a> / <a href="https://youtu.be/P5TokfH4CWk?t=221" rel="noreferrer">Agam tips 3:41</a></span>
+            <span class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=476" data-end="519" rel="noreferrer">Memorizer 7:56</a><a href="https://youtu.be/1Ecsm9zbDos?t=307" data-end="352" rel="noreferrer">Agam 5:07</a><a href="https://youtu.be/P5TokfH4CWk?t=240" data-end="292" rel="noreferrer">Agam tips 4:00</a></span>
           </div>
           <ul class="calls">
             <li class="call is-hold">Holding guard</li>
@@ -1192,18 +1285,21 @@
         <div class="pat">
           <h4 class="pat-title">Red pizza <span class="call is-lethal">One shot</span></h4>
           <p>Glows red, attacks twice. The third is a one-shot pizza that reveals the safe slice. Be in it.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=613" data-end="621" rel="noreferrer">Memorizer 10:13</a><a href="https://youtu.be/1Ecsm9zbDos?t=435" data-end="444" rel="noreferrer">Agam 7:15</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Teleport grab <span class="call is-jg">JG</span></h4>
           <p>He vanishes and teleports to grab. While he catches someone he keeps grabbing. When nobody is caught,
             <span class="t-jg">JG</span> at his head, then get to his back: the follow-up one-shots.</p>
           <p>If nobody lands the guard, Agam resets. Survivable with support cover.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=775" data-end="803" rel="noreferrer">Memorizer 12:55</a><a href="https://youtu.be/1Ecsm9zbDos?t=401" data-end="413" rel="noreferrer">Agam 6:41</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Coffin beam <span class="call is-lethal">One shot</span></h4>
           <p><strong>Fall together:</strong> stand between the two coffins and DPS. <strong>Fall one at a time:</strong>
             the first one fires first. Stand at the second coffin, then cross to the first one's spot after its beam,
             or leave entirely.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=849" data-end="877" rel="noreferrer">Memorizer 14:09</a><a href="https://youtu.be/1Ecsm9zbDos?t=413" data-end="435" rel="noreferrer">Agam 6:53</a></div>
         </div>
       </div>
     </div>
@@ -1218,38 +1314,45 @@
           <h4 class="pat-title">Holding guard <span class="call is-hold">Hold G</span></h4>
           <p>He turns to aggro and flashes with a yellow ring. <span class="t-hold">Hold G</span> right away, then one
             more <span class="t-jg">JG</span> that staggers him.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=593" data-end="600" rel="noreferrer">Memorizer 9:53</a><a href="https://youtu.be/1Ecsm9zbDos?t=394" data-end="401" rel="noreferrer">Agam 6:34</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Guard and DPS <span class="call is-jg">JG</span></h4>
           <p>He dances and flashes yellow, <span class="t-jg">JG</span> immediately. Only players who landed the guard can
             shrink the red floor with damage. DPS open a safe spot and move in. The red floor is a permanent stack.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=704" data-end="717" rel="noreferrer">Memorizer 11:44</a><a href="https://youtu.be/1Ecsm9zbDos?t=379" data-end="394" rel="noreferrer">Agam 6:19</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Run and counter <span class="call is-coop">2-man</span></h4>
           <p>Big attack, then he runs across the arena. Close in avoiding the puddles (a stone hit catches you), then
             the <span class="t-coop">2-man co-op counter</span>. Failing it is big damage plus a permanent stack.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=621" data-end="630" rel="noreferrer">Memorizer 10:21</a><a href="https://youtu.be/1Ecsm9zbDos?t=489" data-end="498" rel="noreferrer">Agam 8:09</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back step co-op <span class="call is-coop">2-man</span></h4>
           <p>He suddenly steps back with a <span class="t-coop">2-man co-op counter</span>. Hard to react to, so be ready.
             On a fail he dashes 2 to 3 times in a large range; the side hit is very dangerous.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=828" data-end="839" rel="noreferrer">Memorizer 13:48</a><a href="https://youtu.be/1Ecsm9zbDos?t=465" data-end="482" rel="noreferrer">Agam 7:45</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Space and 3-man counter <span class="call is-coop">3-man</span></h4>
           <p>Static effect. Spacebar as his cape rises and wings gather. Then a <span class="t-coop">3-man co-op
             counter</span>. Miss the spacebar and you take damage, your mouse inverts, and you cannot counter.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=717" data-end="726" rel="noreferrer">Memorizer 11:57</a><a href="https://youtu.be/1Ecsm9zbDos?t=352" data-end="362" rel="noreferrer">Agam 5:52</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Space and holding guard <span class="call is-hold">Hold G</span></h4>
           <p>Static effect. Spacebar on his sword swing. Success shows the guard direction; hold G toward it as he
             moves. If you missed the spacebar the telegraph is hidden from you, so players who succeeded ping the
             direction. The guard direction itself is not inverted.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=726" data-end="752" rel="noreferrer">Memorizer 12:06</a><a href="https://youtu.be/1Ecsm9zbDos?t=362" data-end="379" rel="noreferrer">Agam 6:02</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Imprison and grab <span class="call is-jg">JG</span></h4>
           <p>Two pizzas that imprison, then a grab you <span class="t-jg">JG</span> about 1 second after the windup.
             Whether he moves sideways first decides which ring the grab hits.</p>
           <p class="late">Sources give opposite rings for each case. Watch the telegraph rather than trusting a rule.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=660" data-end="679" rel="noreferrer">Memorizer 11:00</a><a href="https://youtu.be/1Ecsm9zbDos?t=482" data-end="489" rel="noreferrer">Agam 8:02</a></div>
         </div>
       </div>
     </div>
@@ -1264,56 +1367,69 @@
           <h4 class="pat-title">Triangle safe spot</h4>
           <p>Rotate through the triangle's safe spots in order. A laser hits the last corner. If he turns to the third
             spot early, the beam comes first: wait, then go in.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=554" data-end="576" rel="noreferrer">Memorizer 9:14</a><a href="https://youtu.be/1Ecsm9zbDos?t=535" data-end="548" rel="noreferrer">Agam 8:55</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Triangle corner</h4>
           <p>Three side-attack lines come from outside. Stay inside first, then stand on the outer side of a corner.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=839" data-end="849" rel="noreferrer">Memorizer 13:59</a><a href="https://youtu.be/1Ecsm9zbDos?t=524" data-end="535" rel="noreferrer">Agam 8:44</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Coffin swing</h4>
           <p>Coffins fall; he swings one three times in a wide range. His back is safe, but the third swing hits you if
             you hug him. A pizza follows.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=576" data-end="593" rel="noreferrer">Memorizer 9:36</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Butterfly</h4>
           <p>Hits one side, then again. If anyone was hit by the first, he turns to them and hits everywhere except his
             back. Go to his back.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=600" data-end="613" rel="noreferrer">Memorizer 10:00</a><a href="https://youtu.be/1Ecsm9zbDos?t=548" data-end="561" rel="noreferrer">Agam 9:08</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Side slash</h4>
           <p>Hits one entire side and the blade spreads. Stand exactly on the opposite side.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=639" data-end="647" rel="noreferrer">Memorizer 10:39</a><a href="https://youtu.be/1Ecsm9zbDos?t=586" data-end="591" rel="noreferrer">Agam 9:46</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Velganus pizza</h4>
           <p>Uppercut, then a pizza at the aggro target for very high damage. His back is safe at the end.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=647" data-end="660" rel="noreferrer">Memorizer 10:47</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back and head</h4>
           <p>He turns to aggro, sucking in anyone at his back, hits his front, then a donut.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=679" data-end="691" rel="noreferrer">Memorizer 11:19</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">AoE barrage</h4>
           <p>A string of floor AoEs, about five (Agam sees four plus two that chase). Keep moving.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=691" data-end="704" rel="noreferrer">Memorizer 11:31</a><a href="https://youtu.be/1Ecsm9zbDos?t=444" data-end="457" rel="noreferrer">Agam 7:24</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Boomerang</h4>
           <p>Throws blades in three directions, then teleports to aggro with a pizza. Stay off his head.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=752" data-end="763" rel="noreferrer">Memorizer 12:32</a><a href="https://youtu.be/1Ecsm9zbDos?t=575" data-end="586" rel="noreferrer">Agam 9:35</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back step pizza</h4>
           <p>Steps back for two pizzas, then sprinkles attacks on the aggro target.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=763" data-end="775" rel="noreferrer">Memorizer 12:43</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">X</h4>
           <p>Two front swipes, then he teleports and attacks in an X.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=803" data-end="811" rel="noreferrer">Memorizer 13:23</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Sky drop</h4>
           <p>Goes up and lands on the aggro target. Aggro holder, take it away from the party.</p>
+          <div class="chapter"><a href="https://youtu.be/1Ecsm9zbDos?t=591" rel="noreferrer">Agam 9:51</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Space</h4>
           <p>Coffins fall, he jumps, and a pulse goes out after he lands. Spacebar through it.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=630" data-end="639" rel="noreferrer">Memorizer 10:30</a></div>
         </div>
       </div>
     </div>
@@ -1327,12 +1443,14 @@
         <div class="pat">
           <h4 class="pat-title">Medusa <span class="call">Look away</span></h4>
           <p>Dark smoke under him: face away. A fail stuns, purify clears it.</p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=544" data-end="554" rel="noreferrer">Memorizer 9:04</a><a href="https://youtu.be/1Ecsm9zbDos?t=457" data-end="465" rel="noreferrer">Agam 7:37</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Space and medusa <span class="call">Look at / away</span></h4>
           <p>Coffins appear and vanish while he moves with a puddle. Hits leave crowd-control circles, spacebar or purify
             out. A pulse comes out, spacebar it. At the end a ring on his back: <strong>shrinking, look at him.
             Growing, look away.</strong></p>
+          <div class="chapter"><a href="https://youtu.be/wyY55AEN63E?t=811" data-end="828" rel="noreferrer">Memorizer 13:31</a><a href="https://youtu.be/1Ecsm9zbDos?t=498" data-end="524" rel="noreferrer">Agam 8:18</a></div>
         </div>
       </div>
     </div>
@@ -1343,7 +1461,7 @@
     <div class="section-head">
       <h2>Gate 2</h2>
       <p class="section-note">400 bars, 13 minute berserk. Every JG attack ignores push immunity and almost every hit
-        knocks down. Links jump to the source video at that moment.</p>
+        knocks down. Source buttons play the video from that moment.</p>
     </div>
 
     <div class="timeline">
@@ -1361,7 +1479,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Opening window</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=34" rel="noreferrer">Agam 0:34</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=34" data-end="39" rel="noreferrer">Agam 0:34</a></span>
           </div>
           <p>A few seconds of free damage right after you engage. Burst immediately.</p>
         </div>
@@ -1375,7 +1493,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Orb destruction</h3>
-            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=34" rel="noreferrer">Memorizer 0:34</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=41" rel="noreferrer">Agam 0:41</a></span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=32" data-end="196" rel="noreferrer">Memorizer 0:32</a><a href="https://youtu.be/X6FFdTuCnDk?t=39" data-end="96" rel="noreferrer">Agam 0:39</a></span>
           </div>
           <ul class="calls">
             <li class="call is-counter">Counter</li>
@@ -1426,7 +1544,7 @@
           <div class="beat-head">
             <h3>Damage-reduction adds</h3>
             <span class="flag-new">Unlocks Belgardin item</span>
-            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=199" rel="noreferrer">Memorizer 3:19</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=98" rel="noreferrer">Agam 1:38</a></span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=196" data-end="352" rel="noreferrer">Memorizer 3:16</a><a href="https://youtu.be/X6FFdTuCnDk?t=96" data-end="160" rel="noreferrer">Agam 1:36</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger twice</li>
@@ -1462,7 +1580,7 @@
           <div class="beat-head">
             <h3>Red field</h3>
             <span class="flag-new is-lethal">Wipe beam</span>
-            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=355" rel="noreferrer">Memorizer 5:55</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=168" rel="noreferrer">Agam 2:48</a> / <a href="https://youtu.be/eUJoayb_-zQ?t=377" rel="noreferrer">Agam tips 6:17</a></span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=352" data-end="469" rel="noreferrer">Memorizer 5:52</a><a href="https://youtu.be/X6FFdTuCnDk?t=160" data-end="205" rel="noreferrer">Agam 2:40</a><a href="https://youtu.be/eUJoayb_-zQ?t=363" data-end="441" rel="noreferrer">Agam tips 6:03</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG</li>
@@ -1517,7 +1635,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Ground destruction</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=207" rel="noreferrer">Agam 3:27</a> / <a href="https://youtu.be/8tSIChVEYwg?t=471" rel="noreferrer">Memorizer 7:51</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=205" data-end="230" rel="noreferrer">Agam 3:25</a><a href="https://youtu.be/8tSIChVEYwg?t=469" data-end="538" rel="noreferrer">Memorizer 7:49</a></span>
           </div>
           <ul class="calls">
             <li class="call">Read the grab</li>
@@ -1552,7 +1670,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Moving stagger</h3>
-            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=559" rel="noreferrer">Memorizer 9:19</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=232" rel="noreferrer">Agam 3:52</a></span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=557" data-end="616" rel="noreferrer">Memorizer 9:17</a><a href="https://youtu.be/X6FFdTuCnDk?t=230" data-end="275" rel="noreferrer">Agam 3:50</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger</li>
@@ -1584,7 +1702,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Last ground destruction</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=277" rel="noreferrer">Agam 4:37</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=275" data-end="299" rel="noreferrer">Agam 4:35</a></span>
           </div>
           <ul class="calls"><li class="call is-lethal">Fall death</li></ul>
           <p>A repeat of x240: three grabs, outer ring breaks. Agam says many deaths happen here. After this, the flame
@@ -1600,7 +1718,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Flame field</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=301" rel="noreferrer">Agam 5:01</a> / <a href="https://youtu.be/8tSIChVEYwg?t=540" rel="noreferrer">Memorizer 9:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=299" data-end="321" rel="noreferrer">Agam 4:59</a><a href="https://youtu.be/8tSIChVEYwg?t=538" data-end="557" rel="noreferrer">Memorizer 8:58</a></span>
           </div>
           <p>Flames cover part of the field with massive damage over time that support shields and heals
             cannot cover. He then fires a cone at a player three times, which can knock you toward the edge.
@@ -1621,7 +1739,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Angry Bird</h3>
-            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=618" rel="noreferrer">Memorizer 10:18</a> / <a href="https://youtu.be/X6FFdTuCnDk?t=323" rel="noreferrer">Agam 5:23</a></span>
+            <span class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=616" data-end="710" rel="noreferrer">Memorizer 10:16</a><a href="https://youtu.be/X6FFdTuCnDk?t=321" data-end="371" rel="noreferrer">Agam 5:21</a></span>
           </div>
           <ul class="calls">
             <li class="call is-stagger">Stagger</li>
@@ -1653,7 +1771,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Reinforced patterns</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=277" rel="noreferrer">Agam 4:37</a> / <a href="https://youtu.be/8tSIChVEYwg?t=785" rel="noreferrer">Memorizer 13:05</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=281" data-end="287" rel="noreferrer">Agam 4:41</a><a href="https://youtu.be/8tSIChVEYwg?t=785" data-end="797" rel="noreferrer">Memorizer 13:05</a></span>
           </div>
           <p>Late in the fight several regular patterns change. The floor is smaller, so falls become the main risk.</p>
           <ul class="calls">
@@ -1682,7 +1800,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>Gate 2 Rumble</h3>
-            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=372" rel="noreferrer">Agam 6:12</a> / <a href="https://youtu.be/8tSIChVEYwg?t=713" rel="noreferrer">Memorizer 11:53</a></span>
+            <span class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=371" data-end="407" rel="noreferrer">Agam 6:11</a><a href="https://youtu.be/8tSIChVEYwg?t=710" data-end="739" rel="noreferrer">Memorizer 11:50</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG where he lands</li>
@@ -1729,16 +1847,19 @@
             degree grab. His back is safe. A <span class="t-coop">2-man co-op counter</span> always follows, on the side
             where the sweep started.</p>
           <p>Best: a push-immune move at his head as he strikes the ground. Otherwise slide behind him.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=739" data-end="757" rel="noreferrer">Memorizer 12:19</a><a href="https://youtu.be/X6FFdTuCnDk?t=464" data-end="473" rel="noreferrer">Agam 7:44</a><a href="https://youtu.be/eUJoayb_-zQ?t=509" rel="noreferrer">Agam tips 8:29</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Front grab <span class="call is-jg">JG</span></h4>
           <p>Two tentacles down, then he spins. If he hits someone he grabs them toward aggro, then asks for a guard.
             <span class="t-jg">JG</span> right away to free them, and call it: a catch adds a follow-up attack.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=757" data-end="766" rel="noreferrer">Memorizer 12:37</a><a href="https://youtu.be/X6FFdTuCnDk?t=438" data-end="449" rel="noreferrer">Agam 7:18</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back hit and walk</h4>
           <p>Tentacles on his back; he hits his back, then grabs the area near him. If someone is caught he walks
             around and anyone the tentacles touch is grabbed too. If nobody is caught, two line attacks.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=766" data-end="774" rel="noreferrer">Memorizer 12:46</a><a href="https://youtu.be/X6FFdTuCnDk?t=449" data-end="464" rel="noreferrer">Agam 7:29</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Clockwise grab <span class="call is-jg">JG</span></h4>
@@ -1746,12 +1867,14 @@
             the purple tentacle, keeping some distance. A <span class="t-jg">JG</span> follows about 0.5 seconds after the
             flash.</p>
           <p class="late">Late: he grabs twice. Go to the other side for the second.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=774" data-end="797" rel="noreferrer">Memorizer 12:54</a><a href="https://youtu.be/X6FFdTuCnDk?t=482" data-end="497" rel="noreferrer">Agam 8:02</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Purple grab</h4>
           <p>Two big white hands, then a grab along the line of two purple tentacles. Stay away from the purple. Nobody
             caught: he hits twice. Someone caught: he blows away everyone near him.</p>
           <p class="late">Late: done twice.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=797" data-end="822" rel="noreferrer">Memorizer 13:17</a><a href="https://youtu.be/X6FFdTuCnDk?t=473" data-end="482" rel="noreferrer">Agam 7:53</a></div>
         </div>
       </div>
     </div>
@@ -1766,11 +1889,13 @@
           <h4 class="pat-title">Hold into co-op <span class="call is-hold">Hold G</span></h4>
           <p>He suddenly asks for a holding guard. <span class="t-hold">Hold G</span> right away, then a
             <span class="t-coop">2-man co-op counter</span>.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=822" data-end="829" rel="noreferrer">Memorizer 13:42</a><a href="https://youtu.be/X6FFdTuCnDk?t=423" data-end="438" rel="noreferrer">Agam 7:03</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Hold into guard <span class="call is-hold">Hold G</span></h4>
           <p>He steps back. <span class="t-hold">Hold G</span> after the flash, then tap <span class="t-jg">JG</span> again
             immediately. Only players who landed the hold can take the second guard.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=829" data-end="838" rel="noreferrer">Memorizer 13:49</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Green spot <span class="call is-hold">Hold G</span></h4>
@@ -1779,11 +1904,13 @@
           <p><strong>4 or more:</strong> Perfect, then a single <span class="t-counter">counter</span>.
             <strong>1 to 3:</strong> Good or Great, then a <span class="t-coop">2-man co-op</span> while he spins.
             <strong>Nobody:</strong> a wide-range hit.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=838" data-end="865" rel="noreferrer">Memorizer 13:58</a><a href="https://youtu.be/X6FFdTuCnDk?t=407" data-end="423" rel="noreferrer">Agam 6:47</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back hit, co-op, counter <span class="call is-coop">2-man</span></h4>
           <p>Hits his back and steps back for a <span class="t-coop">2-man co-op counter</span>. Then a 120 degree
             right-hand swing, then another <span class="t-counter">counter</span>.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=865" data-end="874" rel="noreferrer">Memorizer 14:25</a><a href="https://youtu.be/X6FFdTuCnDk?t=586" data-end="597" rel="noreferrer">Agam 9:46</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Butterfly double guard <span class="call is-jg">JG x2</span></h4>
@@ -1791,12 +1918,14 @@
             the second slow (about 1.5 seconds after the flash). A failed guard can kill.</p>
           <p class="late">Late: slow first, then fast. Puddles or a red orb can catch you, which costs a big hit but skips
             the guard. At high HP that is an acceptable out.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=874" data-end="898" rel="noreferrer">Memorizer 14:34</a><a href="https://youtu.be/X6FFdTuCnDk?t=533" data-end="554" rel="noreferrer">Agam 8:53</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Rain holes <span class="call is-jg">JG x2</span></h4>
           <p>Rain covers the field and everyone gets a debuff that deletes the ground under them after a few seconds.
             Spread so your hole does not land under others, stand on solid ground, then <span class="t-jg">JG</span>
             twice right away, or stand at his back. A failed guard can knock you into a hole.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=932" data-end="946" rel="noreferrer">Memorizer 15:32</a><a href="https://youtu.be/X6FFdTuCnDk?t=569" data-end="586" rel="noreferrer">Agam 9:29</a></div>
         </div>
       </div>
     </div>
@@ -1811,61 +1940,74 @@
           <h4 class="pat-title">Four orbs <span class="call is-lethal">Hole</span></h4>
           <p>Four orbs, then two 120 degree hits to his front. He drops the orb on the aggro side: a pulse, and the ground
             there breaks for a few seconds. Get off it. Aggro holder, do not pull the drop onto the group.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=898" data-end="911" rel="noreferrer">Memorizer 14:58</a><a href="https://youtu.be/X6FFdTuCnDk?t=520" data-end="533" rel="noreferrer">Agam 8:40</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Bulldoze</h4>
           <p>Charges twice, then attacks. <strong>Purple:</strong> 270 degree hit, back safe. <strong>White:</strong> hits
             to his sides.</p>
           <p class="late">Late: three charges.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=911" data-end="932" rel="noreferrer">Memorizer 15:11</a><a href="https://youtu.be/X6FFdTuCnDk?t=645" data-end="666" rel="noreferrer">Agam 10:45</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Squid</h4>
           <p>Long-hair shape, slams toward aggro twice with waves out the sides. Stay on his back.</p>
           <p class="late">Late: three slams.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=955" data-end="973" rel="noreferrer">Memorizer 15:55</a><a href="https://youtu.be/X6FFdTuCnDk?t=666" data-end="681" rel="noreferrer">Agam 11:06</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Teleport</h4>
           <p>Drains energy in one direction, vanishes, reappears and attacks that way. Three variants: cross hit, back
             safe, front safe. Remember the first direction.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=973" data-end="990" rel="noreferrer">Memorizer 16:13</a><a href="https://youtu.be/X6FFdTuCnDk?t=681" data-end="698" rel="noreferrer">Agam 11:21</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Wall</h4>
           <p>Summons a wall, hits toward aggro in a 150 degree cone, then hits his back. Either hit touching the wall
             explodes it. Aggro holder keeps him at 90 degrees to the wall.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1030" data-end="1044" rel="noreferrer">Memorizer 17:10</a><a href="https://youtu.be/X6FFdTuCnDk?t=554" data-end="569" rel="noreferrer">Agam 9:14</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Stone henge</h4>
           <p>Hand strikes raise stones. Two donut steps, then a beam out his sides while facing aggro. A beam touching a
             stone explodes over a big area. Stand at the stones; aggro holder faces him toward the henge.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1044" data-end="1062" rel="noreferrer">Memorizer 17:24</a><a href="https://youtu.be/X6FFdTuCnDk?t=509" data-end="520" rel="noreferrer">Agam 8:29</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Jump charge</h4>
           <p>Jumps and slams the aggro target; the area around the landing slowly turns to bombs. Go to his front or
             stick to his back, clear of the bombs.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=990" data-end="998" rel="noreferrer">Memorizer 16:30</a><a href="https://youtu.be/X6FFdTuCnDk?t=698" rel="noreferrer">Agam 11:38</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Puddle shots</h4>
           <p>Shoots puddles at aggro twice, then slams front and back. His sides are safe.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1019" data-end="1030" rel="noreferrer">Memorizer 16:59</a><a href="https://youtu.be/X6FFdTuCnDk?t=632" data-end="645" rel="noreferrer">Agam 10:32</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Back tumble</h4>
           <p>Tumbles backward twice, then slams. Stay away, go back in after the slam.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=946" data-end="955" rel="noreferrer">Memorizer 15:46</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Crab</h4>
           <p>Folds his arms, moves sideways, hits his front. Twice.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1010" data-end="1019" rel="noreferrer">Memorizer 16:50</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Front and back</h4>
           <p>Hits his front twice, then front and back slowly. Stick close, off both.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1062" data-end="1070" rel="noreferrer">Memorizer 17:42</a><a href="https://youtu.be/X6FFdTuCnDk?t=622" data-end="632" rel="noreferrer">Agam 10:22</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Swipes</h4>
           <p>Two front swipes, an outer-ring swipe, then a front slam. Stay close for the ring, leave his front for the slam.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=1070" rel="noreferrer">Memorizer 17:50</a><a href="https://youtu.be/X6FFdTuCnDk?t=611" data-end="622" rel="noreferrer">Agam 10:11</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Paralysis chain</h4>
           <p>First hit paralyzes, second knocks down, then a hit close around him and one on the outer area.</p>
+          <div class="chapter"><a href="https://youtu.be/X6FFdTuCnDk?t=497" data-end="509" rel="noreferrer">Agam 8:17</a></div>
         </div>
       </div>
     </div>
@@ -1881,6 +2023,7 @@
           <p>He disappears into portals and a stagger bar appears. <strong>Staggering too early sets off a bomb.</strong>
             Stagger to about 70% and stop. Stand on a portal that has turned black (its beam silences anyone
             outside). When the green effect plays or his head lights up, finish the stagger.</p>
+          <div class="chapter"><a href="https://youtu.be/8tSIChVEYwg?t=998" data-end="1010" rel="noreferrer">Memorizer 16:38</a><a href="https://youtu.be/X6FFdTuCnDk?t=597" data-end="611" rel="noreferrer">Agam 9:57</a></div>
         </div>
       </div>
     </div>
@@ -2085,6 +2228,142 @@
       if (!queued) { queued = true; requestAnimationFrame(update); }
     }, { passive: true });
     phone.addEventListener('change', update);
+  })();
+</script>
+
+<script>
+  (function () {
+    /* Source links play their clip in one pop-up player. Nothing loads from YouTube until
+       a tap, and without this script each link still opens YouTube at that moment. */
+    if (!document.querySelector('.chapter a')) return;
+
+    var root = document.documentElement;
+    var pop, title, tabs, frame, youtube, closer;
+    var sources = [];
+    var current = null;
+    var opener = null;
+    var openedAt = 0;
+
+    Array.prototype.forEach.call(document.querySelectorAll('.chapter a'), function (link) {
+      link.setAttribute('aria-haspopup', 'dialog');
+    });
+
+    /* The card's name without its call chips. */
+    function plain(heading) {
+      var text = '';
+      Array.prototype.forEach.call(heading.childNodes, function (node) {
+        if (node.nodeType === 3) text += node.textContent;
+      });
+      return text.trim();
+    }
+
+    function build() {
+      pop = document.createElement('div');
+      pop.className = 'clip-pop';
+      pop.hidden = true;
+      pop.innerHTML =
+        '<div class="clip-box" role="dialog" aria-modal="true" aria-labelledby="clip-title">' +
+          '<div class="clip-head"><h4 id="clip-title"></h4><button type="button" class="clip-close">Close</button></div>' +
+          '<div class="clip-tabs" role="group" aria-label="Sources"></div>' +
+          '<div class="clip-frame"></div>' +
+          '<div class="clip-bar"><button type="button" class="clip-replay">Replay</button>' +
+            '<a class="clip-youtube" target="_blank" rel="noreferrer" aria-label="Open on YouTube (new tab)">Open on YouTube</a></div>' +
+        '</div>';
+      document.body.appendChild(pop);
+      title = pop.querySelector('h4');
+      tabs = pop.querySelector('.clip-tabs');
+      frame = pop.querySelector('.clip-frame');
+      youtube = pop.querySelector('.clip-youtube');
+      closer = pop.querySelector('.clip-close');
+
+      closer.addEventListener('click', close);
+      pop.querySelector('.clip-replay').addEventListener('click', function () { play(current); });
+      /* The second tap of a double tap lands on the backdrop; it must not close what the first one opened. */
+      pop.addEventListener('click', function (e) {
+        if (e.target === pop && Date.now() - openedAt > 400) close();
+      });
+      tabs.addEventListener('click', function (e) {
+        var tab = e.target.closest('.clip-tab');
+        if (tab) play(sources[Array.prototype.indexOf.call(tabs.children, tab)]);
+      });
+    }
+
+    function play(link) {
+      var at = link.href.match(/youtu\.be\/([\w-]+)\?t=(\d+)/);
+      var end = link.getAttribute('data-end');
+      var player = document.createElement('iframe');
+      player.src = 'https://www.youtube-nocookie.com/embed/' + at[1] + '?start=' + at[2] +
+        (end ? '&end=' + end : '') + '&autoplay=1&rel=0&playsinline=1';
+      player.title = title.textContent + ', ' + link.textContent;
+      player.allow = 'autoplay; encrypted-media; picture-in-picture';
+      player.allowFullscreen = true;
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.textContent = '';
+      frame.appendChild(player);
+      youtube.href = link.href;
+      current = link;
+      Array.prototype.forEach.call(tabs.children, function (tab, i) {
+        tab.setAttribute('aria-pressed', sources[i] === link ? 'true' : 'false');
+      });
+    }
+
+    /* Everything outside the player is inert while it is open, so focus stays inside it. */
+    function inert(on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el !== pop) el.inert = on;
+      });
+    }
+
+    function open(link) {
+      if (!pop) build();
+      var card = link.closest('.beat-body, .pat');
+      sources = Array.prototype.slice.call(card.querySelectorAll('.chapter a'));
+      title.textContent = plain(card.querySelector('h3, h4'));
+      tabs.textContent = '';
+      sources.forEach(function (source) {
+        var tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'clip-tab';
+        tab.textContent = source.textContent;
+        tabs.appendChild(tab);
+      });
+      play(link);
+      opener = link;
+      openedAt = Date.now();
+      pop.hidden = false;
+      root.classList.add('clip-open');
+      inert(true);
+      history.pushState({ clip: true }, '');
+      closer.focus();
+    }
+
+    function hide() {
+      if (!pop || pop.hidden) return;
+      pop.hidden = true;
+      frame.textContent = '';
+      root.classList.remove('clip-open');
+      inert(false);
+      if (opener) opener.focus({ preventScroll: true });
+    }
+
+    /* The open player owns one history entry, so a phone's Back button closes it. Closing any
+       other way hides it first, then drops that entry; the popstate that follows finds it hidden. */
+    function close() {
+      if (!pop || pop.hidden) return;
+      hide();
+      if (history.state && history.state.clip) history.back();
+    }
+
+    window.addEventListener('popstate', hide);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && pop && !pop.hidden) close();
+    });
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.chapter a');
+      if (!link || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      open(link);
+    });
   })();
 </script>
 
