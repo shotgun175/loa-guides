@@ -1,0 +1,1688 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Extreme Mordum - mech and pattern guide</title>
+<style>
+  :root {
+    --void: #070a11;
+    --deep: #0b111b;
+    --panel: #101827;
+    --panel-hi: #141f30;
+    --line: #1d2a3d;
+    --line-soft: #16202f;
+    --bone: #e9eff7;
+    --ash: #8b99ae;
+    --ash-dim: #64718a;
+    --glacier: #79d6ec;
+    --phantom: #ae8cff;
+    --amber: #f3b45c;
+    --ember: #ff5e4e;
+    --bolt: #ffe066;
+
+    /* call colors */
+    --jg: #ffd24a;
+    --counter: #3d8bff;
+    --coop: #b486ff;
+
+    --display: "Bahnschrift", "DIN Alternate", "Roboto Condensed", "Avenir Next Condensed", "Arial Narrow", "Segoe UI", sans-serif;
+    --body: "Segoe UI Variable Text", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --data: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+    --rail-x: 118px;
+    --shell: 1180px;
+    --raids-h: 56px;
+    --mark: 50px;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; scroll-padding-top: calc(84px + var(--raids-h)); }
+
+  body {
+    margin: 0;
+    background:
+      radial-gradient(900px 620px at 12% -8%, rgba(255, 224, 102, 0.07), transparent 62%),
+      radial-gradient(760px 560px at 92% 4%, rgba(255, 94, 78, 0.08), transparent 60%),
+      var(--void);
+    color: var(--bone);
+    font-family: var(--body);
+    font-size: 16px;
+    line-height: 1.62;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: var(--glacier); text-decoration-color: rgba(121, 214, 236, 0.35); text-underline-offset: 3px; }
+  a:hover { text-decoration-color: var(--glacier); }
+  a:focus-visible, .navlink:focus-visible {
+    outline: 2px solid var(--glacier);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  .shell { width: min(var(--shell), calc(100% - 48px)); margin-inline: auto; }
+
+  /* ---------- raid tabs ---------- */
+
+  .raids {
+    position: sticky;
+    top: 0;
+    z-index: 31;
+    height: var(--raids-h);
+    border-bottom: 1px solid var(--line);
+    background: rgba(7, 10, 17, 0.92);
+    backdrop-filter: blur(14px);
+    transition: transform 0.2s ease;
+  }
+  .raids-inner { display: flex; align-items: stretch; gap: 2px; height: 100%; overflow-x: auto; scrollbar-width: none; }
+  .raids-inner::-webkit-scrollbar { display: none; }
+  .brand {
+    flex: none;
+    display: flex;
+    align-items: center;
+    padding-right: 12px;
+    margin-right: 6px;
+    border-right: 1px solid var(--line);
+  }
+  .brand img { display: block; width: var(--mark); height: var(--mark); }
+  .brand:focus-visible { outline: 2px solid var(--glacier); outline-offset: -2px; }
+  .raid-tab {
+    flex: none;
+    display: flex;
+    align-items: center;
+    padding: 2px 14px 0;
+    font-family: var(--display);
+    font-size: 13px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+  }
+  .raid-tab:hover { color: var(--bone); }
+  .raid-tab:focus-visible { outline: 2px solid var(--glacier); outline-offset: -2px; }
+  .raid-tab[aria-current="page"] { color: var(--bone); border-bottom-color: var(--amber); }
+  .raid-tab small {
+    margin-left: 6px;
+    font-family: var(--data);
+    font-size: 9.5px;
+    letter-spacing: 0.16em;
+    color: var(--ash-dim);
+  }
+
+  /* Phones: the raid bar slides away while scrolling down, back on any scroll up. */
+  html.raids-away .raids { transform: translateY(-100%); }
+  html.raids-away .nav { top: 0; }
+
+  /* ---------- inline call terms ---------- */
+
+  .t-jg { color: var(--jg); font-weight: 600; }
+  .t-hold { color: var(--jg); font-weight: 600; text-decoration: underline dashed; text-underline-offset: 4px; }
+  .t-counter { color: var(--counter); font-weight: 600; }
+  .t-coop { color: var(--coop); font-weight: 600; }
+
+  /* ---------- masthead ---------- */
+
+  .masthead { padding: 64px 0 40px; border-bottom: 1px solid var(--line); }
+
+  .eyebrow {
+    font-family: var(--data);
+    font-size: 11.5px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    margin: 0 0 18px;
+  }
+  .eyebrow b { color: var(--ember); font-weight: 600; }
+
+  .title {
+    font-family: var(--display);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.005em;
+    line-height: 0.86;
+    font-size: clamp(52px, 11.5vw, 148px);
+    margin: 0;
+    color: var(--bolt);
+  }
+  .title span {
+    display: block;
+    width: fit-content;
+    background: linear-gradient(96deg, #fff6cc 0%, var(--bolt) 45%, var(--amber) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .title .title-sub {
+    font-size: clamp(15px, 2.1vw, 25px);
+    letter-spacing: 0.32em;
+    line-height: 1;
+    margin-top: 20px;
+    background: none;
+    -webkit-text-fill-color: var(--ash);
+    color: var(--ash);
+    font-weight: 400;
+  }
+
+  .deck {
+    max-width: 62ch;
+    margin: 30px 0 0;
+    font-size: 18px;
+    color: #c3cede;
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(178px, 1fr));
+    gap: 1px;
+    background: var(--line-soft);
+    border: 1px solid var(--line-soft);
+  }
+  .fact { background: var(--deep); padding: 16px 18px; }
+  .fact-k {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    display: block;
+    margin-bottom: 6px;
+  }
+  .fact-v { font-family: var(--display); font-size: 21px; letter-spacing: 0.01em; color: var(--bone); }
+  .fact-v small { display: block; font-family: var(--body); font-size: 13px; color: var(--ash); letter-spacing: 0; line-height: 1.45; margin-top: 3px; }
+
+  .prereq {
+    margin-top: 26px;
+    border-left: 3px solid var(--amber);
+    background: rgba(243, 180, 92, 0.06);
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+  .prereq strong { font-family: var(--display); letter-spacing: 0.04em; text-transform: uppercase; color: var(--amber); font-size: 14px; }
+
+  /* ---------- sticky nav ---------- */
+
+  .nav {
+    position: sticky;
+    top: var(--raids-h);
+    z-index: 30;
+    transition: top 0.2s ease;
+    background: rgba(7, 10, 17, 0.86);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .nav-inner::-webkit-scrollbar { display: none; }
+  .navlink {
+    flex: none;
+    padding: 15px 16px;
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .navlink:hover { color: var(--bone); }
+  .navlink.is-live { color: var(--glacier); border-bottom-color: var(--glacier); }
+
+  /* ---------- sections ---------- */
+
+  .section { padding: 76px 0 12px; }
+
+  .section-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 34px; }
+  .section-head h2 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    font-size: clamp(30px, 4.4vw, 48px);
+    letter-spacing: 0.005em;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+  }
+  .section-note { color: var(--ash); font-size: 14.5px; max-width: 58ch; margin: 0; }
+
+  /* ---------- legend ---------- */
+
+  .legend { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); margin-bottom: 26px; }
+  .legend-item { background: var(--deep); padding: 15px 18px; }
+  .legend-term { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.1em; font-size: 15px; display: block; margin-bottom: 4px; }
+  .legend-item p { margin: 0; font-size: 14px; color: var(--ash); }
+  .legend-item p b { color: #c3cede; font-weight: 600; }
+
+  /* ---------- prep ---------- */
+
+  .kit { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px; }
+  .kit-card { background: var(--panel); border: 1px solid var(--line); padding: 22px 24px; }
+  .kit-card h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.11em;
+    font-size: 15px;
+    margin: 0 0 14px;
+    color: var(--glacier);
+    font-weight: 600;
+  }
+  .kit-list { list-style: none; margin: 0; padding: 0; }
+  .kit-list li { padding: 8px 0; border-top: 1px solid var(--line-soft); font-size: 15px; }
+  .kit-list li:first-child { border-top: 0; padding-top: 0; }
+  .kit-list b { font-weight: 600; color: var(--bone); }
+  .kit-list span { color: var(--ash); }
+
+  /* ---------- sidereal plan ---------- */
+
+  .plan { margin-top: 30px; }
+  .plan-row { border: 1px solid var(--line); background: var(--panel); padding: 20px 22px 22px; margin-bottom: 14px; }
+  .plan-head { display: flex; align-items: baseline; gap: 12px; margin-bottom: 16px; flex-wrap: wrap; }
+  .plan-head h3 { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.09em; font-size: 16px; margin: 0; color: var(--bone); font-weight: 600; }
+  .plan-head span { font-size: 13.5px; color: var(--ash); }
+  .plan-track { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .plan-step { border-top: 2px solid var(--line); padding-top: 10px; }
+  .plan-step.has-cast { border-top-color: var(--glacier); }
+  .plan-when { font-family: var(--data); font-size: 10.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash-dim); display: block; margin-bottom: 4px; }
+  .plan-cast { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.05em; font-size: 16px; color: var(--glacier); }
+  .plan-cast small { display: block; font-family: var(--body); text-transform: none; letter-spacing: 0; font-size: 12.5px; color: var(--ash); }
+  .plan-note { margin: 8px 0 0; font-size: 13.5px; color: var(--ash); }
+
+  /* ---------- lethal list ---------- */
+
+  .kills { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 1px; background: var(--line-soft); border: 1px solid var(--line-soft); }
+  .kill { background: var(--deep); padding: 20px 22px; border-top: 2px solid var(--ember); }
+  .kill-when { font-family: var(--data); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ember); display: block; margin-bottom: 7px; }
+  .kill-what { font-family: var(--display); font-size: 20px; text-transform: uppercase; letter-spacing: 0.02em; margin: 0 0 8px; }
+  .kill p { margin: 0; color: #c0cbdb; font-size: 14.5px; }
+
+  /* ---------- fight timeline ---------- */
+
+  .timeline { position: relative; margin-top: 8px; }
+  .timeline::before {
+    content: "";
+    position: absolute;
+    left: var(--rail-x);
+    top: 6px;
+    bottom: 40px;
+    width: 3px;
+    background: linear-gradient(180deg, var(--glacier) 0%, #6fb6e8 26%, var(--phantom) 60%, var(--ember) 100%);
+    opacity: 0.55;
+  }
+
+  .phase-break { position: relative; display: flex; align-items: center; gap: 16px; margin: 46px 0 26px; }
+  .phase-break:first-child { margin-top: 0; }
+  .phase-tag {
+    position: relative;
+    z-index: 2;
+    background: var(--void);
+    padding-right: 14px;
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    font-size: 14px;
+    color: var(--bone);
+    width: calc(var(--rail-x) + 220px);
+  }
+  .phase-tag em { font-style: normal; color: var(--ash-dim); letter-spacing: 0.1em; }
+  .phase-rule { flex: 1; height: 1px; background: var(--line); }
+
+  .beat { position: relative; display: grid; grid-template-columns: var(--rail-x) 1fr; gap: 0 30px; margin-bottom: 26px; }
+
+  .beat-mark { position: relative; }
+  .beat-node {
+    position: absolute;
+    left: calc(var(--rail-x) - 11.5px);
+    top: 20px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--void);
+    border: 3px solid var(--glacier);
+    display: grid;
+    place-items: center;
+  }
+  .beat-node::after { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--glacier); }
+  .beat-trigger {
+    position: absolute;
+    top: 18px;
+    right: 28px;
+    width: 90px;
+    text-align: right;
+    font-family: var(--data);
+    font-size: 12.5px;
+    letter-spacing: 0.06em;
+    color: var(--glacier);
+    line-height: 1.3;
+  }
+  .beat-trigger small { display: block; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--ash-dim); }
+
+  .beat[data-tone="ember"] .beat-node { border-color: var(--ember); }
+  .beat[data-tone="ember"] .beat-node::after { background: var(--ember); }
+  .beat[data-tone="ember"] .beat-trigger { color: var(--ember); }
+  .beat[data-tone="amber"] .beat-node { border-color: var(--amber); }
+  .beat[data-tone="amber"] .beat-node::after { background: var(--amber); }
+  .beat[data-tone="amber"] .beat-trigger { color: var(--amber); }
+
+  .beat-body {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-left: 2px solid var(--glacier);
+    padding: 24px 28px 26px;
+    min-width: 0;
+    transition: background 0.18s ease, border-color 0.18s ease;
+  }
+  .beat[data-tone="ember"] .beat-body { border-left-color: var(--ember); }
+  .beat[data-tone="amber"] .beat-body { border-left-color: var(--amber); }
+  .beat-body:hover { background: var(--panel-hi); }
+
+  .beat-head { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+  .beat-head h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    font-size: clamp(21px, 2.6vw, 27px);
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.05;
+  }
+  .chapter {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ash-dim);
+  }
+  .flag-new {
+    font-family: var(--data);
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--void);
+    background: var(--glacier);
+    padding: 3px 8px;
+  }
+  .flag-new.is-lethal { background: var(--ember); }
+
+  .calls { display: flex; flex-wrap: wrap; gap: 7px; list-style: none; margin: 0 0 16px; padding: 0; }
+  .call {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border: 1px solid currentColor;
+    color: var(--ash);
+  }
+  .call.is-jg { color: var(--jg); }
+  .call.is-hold { color: var(--jg); border-style: dashed; }
+  .call.is-counter { color: var(--counter); }
+  .call.is-coop { color: var(--coop); }
+  .call.is-stagger { color: var(--bone); }
+  .call.is-lethal { color: var(--ember); }
+
+  .beat-body p { margin: 0 0 12px; color: #c9d3e2; }
+  .beat-body p:last-child { margin-bottom: 0; }
+  .beat-body strong { color: var(--bone); font-weight: 600; }
+
+  .steps { counter-reset: step; list-style: none; margin: 0 0 14px; padding: 0; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding: 7px 0 7px 38px;
+    border-top: 1px solid var(--line-soft);
+    color: #c9d3e2;
+  }
+  .steps li:first-child { border-top: 0; }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 7px;
+    font-family: var(--data);
+    font-size: 11px;
+    color: var(--ash-dim);
+    border: 1px solid var(--line);
+    width: 22px;
+    height: 22px;
+    display: grid;
+    place-items: center;
+  }
+
+  .fail {
+    margin-top: 16px;
+    border-top: 1px solid var(--line);
+    padding-top: 14px;
+    font-size: 14.5px;
+    color: #cdb3ae;
+  }
+  .fail b {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ember);
+    margin-right: 10px;
+  }
+
+  .tip, .differ {
+    margin-top: 14px;
+    background: rgba(121, 214, 236, 0.06);
+    border-left: 2px solid var(--glacier);
+    padding: 12px 16px;
+    font-size: 14.5px;
+    color: #bfd6de;
+  }
+  .tip b, .differ b {
+    font-family: var(--data);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--glacier);
+    margin-right: 10px;
+  }
+  .differ { background: rgba(243, 180, 92, 0.06); border-left-color: var(--amber); color: #ddd0bb; }
+  .differ b { color: var(--amber); }
+
+  /* ---------- patterns ---------- */
+
+  .pat-group { margin-bottom: 44px; }
+  .pat-head { display: flex; align-items: center; gap: 14px; margin-bottom: 18px; }
+  .pat-head h3 {
+    font-family: var(--display);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 16px;
+    margin: 0;
+    color: var(--bone);
+    font-weight: 600;
+  }
+  .pat-lede { margin: -6px 0 18px; font-size: 14.5px; color: var(--ash); max-width: 72ch; }
+
+  .pat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+  .pat {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 16px 18px;
+  }
+  .pat-title { font-family: var(--display); text-transform: uppercase; letter-spacing: 0.06em; font-size: 17px; margin: 0 0 8px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .pat p { margin: 0; font-size: 14.5px; color: #c3cede; }
+  .pat p + p { margin-top: 8px; }
+  .pat .chapter { display: flex; margin-top: 12px; }
+
+  /* ---------- video player ---------- */
+
+  /* Source links on the cards and the source tabs in the player share one play-button look. */
+  .chapter a, .clip-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 5px 10px 5px 9px;
+    border: 1px solid var(--line);
+    background: none;
+    color: var(--ash);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .chapter a::before, .clip-tab::before {
+    content: "";
+    border-style: solid;
+    border-width: 4.5px 0 4.5px 7px;
+    border-color: transparent transparent transparent currentColor;
+  }
+  .chapter a:hover, .clip-tab:hover, .clip-tab[aria-pressed="true"] {
+    color: var(--glacier);
+    border-color: rgba(121, 214, 236, 0.55);
+  }
+
+  /* The gutter stays when the scrollbar goes, so the page behind does not shift sideways. */
+  html.clip-open { overflow: hidden; scrollbar-gutter: stable; }
+  .clip-pop {
+    position: fixed;
+    inset: 0;
+    z-index: 40;
+    display: flex;
+    padding: 16px;
+    overflow-y: auto;
+    background: rgba(3, 6, 11, 0.84);
+    overscroll-behavior: contain;
+  }
+  .clip-pop[hidden] { display: none; }
+  /* Auto margins center the box, and it scrolls instead of clipping when the screen is too short. */
+  .clip-box {
+    margin: auto;
+    width: min(960px, 100%, calc((100vh - 170px) * 16 / 9));
+    width: min(960px, 100%, calc((100dvh - 170px) * 16 / 9));
+    background: var(--panel);
+    border: 1px solid var(--line);
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.6);
+    font-family: var(--data);
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .clip-head { display: flex; align-items: center; gap: 12px; padding: 12px 14px 10px; }
+  .clip-head h4 { flex: 1; margin: 0; font-family: var(--display); font-size: 18px; letter-spacing: 0.06em; line-height: 1.15; color: var(--bone); }
+  .clip-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 14px 12px; }
+  .clip-frame { position: relative; aspect-ratio: 16 / 9; background: #000; }
+  .clip-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+  .clip-bar { display: flex; flex-wrap: wrap; gap: 4px 18px; padding: 4px 14px; }
+  .clip-close, .clip-bar button, .clip-bar a {
+    background: none;
+    color: var(--ash);
+    font: inherit;
+    letter-spacing: inherit;
+    text-transform: inherit;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  .clip-close { border: 1px solid var(--line); padding: 8px 12px; }
+  .clip-bar button, .clip-bar a { border: 0; padding: 8px 0; }
+  .clip-close:hover, .clip-bar button:hover, .clip-bar a:hover { color: var(--glacier); }
+
+  /* ---------- footer ---------- */
+
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  .foot p { margin: 0 0 8px; max-width: 76ch; }
+  .foot ul { margin: 0 0 12px; padding-left: 18px; max-width: 76ch; }
+
+  /* ---------- responsive ---------- */
+
+  @media (max-width: 860px) {
+    :root { --raids-h: 46px; --mark: 40px; }
+    .shell { width: calc(100% - 32px); }
+    .timeline::before { display: none; }
+    .beat { grid-template-columns: 1fr; gap: 0; }
+    .beat-mark { padding: 0 0 10px; display: flex; align-items: center; gap: 10px; }
+    .beat-node { position: static; width: 12px; height: 12px; border-width: 2px; }
+    .beat-node::after { width: 0; height: 0; }
+    .beat-trigger { position: static; width: auto; text-align: left; padding: 0; }
+    .beat-trigger small { display: inline; margin-left: 8px; }
+    .phase-tag { width: auto; }
+    .beat-body { padding: 20px 18px 22px; }
+    .plan-track { grid-template-columns: 1fr 1fr; }
+    .masthead { padding-top: 44px; }
+    .chapter a, .clip-tab { padding: 8px 12px 8px 11px; }
+    .clip-pop { padding: 10px; }
+    .clip-close { padding: 10px 14px; }
+    .clip-bar button, .clip-bar a { padding: 11px 0; }
+  }
+
+  /* Phones held sideways: the box keeps the full width so the source tabs fit on one row, and the
+     player takes the height that is left (YouTube letterboxes the video inside it). */
+  @media (max-height: 500px) {
+    .clip-pop { padding: 8px; }
+    .clip-box { width: min(960px, 100%); }
+    .clip-frame { aspect-ratio: auto; height: calc(100vh - 136px); height: calc(100dvh - 136px); }
+    .clip-head { padding: 6px 12px 4px; }
+    .clip-head h4 { font-size: 15px; }
+    .clip-close { padding: 6px 10px; }
+    .clip-tabs { flex-wrap: nowrap; overflow-x: auto; padding-bottom: 6px; }
+    .clip-tabs .clip-tab { flex: none; padding-block: 5px; }
+    .clip-bar button, .clip-bar a { padding: 6px 0; }
+  }
+
+  @media (max-width: 580px) {
+    .raid-tab { padding-inline: 10px; }
+    .raid-ext { display: none; }
+  }
+
+  @media (max-width: 460px) {
+    .raid-tab { padding-inline: 6px; font-size: 12px; letter-spacing: 0.04em; }
+    .raid-tab small { margin-left: 4px; font-size: 9px; letter-spacing: 0.06em; }
+    .brand { padding-right: 8px; margin-right: 2px; }
+  }
+
+  @media (max-width: 370px) {
+    .raid-tab { padding-inline: 4px; font-size: 11px; letter-spacing: 0.02em; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    * { transition: none !important; }
+  }
+</style>
+</head>
+<body>
+<nav class="raids" aria-label="Raids">
+  <div class="shell raids-inner">
+    <a class="brand" href="./" aria-label="LOA guides home"><img src="data:image/webp;base64,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" width="50" height="50" alt=""></a>
+    <a class="raid-tab" href="./" aria-current="page"><span class="raid-ext">Ext.&nbsp;</span>Mordum</a>
+    <a class="raid-tab" href="belgardin.html">Belgardin</a>
+    <a class="raid-tab" href="extreme-brelshaza.html"><span class="raid-ext">Ext.&nbsp;</span>Brelshaza<small>retired</small></a>
+  </div>
+</nav>
+
+<header class="masthead">
+  <div class="shell">
+    <p class="eyebrow">Lost Ark <b>/</b> Kazeros Raid Act 3 <b>/</b> Extreme</p>
+    <h1 class="title">
+      <span>Extreme</span>
+      <span>Mordum</span>
+      <span class="title-sub">Mech and pattern deltas</span>
+    </h1>
+
+    <p class="deck">
+      What changes from the Act 3 Mordum you already run, from Memorizer's guide: a commentary run over a Korean
+      Nightmare clear. Getting hit fills your gauge by a lot and a <strong>full gauge wipes the raid</strong>, puddles stay
+      for 8 minutes, after the 2nd stage break the jumper can ask for A or D, and Nightmare has no revives.
+    </p>
+
+    <div class="facts">
+      <div class="fact">
+        <span class="fact-k">Western release</span>
+        <span class="fact-v">November<small>2026, as Kazeros Act 3: Extreme on the official roadmap. No date yet.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Difficulties</span>
+        <span class="fact-v">3<small>Normal 1730, Hard 1770, Nightmare 1780 per the video. Most of the footage is Sotimerry's Nightmare clear.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Revives</span>
+        <span class="fact-v">0 on Nightmare<small>Normal and Hard have infinite revives, so you can pretty much clear in one go unless a mech wipes the raid.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">HP</span>
+        <span class="fact-v">500 bars<small>His slide starts at 500. Stage breaks at x375, x250 and 125~, then the zero bar.</small></span>
+      </div>
+      <div class="fact">
+        <span class="fact-k">Raid wipe</span>
+        <span class="fact-v">Full gauge<small>Patterns fill it by a lot. At half, your color flips and you drop a puddle.</small></span>
+      </div>
+    </div>
+
+    <p class="prereq">
+      <strong>Read this first.</strong>
+      This is a difference guide, not a full walkthrough: Memorizer covers what changes from the original Act 3
+      Mordum in the system and the mechs, plus a few patterns. He could not clear Extreme
+      Nightmare himself, so most of the footage is Sotimerry's Korean clear, used with permission. For a full run with every
+      pattern, watch <a href="https://www.youtube.com/watch?v=Zha5LQSzXVc" rel="noreferrer">Sotimerry's clear</a>.
+    </p>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Sections">
+  <div class="shell nav-inner">
+    <a class="navlink" href="#prep">Prep</a>
+    <a class="navlink" href="#one-shots">One shots</a>
+    <a class="navlink" href="#mechs">Mechs</a>
+    <a class="navlink" href="#regular-patterns">Regular patterns</a>
+  </div>
+</nav>
+
+<main class="shell">
+
+  <!-- =================== PREP =================== -->
+  <section class="section" id="prep">
+    <div class="section-head">
+      <h2>Prep</h2>
+      <p class="section-note">Shorthand used on this page, the system changes, what to bring and when to spend sidereal.</p>
+    </div>
+
+    <div class="legend">
+      <div class="legend-item">
+        <span class="legend-term t-jg">Just Guard</span>
+        <p>Written <b class="t-jg">JG</b>, always in yellow. A tap of G on the cue. Memorizer just says guard.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">x475</span>
+        <p>HP bar line, as Memorizer labels each mech. His footage often shows the bar lower than the label, and the
+          video doesn't explain the gap.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Red and blue</span>
+        <p>Players are red or blue, and several mechs care which. Written in plain words here, never in the call
+          colors.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Gauge</span>
+        <p>Your own gauge. Getting hit fills it. At <b>half</b> your color flips and you get a puddle. <b>Full</b> is
+          a raid wipe.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Puddle</span>
+        <p>The ground marker you drop off. In Extreme it stays for 8 minutes, so where you drop it matters.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Jumper</span>
+        <p>The jump pad. After the 2nd stage break the key can be <b>A or D</b>, not just A. Check the prompt before
+          you press.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">Stage break</span>
+        <p>At x375, x250 and 125~ on his slide; the chapters also name a 4th. Puddles dropped on the 1st break's side
+          are removed by it, and later puddles go to the next break's side.</p>
+      </div>
+      <div class="legend-item">
+        <span class="legend-term">+3 and +3+1</span>
+        <p>Sidereal cost. A cast spends <b>3 of your 5 bars</b>. The <b>+1</b> is the follow-up cast, which does
+          something different, for 1 more bar.</p>
+      </div>
+    </div>
+
+    <div class="kit">
+      <div class="kit-card">
+        <h3>Battle items</h3>
+        <ul class="kit-list">
+          <li><b>Atropine Potion</b> <span>. Written "Atro" on Memorizer's list.</span></li>
+          <li><b>Dark</b> <span>. Written "dark" on his list; the video doesn't give the full name.</span></li>
+          <li><b>Splendid Sacred Charm</b> <span>. The third item. The video gives no timings for any of them.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Gauge</h3>
+        <ul class="kit-list">
+          <li><b>Fills a lot</b> <span>. Getting hit by patterns fills it by a lot, compared to the original.</span></li>
+          <li><b>At half</b> <span>. Your color reverses and you get a puddle. In his example, paused just after the hit, it was 6 seconds out.</span></li>
+          <li><b>Full</b> <span>. Raid wipe. It is why x425's inner circle can't be greeded any more.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Puddles</h3>
+        <ul class="kit-list">
+          <li><b>8 minutes</b> <span>. Up from 2 in the original, per his notes.</span></li>
+          <li><b>Where</b> <span>. On the side with the single green orb on the minimap. That is where the 1st stage
+            break happens, and the break removes them.</span></li>
+          <li><b>After that</b> <span>. His notes: "Put 1st stage break -&gt; then next". At x140 they go to the side of
+            the next stage break.</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Jumper</h3>
+        <ul class="kit-list">
+          <li><b>After the 2nd break</b> <span>. The key can be A or D, not just A. Check it first.</span></li>
+          <li><b>Where he calls it</b> <span>. x200, the 2nd Super Nova and Chain beam.</span></li>
+          <li><b>Chained players</b> <span>. Can't take the jumper at all (Chain beam).</span></li>
+        </ul>
+      </div>
+
+      <div class="kit-card">
+        <h3>Hyper awakening</h3>
+        <ul class="kit-list">
+          <li><b>x275 anvil</b> <span>. Don't use it. Save it for a harder mech later on.</span></li>
+          <li><b>Red &amp; Blue Zigzag</b> <span>. Use it on the third zigzag instead of guarding.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="plan">
+      <div class="plan-row">
+        <div class="plan-head">
+          <h3>Sidereal, Nightmare</h3>
+          <span>From Memorizer's closing slide. Bastion is the slide's Bastian, Balthorr its Balthor.</span>
+        </div>
+        <div class="plan-track">
+          <div class="plan-step has-cast">
+            <span class="plan-when">x500 to x375</span>
+            <span class="plan-cast">Balthorr +3<small>Early in the first stretch.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Around x375</span>
+            <span class="plan-cast">Bastion +3+1<small>Spanning the 1st stage break.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Before x250</span>
+            <span class="plan-cast">Bastion +3+1<small>Leading into the 2nd stage break.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">x160</span>
+            <span class="plan-cast">Bastion +3+1<small>Or Balthorr +3+1, which he normally recommends. See below.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">125~ to 0</span>
+            <span class="plan-cast">Special Balthorr<small>His label puts it at the 4th stage break.</small></span>
+          </div>
+          <div class="plan-step has-cast">
+            <span class="plan-when">Zero bar</span>
+            <span class="plan-cast">Bastion +3+1<small>Called at the second beaming cross.</small></span>
+          </div>
+        </div>
+      </div>
+      <p class="plan-note">At x160 Memorizer normally recommends <strong>Balthorr +3+1</strong> over Bastion: stagger
+        the boss, then the lead uses the +1 right away while it is still staggered. That does a lot of damage and lowers
+        the DPS everyone needs. His caption adds that the Western DPS check isn't known yet, and if it isn't high,
+        Bastion might be better for gauge management.</p>
+    </div>
+  </section>
+
+  <!-- =================== KILLS =================== -->
+  <section class="section" id="one-shots">
+    <div class="section-head">
+      <h2>One shots</h2>
+      <p class="section-note">What the video calls a raid wipe, a one-shot or a kill. Nightmare has no revives.</p>
+    </div>
+
+    <div class="kills">
+      <div class="kill">
+        <span class="kill-when">All fight</span>
+        <h3 class="kill-what">Full gauge</h3>
+        <p>Raid wipe. Getting hit by patterns fills your gauge by a lot in Extreme.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">x425</span>
+        <h3 class="kill-what">Greeding the inner circle</h3>
+        <p>Fine in the original. In Extreme it fills your gauge to full: raid wipe.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">x425</span>
+        <h3 class="kill-what">The beam</h3>
+        <p>No rectangle telegraph. Backing away from the yellow-puddle player can walk you into it, and it kills.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">x200</span>
+        <h3 class="kill-what">Big orb reaches the boss</h3>
+        <p>Raid wipe. Players whose color is opposite the big orb's walk in front of the boss and kill it; the big orb's
+          color takes the jumper.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Red &amp; Blue Zigzag</span>
+        <h3 class="kill-what">Second attack</h3>
+        <p>Dodge it. Getting hit is a guaranteed death by falling.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Zero bar</span>
+        <h3 class="kill-what">Wrong color</h3>
+        <p>When the boss turns red, every blue player has to change color or will pretty much die. His caption adds
+          that the boss can be blue as well. The color changes once more later.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Zero bar</span>
+        <h3 class="kill-what">Line patterns</h3>
+        <p>Lethal. Gather, then walk out on the berserk timer. People can die if they don't gather properly.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Regular</span>
+        <h3 class="kill-what">2 Fist one-shot</h3>
+        <p>Lines hit the side, then the inner side is a one-shot. Keep away from his front.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Regular</span>
+        <h3 class="kill-what">Slow guard + pound</h3>
+        <p>A missed guard stuns you. After the guard, his front can kill you.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Regular</span>
+        <h3 class="kill-what">2 hands one-shot</h3>
+        <p>The first hit one-shots. Move away, then get back in to dodge the second hit.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Regular</span>
+        <h3 class="kill-what">1 hand one-shot</h3>
+        <p>The first hit one-shots. Stick close to him to dodge it.</p>
+      </div>
+      <div class="kill">
+        <span class="kill-when">Regular, phase 3</span>
+        <h3 class="kill-what">Chain beam</h3>
+        <p>A one-shot beam aimed at one of the two chained players.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =================== FIGHT =================== -->
+  <section class="section" id="mechs">
+    <div class="section-head">
+      <h2>Mechs</h2>
+      <p class="section-note">500 bars with stage breaks on the way down, then the zero bar. Triggers are
+        Memorizer's section labels; each source button opens his video at that moment.</p>
+    </div>
+
+    <div class="timeline">
+
+      <div class="phase-break">
+        <span class="phase-tag">Opening <em>/ x500 to x375</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x475<small>3 marks</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Cross zap</h3>
+            <span class="flag-new">Changed in Extreme</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=109" data-end="195" rel="noreferrer">Memorizer 1:49</a></span>
+          </div>
+          <ul class="calls"><li class="call">Marked: edge</li><li class="call">Others: on the boss</li></ul>
+          <p>The lightning spins really fast, and so does the boss's beam. People get a mark three times, randomly,
+            and the lightning that spreads from the marked player zaps people.</p>
+          <ol class="steps">
+            <li><strong>Marked player:</strong> go to the outer edge and face the edge. The lightning then spreads
+              in an X shape. Stay right at the edge and the outer lightning passes you too.</li>
+            <li><strong>Everyone else:</strong> stay close to the boss while dodging the lightning. From there the
+              two inner lightnings never reach you.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x450<small>colors</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Color swap pizza</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=195" data-end="240" rel="noreferrer">Memorizer 3:15</a></span>
+          </div>
+          <ul class="calls"><li class="call">Your color</li></ul>
+          <p>He does the color pizza four times, and during one of them the players' colors swap. It happens
+            <strong>once only</strong>, on a random pizza: before the first, or on the second, third or fourth.</p>
+          <p>The cue is white text under your name plate (<span lang="ko">전하 변환</span>), which Memorizer reads as color change; your
+            color changes right after it. Once it has changed, it won't change again for the rest of the mech. In the footage it came right before the
+            first pizza: his color flipped from blue to red, and he stayed on red.</p>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x425<small>beam</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Beam with no telegraph</h3>
+            <span class="flag-new is-lethal">Wipe on greed</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=240" data-end="291" rel="noreferrer">Memorizer 4:00</a></span>
+          </div>
+          <ul class="calls"><li class="call">Dodge on the hand</li><li class="call is-lethal">No greed</li></ul>
+          <p>Dodge the orbs first. When he shoots the beam there is <strong>no rectangle telegraph</strong>: dodge it
+            when the hand gathers inside.</p>
+          <p>Someone gets a <strong>yellow puddle</strong> that damages other players in its range. Backing away from
+            that player can walk you into the beam, and the beam kills. If you can't avoid it, just walk with him.</p>
+          <p class="fail"><b>Fails</b> You could greed the inner circle in the original. In Extreme it fills your gauge
+            to full, and a full gauge is a raid wipe.</p>
+          <div class="tip"><b>Otherwise</b> No other difference from the original. Just run away.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x400<small>colors</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Color swap pizza</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=291" data-end="314" rel="noreferrer">Memorizer 4:51</a></span>
+          </div>
+          <ul class="calls"><li class="call">Your color</li></ul>
+          <p>Like x450, this one has only one color change.</p>
+          <p>In the footage: first pizza, no change, go to red. Then one that stays on red, then the change to blue.
+            The last one, no change.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="amber">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x375<small>stage break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>1st stage break</h3>
+            <span class="flag-new">Changed in Extreme</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=314" data-end="371" rel="noreferrer">Memorizer 5:14</a></span>
+          </div>
+          <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Puddles to the break</li></ul>
+          <p>Three players get a <strong>puddle</strong>, one gets the <strong>mark</strong>, which also gives a
+            cross-shaped lightning, and the rest have nothing.</p>
+          <ol class="steps">
+            <li><strong>Puddles:</strong> drop them where the one green orb is on the minimap. That is where the stage
+              break happens.</li>
+            <li><strong>Mark:</strong> stick close to the boss on the orb's side, and be the only one staggering the
+              boss.</li>
+            <li><strong>Nothing:</strong> stagger the orb. Unlike the original, the orb has a stagger bar. It isn't
+              shown at first, but it appears.</li>
+          </ol>
+          <p>Set up like this, the cross lightning hits nobody.</p>
+          <div class="tip"><b>Sidereal</b> The slide's first Bastion +3+1 spans this break.</div>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">To the 2nd break <em>/ x375 to x250</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x325<small>colors</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Color dome and chasing orbs</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=370" data-end="420" rel="noreferrer">Memorizer 6:10</a></span>
+          </div>
+          <ul class="calls"><li class="call">Jumper</li><li class="call">Your color</li></ul>
+          <p>When he makes the orb, the yellow hemisphere turns <strong>red or blue</strong>. That color goes in and the
+            other color stays out. In the footage it was red: red in, blue out.</p>
+          <p>Then eight yellow orbs come out, one chasing each player. One that hits you leaves an <strong>8-minute
+            puddle</strong>, which is really bad.</p>
+          <ol class="steps">
+            <li>Take the jumper to get distance from your yellow orb rather than walking around. Dodged, it
+              disappears.</li>
+            <li>Then take the orbs of your own color. If you don't take them, they leave puddles too.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x300<small>super nova</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>1st Super Nova</h3>
+            <span class="flag-new">Changed in Extreme</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=420" data-end="437" rel="noreferrer">Memorizer 7:00</a></span>
+          </div>
+          <ul class="calls"><li class="call">Jumper</li><li class="call">No counter</li></ul>
+          <p>Unlike the original, you <strong>can't counter</strong> this one. Take the jumper right before he tries to
+            hit: that dodges the smash and the shockwave after it. The 2nd Super Nova wants different timing.</p>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x275<small>anvil</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Anvil</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=436" data-end="480" rel="noreferrer">Memorizer 7:16</a></span>
+          </div>
+          <ul class="calls"><li class="call is-jg">JG x5</li><li class="call">No hyper</li></ul>
+          <p>Guard at least <strong>five times</strong>, no matter what. Don't time it off the flash: watch his hammer
+            get pulled all the way back, and when it starts to move, press G toward the anvil.</p>
+          <ol class="steps">
+            <li>First and second.</li>
+            <li>Third: very slow.</li>
+            <li>Fourth. His notes: "After 4th, 5th always done".</li>
+            <li>Fifth: get out of his front, and guard toward the boss.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> If someone fails, he keeps going. His notes: "If caught, does again
+            continuously". In the footage nobody failed, so it ended there.</p>
+          <div class="tip"><b>Hyper awakening</b> Don't use it here. Save it for a harder mech later on, which he doesn't
+            name. At the Red &amp; Blue Zigzag he says you must use it.</div>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="amber">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x250<small>stage break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>2nd stage break</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=480" data-end="501" rel="noreferrer">Memorizer 8:00</a></span>
+          </div>
+          <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Puddles to the break</li></ul>
+          <p>Same as the first. The mark player sticks close to the boss and staggers him. Puddle players go to where
+            the break will happen. Everyone else staggers the orb.</p>
+          <div class="tip"><b>Sidereal</b> The slide puts a Bastion +3+1 just before this break. From here on, the
+            jumper can ask for A or D.</div>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">To the 3rd break <em>/ x250 to 125~</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x200<small>big orb</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Red left, blue right</h3>
+            <span class="flag-new is-lethal">Wipe on fail</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=501" data-end="548" rel="noreferrer">Memorizer 8:21</a></span>
+          </div>
+          <ul class="calls"><li class="call">Jumper, A or D</li><li class="call">Kill the big orb</li></ul>
+          <p>Red goes to the left side, blue to the right. New in Extreme: a <strong>big orb</strong> in the center. If
+            it reaches the boss, the raid wipes.</p>
+          <ol class="steps">
+            <li>Players the <strong>same color as the big orb</strong> take the jumper and go to the opposite side.</li>
+            <li>Players of the <strong>opposite color</strong> walk in front of the boss and kill the big orb.</li>
+            <li>Kill all the small orbs too. On Nightmare the DPS check is pretty high, and you don't want him to get
+              a shield.</li>
+          </ol>
+          <div class="tip"><b>Jumper</b> After the 2nd break it can be A or D; in the footage it was D. His notes for
+            this mech also say "Need 4/4".</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x180<small>colors</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Check your color</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=548" data-end="566" rel="noreferrer">Memorizer 9:08</a></span>
+          </div>
+          <ul class="calls"><li class="call">Your color</li></ul>
+          <p>Go and step on the correct color. His notes: "Check the color and move".</p>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x160<small>stagger</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Stagger, then the changing area</h3>
+            <span class="flag-new">Changed in Extreme</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=566" data-end="604" rel="noreferrer">Memorizer 9:26</a><a href="https://youtu.be/Qnmv4rFPgl0?t=604" data-end="649" rel="noreferrer">Memorizer 10:04</a></span>
+          </div>
+          <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Balthorr +3+1</li><li class="call">Swap colors</li></ul>
+          <p>Stagger the boss and ignore the hammer. For sidereal you can use Bastion, as in the original, or
+            <strong>Balthorr</strong> on the boss: once the stagger is done, the lead uses the +1 right away while the
+            boss is still staggered. That does a lot of damage and lowers the DPS everyone needs, so Balthorr +3+1 is
+            normally the pick over Bastion.</p>
+          <p>After the stagger, unlike the original, the <strong>changing area goes to a random person</strong>, not
+            to whoever is closest to the boss. That makes it easy to brain-fart. His on-screen solve:</p>
+          <ol class="steps">
+            <li>Different colors gather to the boss first.</li>
+            <li><strong>Correct color gets it:</strong> that player goes to the nearest opposite color. The people who
+              need to change follow, and all swap.</li>
+            <li><strong>Different color gets it:</strong> as in the original, the different colors all swap together
+              in front of the boss.</li>
+          </ol>
+          <div class="tip"><b>Western DPS check</b> Not known yet. If it isn't high, Bastion might be better for gauge
+            management (his caption).</div>
+          <div class="tip"><b>Practice</b> Memorizer's description links a
+            <a href="https://deploy-vert-seven-11.vercel.app" rel="noreferrer">practice site for this mech</a>.</div>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x140<small>puddles</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Puddles in the color pizza</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=649" data-end="687" rel="noreferrer">Memorizer 10:49</a></span>
+          </div>
+          <ul class="calls"><li class="call">Your color</li><li class="call">Puddle to the next break</li></ul>
+          <p>Some players get a puddle while the pizza goes off four times. Drop the puddle on the side of the <strong>next
+            stage break</strong>, the right side in the footage.</p>
+          <p>You also have to stay in the correct color pizza the whole time. Move around in the center, and when your
+            puddle is about to drop, move to the edge on that side. Then just dodge.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="amber">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">125~<small>stage break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>3rd stage break</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=687" data-end="700" rel="noreferrer">Memorizer 11:27</a></span>
+          </div>
+          <p>Shown without commentary. The slide prints 3rd Stage Break under its 125~ mark, and the x140 puddles go to
+            its side.</p>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">To zero <em>/ 125~ to x0</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Late<small>after 3rd break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Red &amp; Blue Zigzag</h3>
+            <span class="flag-new is-lethal">Fall death</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=700" data-end="742" rel="noreferrer">Memorizer 11:40</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call is-jg">JG</li>
+            <li class="call">Hyper awakening</li>
+            <li class="call">Your color</li>
+          </ul>
+          <ol class="steps">
+            <li>Be on your correct color, and <span class="t-jg">guard</span> when it closes in.</li>
+            <li>The second attack: <strong>dodge it</strong>. It kills you by falling, guaranteed.</li>
+            <li>The third zigzag: don't try to guard it. <strong>Use hyper awakening.</strong> Being on the correct
+              color and guarding at the same time is very hard.</li>
+            <li>Then go to the correct color and guard: one, two.</li>
+            <li>Move out from the center.</li>
+          </ol>
+        </div>
+      </article>
+
+      <article class="beat">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Late<small>super nova</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>2nd Super Nova</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=742" data-end="783" rel="noreferrer">Memorizer 12:22</a></span>
+          </div>
+          <ul class="calls"><li class="call">Jumper, A or D</li></ul>
+          <p>His smash leaves a <strong>big puddle</strong>, and by now the field is already too small to lose more of
+            it. So make him smash <strong>outside the field</strong>.</p>
+          <p>The timing: take the jumper as soon as he does the first charge. At x300 it was right before he tries to hit. In the footage the puddle that lands
+            there does nothing.</p>
+        </div>
+      </article>
+
+      <article class="beat" data-tone="amber">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">Late<small>stage break</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>4th stage break and Special Balthorr</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=783" data-end="820" rel="noreferrer">Memorizer 13:03</a></span>
+          </div>
+          <ul class="calls"><li class="call">Special Balthorr</li></ul>
+          <p>Shown without commentary. His label names Special Balthorr here, and the slide places it between its
+            125~ mark and 0.</p>
+          <div class="differ"><b>Sources differ</b> The chapter list and this label name a 4th stage break. The
+            closing slide marks only three, the third under 125~.</div>
+        </div>
+      </article>
+
+      <div class="phase-break">
+        <span class="phase-tag">Zero bar <em>/ after x0</em></span>
+        <span class="phase-rule"></span>
+      </div>
+
+      <article class="beat" data-tone="ember">
+        <div class="beat-mark">
+          <span class="beat-node"></span>
+          <span class="beat-trigger">x0<small>zero bar</small></span>
+        </div>
+        <div class="beat-body">
+          <div class="beat-head">
+            <h3>Zero bar</h3>
+            <span class="flag-new is-lethal">Lethal lines</span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=820" data-end="924" rel="noreferrer">Memorizer 13:40</a></span>
+          </div>
+          <ul class="calls">
+            <li class="call">Bastion +3+1</li>
+            <li class="call">Your color</li>
+            <li class="call">Berserk timer</li>
+          </ul>
+          <p>It opens the same way as the original raid.</p>
+          <ol class="steps">
+            <li><strong>Zigzag puddle:</strong> dodge it and drop the puddles on the backside.</li>
+            <li><strong>Beaming cross:</strong> three times, for a long time.</li>
+            <li><strong>First:</strong> dodge it right after it ends, because it fires once more.</li>
+            <li><strong>Second:</strong> stand in the safe zone, then move when it ends. Use <strong>Bastion
+              +3+1</strong>.</li>
+            <li><strong>Third:</strong> dodge it, then move one time.</li>
+            <li><strong>Color:</strong> the boss turns red, so every blue player changes color. Anyone who doesn't will
+              pretty much die. The boss can be blue as well. It changes once more; in the footage it went neutral
+              yellow, so that one didn't matter.</li>
+            <li><strong>Lines:</strong> lethal. Everyone gathers, then walks out when the berserk timer (the countdown
+              at the left end of the boss bar) hits exactly one, 1:00 on the timer in the footage. The lines come
+              once more: this time move at exactly 54 seconds.</li>
+            <li>After that the pattern just repeats. Full DPS.</li>
+          </ol>
+          <p class="fail"><b>Fails</b> People can die if they don't gather properly for the lines.</p>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =================== PATTERNS =================== -->
+  <section class="section" id="regular-patterns">
+    <div class="section-head">
+      <h2>Regular patterns</h2>
+      <p class="section-note">A few patterns Memorizer picks out, under his own title cards and labels. The phase
+        numbers are his; the video doesn't say where each phase starts. The hand and hammer clips come from a
+        different recording than the Nightmare clear, and the video doesn't say which difficulty.</p>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Hand patterns</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <p class="pat-lede">His card: phase 1 and phase 3.</p>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">2 Fist one-shot <span class="call is-lethal">One shot</span></h4>
+          <p>Hits the side in lines, then one-shots the inner side. Move away, or keep your distance from his front.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=926" data-end="937" rel="noreferrer">Memorizer 15:26</a></div>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">Slow guard + pound <span class="call is-jg">JG</span></h4>
+          <p><span class="t-jg">Guard</span> 2 seconds after the flash; missing it stuns you. Then move away from his
+            front, which can kill you.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=937" data-end="947" rel="noreferrer">Memorizer 15:37</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Hammer patterns</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <p class="pat-lede">His card: phase 2 and phase 4.</p>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Upside-down hammer &amp; beam</h4>
+          <p>Stay in front. After he puts the hammer down, move out.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=949" data-end="958" rel="noreferrer">Memorizer 15:49</a></div>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">2 hands one-shot <span class="call is-lethal">One shot</span></h4>
+          <p>The first hit is a one-shot. Move away, then get back in to dodge the second hit.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=958" data-end="965" rel="noreferrer">Memorizer 15:58</a></div>
+        </div>
+        <div class="pat">
+          <h4 class="pat-title">1 hand one-shot <span class="call is-lethal">One shot</span></h4>
+          <p>Compared to the original, a third hit is added, in a donut range. First hit: one-shot. Second: a
+            shockwave nearby. Third (donut): the previous shockwave is the safe zone.</p>
+          <p>Better: stick close with a support's shield. Stay close to dodge the first hit, push-immune the second,
+            stay close to dodge the third.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=965" data-end="988" rel="noreferrer">Memorizer 16:05</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pat-group">
+      <div class="pat-head">
+        <h3>Phase 3 only</h3>
+        <span class="phase-rule"></span>
+      </div>
+      <div class="pat-grid">
+        <div class="pat">
+          <h4 class="pat-title">Chain beam <span class="call is-lethal">One shot</span></h4>
+          <p>Two players get chained and can't take the jumper, and the boss aims a one-shot beam at one of them.</p>
+          <p>The chained pair aggro it to the center, then dodge to the right side. The other six move to the left side
+            and take the jumper, A or D. The beam moves toward the side with more people.</p>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=990" data-end="1008" rel="noreferrer">Memorizer 16:30</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <p><strong>Source.</strong> "[Lost Ark] Extreme Mordum Guide" by Memorizer, published 11 November 2026 (16:54 long).
+      <a href="https://youtu.be/Qnmv4rFPgl0" rel="noreferrer">youtu.be/Qnmv4rFPgl0</a>. Most of the footage is
+      Sotimerry's Korean Nightmare clear, used with permission. The gauge example, part of x160 and the hand and
+      hammer patterns come from other recordings, and the x160 examples run on the practice site. The full clear is
+      <a href="https://www.youtube.com/watch?v=Zha5LQSzXVc" rel="noreferrer">Sotimerry's video</a> (26 September 2026).
+      The description also links a <a href="https://deploy-vert-seven-11.vercel.app" rel="noreferrer">practice site
+      for x160</a>.</p>
+    <p><strong>Scope.</strong> Built from the narration and Memorizer's on-screen notes, section labels, captions and
+      closing sidereal slide, then checked claim by claim against the footage. It is a difference guide against the
+      original Act 3 Mordum and covers only what the video covers. Sidereal names use the client spelling from the
+      official Act 3 release notes (Bastion, Balthorr); the slide writes Bastian and Balthor. The November release is
+      from the official October to December 2026 roadmap.</p>
+    <p><strong>Numbers.</strong> The difficulty numbers and revives are as the video gives them; the West has no details yet.
+      HP lines are Memorizer's section labels. His footage often shows the bar lower, sometimes by 20 or more.</p>
+    <p><strong>Still open.</strong></p>
+    <ul>
+      <li>The Western DPS check. Memorizer's own caption says it isn't known yet.</li>
+      <li>How many stage breaks there are. The chapters and one label name four; the closing slide marks three.</li>
+      <li>Where phases 1 to 4 on the pattern cards begin. The video doesn't say.</li>
+      <li>Two things the video leaves unexplained: what the zero bar opens with (the captions hear "Desaluda"), and
+        "Need 4/4" in his x200 notes.</li>
+    </ul>
+  </footer>
+
+</main>
+
+<script>
+  (function () {
+    var pairs = [];
+    Array.prototype.forEach.call(document.querySelectorAll('.navlink'), function (link) {
+      var section = document.querySelector(link.getAttribute('href'));
+      if (section) pairs.push({ link: link, section: section });
+    });
+
+    if (!pairs.length) return;
+
+    /* Position, not intersectionRatio: ratio is normalized by element height,
+       so a 6000px section can never outscore a 500px one. */
+    /* Just below where a jumped-to section lands (scroll-padding-top),
+       so the tab you clicked is the one that lights up. */
+    function line() {
+      return (parseFloat(getComputedStyle(document.documentElement).scrollPaddingTop) || 140) + 20;
+    }
+    var queued = false;
+    var inner = document.querySelector('.nav-inner');
+    var shown = -1;
+
+    function update() {
+      queued = false;
+      var doc = document.scrollingElement;
+      var atBottom = doc.scrollTop + window.innerHeight >= doc.scrollHeight - 2;
+      var active = atBottom ? pairs.length - 1 : -1;
+
+      if (!atBottom) {
+        var LINE = line();
+        for (var i = 0; i < pairs.length; i++) {
+          if (pairs[i].section.getBoundingClientRect().top <= LINE) active = i;
+        }
+      }
+
+      pairs.forEach(function (p, i) { p.link.classList.toggle('is-live', i === active); });
+
+      /* The tabs can overflow a phone: keep the live one centered in the strip. */
+      if (active !== shown && active >= 0) {
+        var link = pairs[active].link;
+        inner.scrollTo({ left: link.offsetLeft - inner.offsetLeft - (inner.clientWidth - link.offsetWidth) / 2 });
+      }
+      shown = active;
+    }
+
+    function queue() {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    }
+
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
+  })();
+</script>
+
+<script>
+  (function () {
+    var root = document.documentElement;
+    var phone = window.matchMedia('(max-width: 860px)');
+    var last = window.scrollY;
+    var queued = false;
+
+    /* The current raid's tab is the way back to the top. */
+    var current = document.querySelector('.raid-tab[aria-current="page"]');
+    if (current) current.addEventListener('click', function (e) {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    function update() {
+      queued = false;
+      var y = window.scrollY;
+      var away = root.classList.contains('raids-away');
+      if (!phone.matches || y < 120) away = false;
+      else if (y > last + 6) away = true;
+      else if (y < last - 6) away = false;
+      if (Math.abs(y - last) > 6 || y < 120) last = y;
+      root.classList.toggle('raids-away', away);
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!queued) { queued = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    phone.addEventListener('change', update);
+  })();
+</script>
+
+<script>
+  (function () {
+    /* Source links play their clip in one pop-up player. Nothing loads from YouTube until
+       a tap, and without this script each link still opens YouTube at that moment. */
+    if (!document.querySelector('.chapter a')) return;
+
+    var root = document.documentElement;
+    var pop, title, tabs, frame, youtube, closer;
+    var sources = [];
+    var current = null;
+    var opener = null;
+    var openedAt = 0;
+
+    Array.prototype.forEach.call(document.querySelectorAll('.chapter a'), function (link) {
+      link.setAttribute('aria-haspopup', 'dialog');
+    });
+
+    /* The card's name without its call chips. */
+    function plain(heading) {
+      var text = '';
+      Array.prototype.forEach.call(heading.childNodes, function (node) {
+        if (node.nodeType === 3) text += node.textContent;
+      });
+      return text.trim();
+    }
+
+    function build() {
+      pop = document.createElement('div');
+      pop.className = 'clip-pop';
+      pop.hidden = true;
+      pop.innerHTML =
+        '<div class="clip-box" role="dialog" aria-modal="true" aria-labelledby="clip-title">' +
+          '<div class="clip-head"><h4 id="clip-title"></h4><button type="button" class="clip-close">Close</button></div>' +
+          '<div class="clip-tabs" role="group" aria-label="Sources"></div>' +
+          '<div class="clip-frame"></div>' +
+          '<div class="clip-bar"><button type="button" class="clip-replay">Replay</button>' +
+            '<a class="clip-youtube" target="_blank" rel="noreferrer" aria-label="Open on YouTube (new tab)">Open on YouTube</a></div>' +
+        '</div>';
+      document.body.appendChild(pop);
+      title = pop.querySelector('h4');
+      tabs = pop.querySelector('.clip-tabs');
+      frame = pop.querySelector('.clip-frame');
+      youtube = pop.querySelector('.clip-youtube');
+      closer = pop.querySelector('.clip-close');
+
+      closer.addEventListener('click', close);
+      pop.querySelector('.clip-replay').addEventListener('click', function () { play(current); });
+      /* The second tap of a double tap lands on the backdrop; it must not close what the first one opened. */
+      pop.addEventListener('click', function (e) {
+        if (e.target === pop && Date.now() - openedAt > 400) close();
+      });
+      tabs.addEventListener('click', function (e) {
+        var tab = e.target.closest('.clip-tab');
+        if (tab) play(sources[Array.prototype.indexOf.call(tabs.children, tab)]);
+      });
+    }
+
+    function play(link) {
+      var at = link.href.match(/youtu\.be\/([\w-]+)\?t=(\d+)/);
+      var end = link.getAttribute('data-end');
+      var player = document.createElement('iframe');
+      player.src = 'https://www.youtube-nocookie.com/embed/' + at[1] + '?start=' + at[2] +
+        (end ? '&end=' + end : '') + '&autoplay=1&rel=0&playsinline=1';
+      player.title = title.textContent + ', ' + link.textContent;
+      player.allow = 'autoplay; encrypted-media; picture-in-picture';
+      player.allowFullscreen = true;
+      player.referrerPolicy = 'strict-origin-when-cross-origin';
+      frame.textContent = '';
+      frame.appendChild(player);
+      youtube.href = link.href;
+      current = link;
+      Array.prototype.forEach.call(tabs.children, function (tab, i) {
+        tab.setAttribute('aria-pressed', sources[i] === link ? 'true' : 'false');
+      });
+    }
+
+    /* Everything outside the player is inert while it is open, so focus stays inside it. */
+    function inert(on) {
+      Array.prototype.forEach.call(document.body.children, function (el) {
+        if (el !== pop) el.inert = on;
+      });
+    }
+
+    function open(link) {
+      if (!pop) build();
+      var card = link.closest('.beat-body, .pat');
+      sources = Array.prototype.slice.call(card.querySelectorAll('.chapter a'));
+      title.textContent = plain(card.querySelector('h3, h4'));
+      tabs.textContent = '';
+      sources.forEach(function (source) {
+        var tab = document.createElement('button');
+        tab.type = 'button';
+        tab.className = 'clip-tab';
+        tab.textContent = source.textContent;
+        tabs.appendChild(tab);
+      });
+      play(link);
+      opener = link;
+      openedAt = Date.now();
+      pop.hidden = false;
+      root.classList.add('clip-open');
+      inert(true);
+      history.pushState({ clip: true }, '');
+      closer.focus();
+    }
+
+    function hide() {
+      if (!pop || pop.hidden) return;
+      pop.hidden = true;
+      frame.textContent = '';
+      root.classList.remove('clip-open');
+      inert(false);
+      if (opener) opener.focus({ preventScroll: true });
+    }
+
+    /* The open player owns one history entry, so a phone's Back button closes it. Closing any
+       other way hides it first, then drops that entry; the popstate that follows finds it hidden. */
+    function close() {
+      if (!pop || pop.hidden) return;
+      hide();
+      if (history.state && history.state.clip) history.back();
+    }
+
+    window.addEventListener('popstate', hide);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && pop && !pop.hidden) close();
+    });
+    document.addEventListener('click', function (e) {
+      var link = e.target.closest('.chapter a');
+      if (!link || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      open(link);
+    });
+  })();
+</script>
+
+</body>
+</html>
