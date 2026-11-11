@@ -587,7 +587,9 @@
 
   /* ---------- footer ---------- */
 
-  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  /* Two columns above the phone breakpoint, so the long source notes use the page width at a readable line length. */
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px;
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
   .foot p { margin: 0 0 8px; max-width: 76ch; }
   .foot ul { margin: 0 0 12px; padding-left: 18px; max-width: 76ch; }
 
@@ -606,6 +608,7 @@
     .phase-tag { width: auto; }
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
+    .foot { display: block; }
     .masthead { padding-top: 44px; }
     .chapter a, .clip-tab { padding: 8px 12px 8px 11px; }
     .clip-pop { padding: 10px; }
@@ -1439,6 +1442,7 @@
   </section>
 
   <footer class="foot">
+    <div class="foot-col">
     <p><strong>Source.</strong> "[Lost Ark] Extreme Mordum Guide" by Memorizer, published 11 November 2026 (16:54 long).
       <a href="https://youtu.be/Qnmv4rFPgl0" rel="noreferrer">youtu.be/Qnmv4rFPgl0</a>. Most of the footage is
       Sotimerry's Korean Nightmare clear, used with permission. The gauge example, part of x160 and the hand and
@@ -1454,6 +1458,8 @@
       original Act 3 Mordum and covers only what the video covers. Sidereal names use the client spelling from the
       official Act 3 release notes (Bastion, Balthorr); the slide writes Bastian and Balthor. The November release is
       from the official October to December 2026 roadmap.</p>
+    </div>
+    <div class="foot-col">
     <p><strong>Numbers.</strong> The difficulty numbers and revives are as the video gives them; the West has no details yet.
       HP lines are Memorizer's section labels. His footage often shows the bar lower, sometimes by 20 or more.</p>
     <p><strong>Still open.</strong></p>
@@ -1464,6 +1470,7 @@
       <li>Two things the video leaves unexplained: what the zero bar opens with (the captions hear "Desaluda"), and
         "Need 4/4" in his x200 notes.</li>
     </ul>
+    </div>
   </footer>
 
 </main>
