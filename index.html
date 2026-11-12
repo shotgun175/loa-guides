@@ -233,7 +233,8 @@
 
   .section { padding: 76px 0 12px; }
 
-  .section-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 34px; }
+  /* The description sits under the heading and runs the full width. */
+  .section-head { display: grid; gap: 12px; margin-bottom: 34px; }
   .section-head h2 {
     font-family: var(--display);
     text-transform: uppercase;
@@ -243,7 +244,7 @@
     margin: 0;
     line-height: 1;
   }
-  .section-note { color: var(--ash); font-size: 14.5px; max-width: 58ch; margin: 0; }
+  .section-note { color: var(--ash); font-size: 14.5px; margin: 0; }
 
   /* ---------- legend ---------- */
 
@@ -499,7 +500,7 @@
     color: var(--bone);
     font-weight: 600;
   }
-  .pat-lede { margin: -6px 0 18px; font-size: 14.5px; color: var(--ash); max-width: 72ch; }
+  .pat-lede { margin: -6px 0 18px; font-size: 14.5px; color: var(--ash); }
 
   .pat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
   .pat {
@@ -587,7 +588,9 @@
 
   /* ---------- footer ---------- */
 
-  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  /* Two columns above the phone breakpoint, so the long source notes use the page width at a readable line length. */
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px;
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
   .foot p { margin: 0 0 8px; max-width: 76ch; }
   .foot ul { margin: 0 0 12px; padding-left: 18px; max-width: 76ch; }
 
@@ -606,6 +609,7 @@
     .phase-tag { width: auto; }
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
+    .foot { display: block; }
     .masthead { padding-top: 44px; }
     .chapter a, .clip-tab { padding: 8px 12px 8px 11px; }
     .clip-pop { padding: 10px; }
@@ -755,7 +759,7 @@
       </div>
       <div class="legend-item">
         <span class="legend-term">Stage break</span>
-        <p>At x375, x250 and 125~ on his slide; the chapters also name a 4th. Puddles dropped on the 1st break's side
+        <p>At x375, x250 and 125~ on his slide; the chapters also name a 4th. Maxroll calls them Break &amp; Duel. Puddles dropped on the 1st break's side
           are removed by it, and later puddles go to the next break's side.</p>
       </div>
       <div class="legend-item">
@@ -799,8 +803,8 @@
         <h3>Jumper</h3>
         <ul class="kit-list">
           <li><b>After the 2nd break</b> <span>. The key can be A or D, not just A. Check it first.</span></li>
-          <li><b>Where he calls it</b> <span>. x200, the 2nd Super Nova and Chain beam.</span></li>
-          <li><b>Chained players</b> <span>. Can't take the jumper at all (Chain beam).</span></li>
+          <li><b>Where he calls it</b> <span>. x200, Supernova #2 and Tracking Laser.</span></li>
+          <li><b>Chained players</b> <span>. Can't take the jumper at all (Tracking Laser).</span></li>
         </ul>
       </div>
 
@@ -808,7 +812,7 @@
         <h3>Hyper awakening</h3>
         <ul class="kit-list">
           <li><b>x275 anvil</b> <span>. Don't use it. Save it for a harder mech later on.</span></li>
-          <li><b>Red &amp; Blue Zigzag</b> <span>. Use it on the third zigzag instead of guarding.</span></li>
+          <li><b>Dance Floor</b> <span>. Use it on the third zigzag instead of guarding.</span></li>
         </ul>
       </div>
     </div>
@@ -883,7 +887,7 @@
           color takes the jumper.</p>
       </div>
       <div class="kill">
-        <span class="kill-when">Red &amp; Blue Zigzag</span>
+        <span class="kill-when">Dance Floor</span>
         <h3 class="kill-what">Second attack</h3>
         <p>Dodge it. Getting hit is a guaranteed death by falling.</p>
       </div>
@@ -915,12 +919,12 @@
       </div>
       <div class="kill">
         <span class="kill-when">Regular</span>
-        <h3 class="kill-what">1 hand one-shot</h3>
+        <h3 class="kill-what">Charged Hammer</h3>
         <p>The first hit one-shots. Stick close to him to dodge it.</p>
       </div>
       <div class="kill">
         <span class="kill-when">Regular, phase 3</span>
-        <h3 class="kill-what">Chain beam</h3>
+        <h3 class="kill-what">Tracking Laser</h3>
         <p>A one-shot beam aimed at one of the two chained players.</p>
       </div>
     </div>
@@ -931,7 +935,9 @@
     <div class="section-head">
       <h2>Mechs</h2>
       <p class="section-note">500 bars with stage breaks on the way down, then the zero bar. Triggers are
-        Memorizer's section labels; each source button opens his video at that moment.</p>
+        Memorizer's section labels. Mech names start from what the original Gate 3 mechs are called (mostly
+        Maxroll's names) and add what Extreme changes. The Memorizer button plays his clip; the Sotimerry button plays the same mech from her clear in real time, start
+        to finish.</p>
     </div>
 
     <div class="timeline">
@@ -948,9 +954,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Cross zap</h3>
+            <h3>Twister #1 with 3 cross marks</h3>
             <span class="flag-new">Changed in Extreme</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=109" data-end="195" rel="noreferrer">Memorizer 1:49</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=109" data-end="195" rel="noreferrer">Memorizer 1:49</a><a href="https://youtu.be/Zha5LQSzXVc?t=51" data-end="84" rel="noreferrer">Sotimerry 0:51</a></span>
           </div>
           <ul class="calls"><li class="call">Marked: edge</li><li class="call">Others: on the boss</li></ul>
           <p>The lightning spins really fast, and so does the boss's beam. People get a mark three times, randomly,
@@ -971,8 +977,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Color swap pizza</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=195" data-end="240" rel="noreferrer">Memorizer 3:15</a></span>
+            <h3>Twister #2 with random color swap</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=195" data-end="240" rel="noreferrer">Memorizer 3:15</a><a href="https://youtu.be/Zha5LQSzXVc?t=115" data-end="141" rel="noreferrer">Sotimerry 1:55</a></span>
           </div>
           <ul class="calls"><li class="call">Your color</li></ul>
           <p>He does the color pizza four times, and during one of them the players' colors swap. It happens
@@ -990,9 +996,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Beam with no telegraph</h3>
+            <h3>Laser Chase with no telegraph</h3>
             <span class="flag-new is-lethal">Wipe on greed</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=240" data-end="291" rel="noreferrer">Memorizer 4:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=240" data-end="291" rel="noreferrer">Memorizer 4:00</a><a href="https://youtu.be/Zha5LQSzXVc?t=193" data-end="244" rel="noreferrer">Sotimerry 3:13</a></span>
           </div>
           <ul class="calls"><li class="call">Dodge on the hand</li><li class="call is-lethal">No greed</li></ul>
           <p>Dodge the orbs first. When he shoots the beam there is <strong>no rectangle telegraph</strong>: dodge it
@@ -1012,8 +1018,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Color swap pizza</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=291" data-end="314" rel="noreferrer">Memorizer 4:51</a></span>
+            <h3>Rotating laser with color swap on 3rd pizza</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=291" data-end="314" rel="noreferrer">Memorizer 4:51</a><a href="https://youtu.be/Zha5LQSzXVc?t=272" data-end="295" rel="noreferrer">Sotimerry 4:32</a></span>
           </div>
           <ul class="calls"><li class="call">Your color</li></ul>
           <p>Like x450, this one has only one color change.</p>
@@ -1031,7 +1037,7 @@
           <div class="beat-head">
             <h3>1st stage break</h3>
             <span class="flag-new">Changed in Extreme</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=314" data-end="371" rel="noreferrer">Memorizer 5:14</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=314" data-end="371" rel="noreferrer">Memorizer 5:14</a><a href="https://youtu.be/Zha5LQSzXVc?t=310" data-end="334" rel="noreferrer">Sotimerry 5:10</a></span>
           </div>
           <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Puddles to the break</li></ul>
           <p>Three players get a <strong>puddle</strong>, one gets the <strong>mark</strong>, which also gives a
@@ -1061,8 +1067,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Color dome and chasing orbs</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=370" data-end="420" rel="noreferrer">Memorizer 6:10</a></span>
+            <h3>Color Dome Smash with chasing orbs</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=370" data-end="420" rel="noreferrer">Memorizer 6:10</a><a href="https://youtu.be/Zha5LQSzXVc?t=411" data-end="434" rel="noreferrer">Sotimerry 6:51</a></span>
           </div>
           <ul class="calls"><li class="call">Jumper</li><li class="call">Your color</li></ul>
           <p>When he makes the orb, the yellow hemisphere turns <strong>red or blue</strong>. That color goes in and the
@@ -1084,13 +1090,13 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>1st Super Nova</h3>
+            <h3>Supernova #1 with no counter</h3>
             <span class="flag-new">Changed in Extreme</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=420" data-end="437" rel="noreferrer">Memorizer 7:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=420" data-end="437" rel="noreferrer">Memorizer 7:00</a><a href="https://youtu.be/Zha5LQSzXVc?t=479" data-end="495" rel="noreferrer">Sotimerry 7:59</a></span>
           </div>
           <ul class="calls"><li class="call">Jumper</li><li class="call">No counter</li></ul>
           <p>Unlike the original, you <strong>can't counter</strong> this one. Take the jumper right before he tries to
-            hit: that dodges the smash and the shockwave after it. The 2nd Super Nova wants different timing.</p>
+            hit: that dodges the smash and the shockwave after it. Supernova #2 wants different timing.</p>
         </div>
       </article>
 
@@ -1101,8 +1107,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Anvil</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=436" data-end="480" rel="noreferrer">Memorizer 7:16</a></span>
+            <h3>Anvil with 5 guards</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=436" data-end="480" rel="noreferrer">Memorizer 7:16</a><a href="https://youtu.be/Zha5LQSzXVc?t=535" data-end="558" rel="noreferrer">Sotimerry 8:55</a></span>
           </div>
           <ul class="calls"><li class="call is-jg">JG x5</li><li class="call">No hyper</li></ul>
           <p>Guard at least <strong>five times</strong>, no matter what. Don't time it off the flash: watch his hammer
@@ -1116,7 +1122,7 @@
           <p class="fail"><b>Fails</b> If someone fails, he keeps going. His notes: "If caught, does again
             continuously". In the footage nobody failed, so it ended there.</p>
           <div class="tip"><b>Hyper awakening</b> Don't use it here. Save it for a harder mech later on, which he doesn't
-            name. At the Red &amp; Blue Zigzag he says you must use it.</div>
+            name. At the Dance Floor he says you must use it.</div>
         </div>
       </article>
 
@@ -1128,7 +1134,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>2nd stage break</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=480" data-end="501" rel="noreferrer">Memorizer 8:00</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=480" data-end="501" rel="noreferrer">Memorizer 8:00</a><a href="https://youtu.be/Zha5LQSzXVc?t=612" data-end="634" rel="noreferrer">Sotimerry 10:12</a></span>
           </div>
           <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Puddles to the break</li></ul>
           <p>Same as the first. The mark player sticks close to the boss and staggers him. Puddle players go to where
@@ -1150,9 +1156,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Red left, blue right</h3>
+            <h3>Shield Disruption with a big center orb</h3>
             <span class="flag-new is-lethal">Wipe on fail</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=501" data-end="548" rel="noreferrer">Memorizer 8:21</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=501" data-end="548" rel="noreferrer">Memorizer 8:21</a><a href="https://youtu.be/Zha5LQSzXVc?t=714" data-end="750" rel="noreferrer">Sotimerry 11:54</a></span>
           </div>
           <ul class="calls"><li class="call">Jumper, A or D</li><li class="call">Kill the big orb</li></ul>
           <p>Red goes to the left side, blue to the right. New in Extreme: a <strong>big orb</strong> in the center. If
@@ -1175,8 +1181,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Check your color</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=548" data-end="566" rel="noreferrer">Memorizer 9:08</a></span>
+            <h3>Charged Field #1, check your color</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=548" data-end="566" rel="noreferrer">Memorizer 9:08</a><a href="https://youtu.be/Zha5LQSzXVc?t=775" data-end="798" rel="noreferrer">Sotimerry 12:55</a></span>
           </div>
           <ul class="calls"><li class="call">Your color</li></ul>
           <p>Go and step on the correct color. His notes: "Check the color and move".</p>
@@ -1190,9 +1196,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Stagger, then the changing area</h3>
+            <h3>Hammer Split with random changing area</h3>
             <span class="flag-new">Changed in Extreme</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=566" data-end="604" rel="noreferrer">Memorizer 9:26</a><a href="https://youtu.be/Qnmv4rFPgl0?t=604" data-end="649" rel="noreferrer">Memorizer 10:04</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=566" data-end="604" rel="noreferrer">Memorizer 9:26</a><a href="https://youtu.be/Qnmv4rFPgl0?t=604" data-end="649" rel="noreferrer">Memorizer 10:04</a><a href="https://youtu.be/Zha5LQSzXVc?t=822" data-end="867" rel="noreferrer">Sotimerry 13:42</a></span>
           </div>
           <ul class="calls"><li class="call is-stagger">Stagger</li><li class="call">Balthorr +3+1</li><li class="call">Swap colors</li></ul>
           <p>Stagger the boss and ignore the hammer. For sidereal you can use Bastion, as in the original, or
@@ -1222,8 +1228,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Puddles in the color pizza</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=649" data-end="687" rel="noreferrer">Memorizer 10:49</a></span>
+            <h3>Charged Field #2 with puddles</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=649" data-end="687" rel="noreferrer">Memorizer 10:49</a><a href="https://youtu.be/Zha5LQSzXVc?t=904" data-end="931" rel="noreferrer">Sotimerry 15:04</a></span>
           </div>
           <ul class="calls"><li class="call">Your color</li><li class="call">Puddle to the next break</li></ul>
           <p>Some players get a puddle while the pizza goes off four times. Drop the puddle on the side of the <strong>next
@@ -1241,7 +1247,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>3rd stage break</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=687" data-end="700" rel="noreferrer">Memorizer 11:27</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=687" data-end="700" rel="noreferrer">Memorizer 11:27</a><a href="https://youtu.be/Zha5LQSzXVc?t=949" data-end="964" rel="noreferrer">Sotimerry 15:49</a></span>
           </div>
           <p>Shown without commentary. The slide prints 3rd Stage Break under its 125~ mark, and the x140 puddles go to
             its side.</p>
@@ -1260,9 +1266,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Red &amp; Blue Zigzag</h3>
+            <h3>Dance Floor with red &amp; blue zigzags</h3>
             <span class="flag-new is-lethal">Fall death</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=700" data-end="742" rel="noreferrer">Memorizer 11:40</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=700" data-end="742" rel="noreferrer">Memorizer 11:40</a><a href="https://youtu.be/Zha5LQSzXVc?t=1021" data-end="1050" rel="noreferrer">Sotimerry 17:01</a></span>
           </div>
           <ul class="calls">
             <li class="call is-jg">JG</li>
@@ -1287,8 +1293,8 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>2nd Super Nova</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=742" data-end="783" rel="noreferrer">Memorizer 12:22</a></span>
+            <h3>Supernova #2, jump on the first charge</h3>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=742" data-end="783" rel="noreferrer">Memorizer 12:22</a><a href="https://youtu.be/Zha5LQSzXVc?t=1071" data-end="1087" rel="noreferrer">Sotimerry 17:51</a></span>
           </div>
           <ul class="calls"><li class="call">Jumper, A or D</li></ul>
           <p>His smash leaves a <strong>big puddle</strong>, and by now the field is already too small to lose more of
@@ -1306,7 +1312,7 @@
         <div class="beat-body">
           <div class="beat-head">
             <h3>4th stage break and Special Balthorr</h3>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=783" data-end="820" rel="noreferrer">Memorizer 13:03</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=783" data-end="820" rel="noreferrer">Memorizer 13:03</a><a href="https://youtu.be/Zha5LQSzXVc?t=1094" data-end="1141" rel="noreferrer">Sotimerry 18:14</a></span>
           </div>
           <ul class="calls"><li class="call">Special Balthorr</li></ul>
           <p>Shown without commentary. His label names Special Balthorr here, and the slide places it between its
@@ -1328,9 +1334,9 @@
         </div>
         <div class="beat-body">
           <div class="beat-head">
-            <h3>Zero bar</h3>
+            <h3>Last Stand with timed line walks</h3>
             <span class="flag-new is-lethal">Lethal lines</span>
-            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=820" data-end="924" rel="noreferrer">Memorizer 13:40</a></span>
+            <span class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=820" data-end="924" rel="noreferrer">Memorizer 13:40</a><a href="https://youtu.be/Zha5LQSzXVc?t=1207" data-end="1295" rel="noreferrer">Sotimerry 20:07</a></span>
           </div>
           <ul class="calls">
             <li class="call">Bastion +3+1</li>
@@ -1364,9 +1370,13 @@
   <section class="section" id="regular-patterns">
     <div class="section-head">
       <h2>Regular patterns</h2>
-      <p class="section-note">A few patterns Memorizer picks out, under his own title cards and labels. The phase
-        numbers are his; the video doesn't say where each phase starts. The hand and hammer clips come from a
-        different recording than the Nightmare clear, and the video doesn't say which difficulty.</p>
+      <p class="section-note">A few patterns Memorizer picks out, under his own title cards and labels, except two
+        that carry the original raid's names with what Extreme changes: Charged Hammer is his "1 hand one-shot" and
+        Tracking Laser his "Chain beam". The phase numbers are his; the video doesn't say where each phase starts.
+        His hand and hammer clips come from a different recording than the Nightmare clear, and the video doesn't say
+        which difficulty. On those cards the
+        Sotimerry button shows the same pattern in her clear, matched by eye; Charged Hammer has no close match there,
+        so it has only his clip.</p>
     </div>
 
     <div class="pat-group">
@@ -1379,13 +1389,13 @@
         <div class="pat">
           <h4 class="pat-title">2 Fist one-shot <span class="call is-lethal">One shot</span></h4>
           <p>Hits the side in lines, then one-shots the inner side. Move away, or keep your distance from his front.</p>
-          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=926" data-end="937" rel="noreferrer">Memorizer 15:26</a></div>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=926" data-end="937" rel="noreferrer">Memorizer 15:26</a><a href="https://youtu.be/Zha5LQSzXVc?t=32" data-end="40" rel="noreferrer">Sotimerry 0:32</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">Slow guard + pound <span class="call is-jg">JG</span></h4>
           <p><span class="t-jg">Guard</span> 2 seconds after the flash; missing it stuns you. Then move away from his
             front, which can kill you.</p>
-          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=937" data-end="947" rel="noreferrer">Memorizer 15:37</a></div>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=937" data-end="947" rel="noreferrer">Memorizer 15:37</a><a href="https://youtu.be/Zha5LQSzXVc?t=84" data-end="96" rel="noreferrer">Sotimerry 1:24</a></div>
         </div>
       </div>
     </div>
@@ -1400,15 +1410,15 @@
         <div class="pat">
           <h4 class="pat-title">Upside-down hammer &amp; beam</h4>
           <p>Stay in front. After he puts the hammer down, move out.</p>
-          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=949" data-end="958" rel="noreferrer">Memorizer 15:49</a></div>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=949" data-end="958" rel="noreferrer">Memorizer 15:49</a><a href="https://youtu.be/Zha5LQSzXVc?t=512" data-end="525" rel="noreferrer">Sotimerry 8:32</a></div>
         </div>
         <div class="pat">
           <h4 class="pat-title">2 hands one-shot <span class="call is-lethal">One shot</span></h4>
           <p>The first hit is a one-shot. Move away, then get back in to dodge the second hit.</p>
-          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=958" data-end="965" rel="noreferrer">Memorizer 15:58</a></div>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=958" data-end="965" rel="noreferrer">Memorizer 15:58</a><a href="https://youtu.be/Zha5LQSzXVc?t=495" data-end="505" rel="noreferrer">Sotimerry 8:15</a></div>
         </div>
         <div class="pat">
-          <h4 class="pat-title">1 hand one-shot <span class="call is-lethal">One shot</span></h4>
+          <h4 class="pat-title">Charged Hammer with a 3rd donut hit <span class="call is-lethal">One shot</span></h4>
           <p>Compared to the original, a third hit is added, in a donut range. First hit: one-shot. Second: a
             shockwave nearby. Third (donut): the previous shockwave is the safe zone.</p>
           <p>Better: stick close with a support's shield. Stay close to dodge the first hit, push-immune the second,
@@ -1425,31 +1435,43 @@
       </div>
       <div class="pat-grid">
         <div class="pat">
-          <h4 class="pat-title">Chain beam <span class="call is-lethal">One shot</span></h4>
+          <h4 class="pat-title">Tracking Laser on a chained pair <span class="call is-lethal">One shot</span></h4>
           <p>Two players get chained and can't take the jumper, and the boss aims a one-shot beam at one of them.</p>
           <p>The chained pair aggro it to the center, then dodge to the right side. The other six move to the left side
             and take the jumper, A or D. The beam moves toward the side with more people.</p>
-          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=990" data-end="1008" rel="noreferrer">Memorizer 16:30</a></div>
+          <div class="chapter"><a href="https://youtu.be/Qnmv4rFPgl0?t=990" data-end="1008" rel="noreferrer">Memorizer 16:30</a><a href="https://youtu.be/Zha5LQSzXVc?t=669" data-end="684" rel="noreferrer">Sotimerry 11:09</a></div>
         </div>
       </div>
     </div>
   </section>
 
   <footer class="foot">
+    <div class="foot-col">
     <p><strong>Source.</strong> "[Lost Ark] Extreme Mordum Guide" by Memorizer, published 11 November 2026 (16:54 long).
       <a href="https://youtu.be/Qnmv4rFPgl0" rel="noreferrer">youtu.be/Qnmv4rFPgl0</a>. Most of the footage is
       Sotimerry's Korean Nightmare clear, used with permission. The gauge example, part of x160 and the hand and
       hammer patterns come from other recordings, and the x160 examples run on the practice site. The full clear is
       <a href="https://www.youtube.com/watch?v=Zha5LQSzXVc" rel="noreferrer">Sotimerry's video</a> (26 September 2026).
+      The Sotimerry buttons play moments from that video: where Memorizer shows her clear, the same moment, matched
+      by the HUD numbers on screen (HP, bar count and timers); for the hand and hammer patterns, another time the
+      pattern happens in her run, matched by eye.
       The description also links a <a href="https://deploy-vert-seven-11.vercel.app" rel="noreferrer">practice site
       for x160</a>.</p>
     <p><strong>Scope.</strong> Built from the narration and Memorizer's on-screen notes, section labels, captions and
       closing sidereal slide, then checked claim by claim against the footage. It is a difference guide against the
-      original Act 3 Mordum and covers only what the video covers. Sidereal names use the client spelling from the
+      original Act 3 Mordum and covers only what the video covers. Mech names build on Maxroll's
+      <a href="https://maxroll.gg/lost-ark/kazeros-raids/kazeros-raid-mordum-gate-3" rel="noreferrer">Mordum Gate 3
+      guide</a> for the original raid, matched to his Extreme labels through his
+      <a href="https://youtu.be/ZdsSe6CwOG8" rel="noreferrer">original Gate 3 guide</a>, whose chapters list the same
+      mechs in the same order, and add what Extreme changes. Sidereal names use the client spelling from the
       official Act 3 release notes (Bastion, Balthorr); the slide writes Bastian and Balthor. The November release is
       from the official October to December 2026 roadmap.</p>
+    </div>
+    <div class="foot-col">
     <p><strong>Numbers.</strong> The difficulty numbers and revives are as the video gives them; the West has no details yet.
-      HP lines are Memorizer's section labels. His footage often shows the bar lower, sometimes by 20 or more.</p>
+      HP lines are Memorizer's section labels. His footage often shows the bar lower, sometimes by 20 or more.
+      Maxroll puts Dome Smash at x320, Charged Field #2 at x125 and the 3rd break at x120 in the original raid; the
+      triggers here keep his 325, 140 and 125~.</p>
     <p><strong>Still open.</strong></p>
     <ul>
       <li>The Western DPS check. Memorizer's own caption says it isn't known yet.</li>
@@ -1458,6 +1480,7 @@
       <li>Two things the video leaves unexplained: what the zero bar opens with (the captions hear "Desaluda"), and
         "Need 4/4" in his x200 notes.</li>
     </ul>
+    </div>
   </footer>
 
 </main>
