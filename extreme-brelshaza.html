@@ -228,7 +228,8 @@
 
   .section { padding: 76px 0 12px; }
 
-  .section-head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; margin-bottom: 34px; }
+  /* The description sits under the heading and runs the full width. */
+  .section-head { display: grid; gap: 12px; margin-bottom: 34px; }
   .section-head h2 {
     font-family: var(--display);
     text-transform: uppercase;
@@ -238,7 +239,7 @@
     margin: 0;
     line-height: 1;
   }
-  .section-note { color: var(--ash); font-size: 14.5px; max-width: 54ch; margin: 0; }
+  .section-note { color: var(--ash); font-size: 14.5px; margin: 0; }
 
   /* ---------- legend ---------- */
 
