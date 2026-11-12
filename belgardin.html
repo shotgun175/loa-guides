@@ -601,7 +601,9 @@
 
   /* ---------- footer ---------- */
 
-  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  /* Two columns above the phone breakpoint, so the long source notes use the page width at a readable line length. */
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px;
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
   .foot p { margin: 0 0 8px; max-width: 76ch; }
   .foot ul { margin: 0 0 12px; padding-left: 18px; max-width: 76ch; }
 
@@ -620,6 +622,7 @@
     .phase-tag { width: auto; }
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
+    .foot { display: block; }
     .masthead { padding-top: 44px; }
     .chapter a, .clip-tab { padding: 8px 12px 8px 11px; }
     .clip-pop { padding: 10px; }
@@ -2126,6 +2129,7 @@
   </section>
 
   <footer class="foot">
+    <div class="foot-col">
     <p><strong>Sources.</strong> Memorizer:
       <a href="https://youtu.be/wyY55AEN63E" rel="noreferrer">Gate 1 guide</a> (Sep 29, 2026) and
       <a href="https://youtu.be/8tSIChVEYwg" rel="noreferrer">Gate 2 guide</a> (Oct 5, 2026), English narration.
@@ -2142,6 +2146,8 @@
       called the cheat sheet in this guide.</p>
     <p><strong>Method.</strong> Built from the narration, Agam's on-screen subtitles read frame by frame, and the HP
       readouts in the footage, then checked claim by claim against the videos. All footage is Korean Nightmare.</p>
+    </div>
+    <div class="foot-col">
     <p><strong>Still open.</strong></p>
     <ul>
       <li>What triggers the Rumble in either gate. It is not an HP line. In Serca, the official notes say a successful
@@ -2153,6 +2159,7 @@
       <li>Client names for most mechs and patterns. The few given here come from the official release notes; the rest
         are the creators' or ours.</li>
     </ul>
+    </div>
   </footer>
 
 </main>

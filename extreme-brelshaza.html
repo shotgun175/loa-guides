@@ -509,7 +509,9 @@
 
   /* ---------- footer ---------- */
 
-  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px; }
+  /* Two columns above the phone breakpoint, so the long source notes use the page width at a readable line length. */
+  .foot { margin-top: 78px; border-top: 1px solid var(--line); padding: 30px 0 70px; color: var(--ash-dim); font-size: 13.5px;
+    display: grid; grid-template-columns: 1fr 1fr; column-gap: 48px; align-items: start; }
   .foot p { margin: 0 0 8px; max-width: 76ch; }
 
   /* ---------- responsive ---------- */
@@ -528,6 +530,7 @@
     .chapter { white-space: normal; }
     .beat-body { padding: 20px 18px 22px; }
     .plan-track { grid-template-columns: 1fr 1fr; }
+    .foot { display: block; }
     .masthead { padding-top: 44px; }
   }
 
@@ -1378,6 +1381,7 @@
   </section>
 
   <footer class="foot">
+    <div class="foot-col">
     <p><strong>Source.</strong> "[Lost Ark] Extreme Brel Guide (Act 2)" by Memorizer, published 22 July 2026, 13:18.
       <a href="https://youtu.be/5RJU5K-K8xA" rel="noreferrer">youtu.be/5RJU5K-K8xA</a>.
       Companion links from the description: <a href="https://www.youtube.com/watch?v=3mzjxIy7-3o" rel="noreferrer">original Act 2 guide</a>
@@ -1386,8 +1390,11 @@
       slide, then corrected against the raid group's own run notes. Mech order and terminology follow the run notes
       where the two disagreed. The video covers the Brelshaza encounter only and states it is a difference guide against
       the original Act 2 fight, filmed on Nightmare.</p>
+    </div>
+    <div class="foot-col">
     <p><strong>Numbers.</strong> The 420, 335, 145 and 0 phase boundaries come from the video's own sidereal slide.
       Timings (50 seconds, 35 seconds, 3 minutes, 4 minutes, 20 seconds) are quoted as spoken and are approximate.</p>
+    </div>
   </footer>
 
 </main>
